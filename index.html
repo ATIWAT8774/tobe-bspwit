@@ -322,7 +322,7 @@
         </div>
         <form onsubmit="handleLogin(event)">
           <label class="block text-sm font-medium mb-1">เลขประจำตัวนักเรียน</label> 
-          <input type="text" id="student-id" placeholder="กรอกรหัสนักเรียน (แอดมิน: admin123)" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-4 focus:ring-2 focus:ring-primary/30 text-sm outline-none">
+          <input type="text" id="student-id" placeholder="กรอกรหัสนักเรียน หรือรหัสแอดมิน" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-4 focus:ring-2 focus:ring-primary/30 text-sm outline-none">
           <p id="login-error" class="text-xs text-red-500 mb-3 hidden">กรุณากรอกรหัสนักเรียน</p>
           <button type="submit" class="w-full py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-colors"> เข้าสู่ระบบ </button>
         </form>
@@ -344,29 +344,25 @@
             <label class="cursor-pointer">
               <input type="radio" name="mood" value="จอยเว่อร์" class="peer sr-only" required>
               <div class="p-3 flex flex-col items-center gap-1 border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">
-                <i data-lucide="sun" class="w-5 h-5"></i>
-                <span>จอยเว่อร์</span>
+                <i data-lucide="sun" class="w-5 h-5"></i><span>จอยเว่อร์</span>
               </div>
             </label>
             <label class="cursor-pointer">
               <input type="radio" name="mood" value="ชิลจัด" class="peer sr-only">
               <div class="p-3 flex flex-col items-center gap-1 border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">
-                <i data-lucide="coffee" class="w-5 h-5"></i>
-                <span>ชิลจัด</span>
+                <i data-lucide="coffee" class="w-5 h-5"></i><span>ชิลจัด</span>
               </div>
             </label>
             <label class="cursor-pointer">
               <input type="radio" name="mood" value="นอยด์อ่า" class="peer sr-only">
               <div class="p-3 flex flex-col items-center gap-1 border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">
-                <i data-lucide="cloud-rain" class="w-5 h-5"></i>
-                <span>นอยด์อ่า</span>
+                <i data-lucide="cloud-rain" class="w-5 h-5"></i><span>นอยด์อ่า</span>
               </div>
             </label>
             <label class="cursor-pointer">
               <input type="radio" name="mood" value="ช็อตฟีล" class="peer sr-only">
               <div class="p-3 flex flex-col items-center gap-1 border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">
-                <i data-lucide="zap" class="w-5 h-5"></i>
-                <span>ช็อตฟีล</span>
+                <i data-lucide="zap" class="w-5 h-5"></i><span>ช็อตฟีล</span>
               </div>
             </label>
           </div>
@@ -393,6 +389,13 @@
       <i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span id="toast-msg"></span>
     </div>
 
+    <div id="global-loader" class="fixed inset-0 z-[300] hidden items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity modal-backdrop">
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl flex flex-col items-center gap-4 modal-content">
+        <div class="w-12 h-12 border-4 border-gray-100 dark:border-gray-700 border-t-primary rounded-full animate-spin"></div>
+        <p id="loader-text" class="text-sm font-semibold text-gray-700 dark:text-gray-300">กำลังประมวลผล...</p>
+      </div>
+    </div>
+
   </div>
 
   <script>
@@ -402,30 +405,18 @@
     const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzT7dEl5lDKoF1SDChTgVN0NEmIRkctmEIU6bBaFtEToLBMMsY18CQXuBwUouXMabA2fw/exec';
     
     // ==========================================
-    // ตัวแปรระบบ & ฐานข้อมูลจำลองนักเรียน
+    // ตัวแปรระบบ
     // ==========================================
+    let allUsers = []; 
     let allNewsData = [];
     let allActivitiesData = [];
     let allRoomUsage = [];
     let allLogins = [];
-    let committeeData = {
-      advisory: { president: [], vice: [], members: [] },
-      honorary: { president: [], vice: [], members: [] },
-      operations: { president: [], vice: [], members: [] }
-    };
+    let committeeData = { advisory: { president: [], vice: [], members: [] }, honorary: { president: [], vice: [], members: [] }, operations: { president: [], vice: [], members: [] } };
     
-    let isStudentLoggedIn = false;
-    let isAdminLoggedIn = false;
-    let loggedInStudentName = "";
-    let loggedInStudentClass = "";
-    let currentAdminTab = 'dashboard';
-    let currentCommitteeTab = 'advisory';
-
-    // *** ใส่รหัสและชื่อนักเรียนที่อนุญาตให้เข้าระบบได้ตรงนี้ ***
-    const validStudents = {
-      '66001': { name: 'นายใจดี รักเรียน', class: 'ม.5/1' },
-      '66002': { name: 'นางสาวเรียนดี สุขใจ', class: 'ม.4/3' }
-    };
+    let isStudentLoggedIn = false; let isAdminLoggedIn = false;
+    let loggedInStudentName = ""; let loggedInStudentClass = "";
+    let currentAdminTab = 'dashboard'; let currentCommitteeTab = 'advisory';
 
     // ==========================================
     // ข้อมูลหน้า "ผลการดำเนินงาน"
@@ -440,6 +431,20 @@
     };
 
     // ==========================================
+    // ฟังก์ชันควบคุม Loader
+    // ==========================================
+    function showLoader(text = 'กำลังประมวลผล...') {
+      document.getElementById('loader-text').textContent = text;
+      const loader = document.getElementById('global-loader');
+      loader.classList.remove('hidden'); loader.classList.add('flex');
+    }
+    
+    function hideLoader() {
+      const loader = document.getElementById('global-loader');
+      loader.classList.add('hidden'); loader.classList.remove('flex');
+    }
+
+    // ==========================================
     // Fetch Data จาก Google Sheets
     // ==========================================
     async function fetchSystemData() {
@@ -452,6 +457,7 @@
           allActivitiesData = result.data.activities || [];
           allRoomUsage = result.data.roomUsage || [];
           allLogins = result.data.logins || [];
+          allUsers = result.data.users || []; // โหลดฐานข้อมูล Users มาเก็บไว้
           
           committeeData = { advisory: { president: [], vice: [], members: [] }, honorary: { president: [], vice: [], members: [] }, operations: { president: [], vice: [], members: [] } };
           const rawCom = result.data.committee || [];
@@ -460,17 +466,12 @@
           renderSliders(); renderGrids(); renderCommitteeFull();
           if(isAdminLoggedIn) renderAdminItems();
         }
-      } catch (error) { console.log('API ยังไม่พร้อมหรือใส่ลิงก์ผิด', error); }
+      } catch (error) { console.log('API Error', error); }
     }
     
     window.onload = () => { 
-      // โหลดการตั้งค่า Dark Mode
-      if (localStorage.getItem('theme') === 'dark') {
-        document.documentElement.classList.add('dark');
-      }
-      fetchSystemData(); 
-      showOpDocTab('komakarn'); 
-      lucide.createIcons(); 
+      if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); }
+      fetchSystemData(); showOpDocTab('komakarn'); lucide.createIcons(); 
     };
 
     // ==========================================
@@ -478,36 +479,27 @@
     // ==========================================
     function toggleTheme() { 
       document.documentElement.classList.toggle('dark'); 
-      if (document.documentElement.classList.contains('dark')) {
-        localStorage.setItem('theme', 'dark');
-      } else {
-        localStorage.setItem('theme', 'light');
-      }
+      if (document.documentElement.classList.contains('dark')) { localStorage.setItem('theme', 'dark'); } else { localStorage.setItem('theme', 'light'); }
     }
-    
     function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
-    
     function showPage(page) {
       document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
       document.getElementById('page-' + page).classList.remove('hidden');
       document.getElementById('app').scrollTop = 0;
       if(page === 'admin' && isAdminLoggedIn) renderAdminItems();
     }
-    
     function scrollSlider(id, amount) { document.getElementById(id).scrollBy({ left: amount, behavior: 'smooth' }); }
     function showLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); document.getElementById('login-modal').classList.add('flex'); }
     function hideModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
     function closeModal(e, id) { if (e.target === document.getElementById(id)) hideModal(id); }
-    
     function showToast(msg) {
       document.getElementById('toast-msg').textContent = msg;
       const t = document.getElementById('toast');
-      t.classList.remove('hidden');
-      setTimeout(() => t.classList.add('hidden'), 3000);
+      t.classList.remove('hidden'); setTimeout(() => t.classList.add('hidden'), 3000);
     }
 
     // ==========================================
-    // Authentication & Registration
+    // Authentication & Registration (ดึงจาก Sheets)
     // ==========================================
     async function handleLogin(e) {
       e.preventDefault();
@@ -516,50 +508,43 @@
       
       if (!id) { errorMsg.textContent = "กรุณากรอกรหัสนักเรียน"; errorMsg.classList.remove('hidden'); return; }
 
-      if (id === 'admin123') {
-        isAdminLoggedIn = true; isStudentLoggedIn = false;
-        document.getElementById('login-btn').classList.add('hidden');
-        document.getElementById('admin-info').classList.remove('hidden');
-        hideModal('login-modal'); showToast('เข้าสู่ระบบ Admin'); showPage('admin');
-        document.getElementById('student-id').value = ''; errorMsg.classList.add('hidden'); return;
-      }
+      showLoader('กำลังตรวจสอบข้อมูล...'); 
+      const user = allUsers.find(u => u.studentId && u.studentId.toString() === id.toString());
 
-      if (validStudents[id]) {
-        isStudentLoggedIn = true; isAdminLoggedIn = false;
-        loggedInStudentName = validStudents[id].name;
-        loggedInStudentClass = validStudents[id].class;
-        
-        document.getElementById('user-name').textContent = loggedInStudentName;
-        document.getElementById('user-class').textContent = loggedInStudentClass;
-        document.getElementById('login-btn').classList.add('hidden');
-        document.getElementById('user-info').classList.remove('hidden');
-        hideModal('login-modal'); showToast('เข้าสู่ระบบสำเร็จ'); errorMsg.classList.add('hidden');
-        
+      if (user) {
+        if (user.role === 'admin') {
+          isAdminLoggedIn = true; isStudentLoggedIn = false;
+          document.getElementById('login-btn').classList.add('hidden');
+          document.getElementById('admin-info').classList.remove('hidden');
+          hideModal('login-modal'); showToast(`ยินดีต้อนรับแอดมิน: ${user.name}`); showPage('admin');
+        } else {
+          isStudentLoggedIn = true; isAdminLoggedIn = false;
+          loggedInStudentName = user.name; loggedInStudentClass = user.class;
+          document.getElementById('user-name').textContent = loggedInStudentName;
+          document.getElementById('user-class').textContent = loggedInStudentClass;
+          document.getElementById('login-btn').classList.add('hidden');
+          document.getElementById('user-info').classList.remove('hidden');
+          hideModal('login-modal'); showToast('เข้าสู่ระบบสำเร็จ');
+        }
+        errorMsg.classList.add('hidden'); document.getElementById('student-id').value = '';
         fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: 'recordLogin', studentId: id }) }).then(()=>fetchSystemData());
       } else {
-        errorMsg.textContent = "รหัสนักเรียนไม่ถูกต้อง"; errorMsg.classList.remove('hidden');
+        errorMsg.textContent = "รหัสนักเรียนไม่ถูกต้อง หรือไม่มีในระบบ"; errorMsg.classList.remove('hidden');
       }
+      hideLoader(); 
     }
 
     function handleLogout() {
       isStudentLoggedIn = false; isAdminLoggedIn = false; loggedInStudentName = ""; loggedInStudentClass = "";
       document.getElementById('login-btn').classList.remove('hidden');
-      document.getElementById('user-info').classList.add('hidden');
-      document.getElementById('admin-info').classList.add('hidden');
+      document.getElementById('user-info').classList.add('hidden'); document.getElementById('admin-info').classList.add('hidden');
       showToast('ออกจากระบบ'); showPage('home');
     }
 
     function showRegisterModal() {
-      if (!isStudentLoggedIn) { 
-        showToast('กรุณาลงชื่อเข้าใช้ระบบก่อนขอใช้งานครับ'); 
-        showLoginModal(); 
-        return; 
-      }
-      document.getElementById('reg-name').value = loggedInStudentName;
-      document.getElementById('reg-class').value = loggedInStudentClass;
-      document.getElementById('register-modal').classList.remove('hidden'); 
-      document.getElementById('register-modal').classList.add('flex'); 
-      lucide.createIcons();
+      if (!isStudentLoggedIn) { showToast('กรุณาลงชื่อเข้าใช้ระบบก่อนขอใช้งานครับ'); showLoginModal(); return; }
+      document.getElementById('reg-name').value = loggedInStudentName; document.getElementById('reg-class').value = loggedInStudentClass;
+      document.getElementById('register-modal').classList.remove('hidden'); document.getElementById('register-modal').classList.add('flex'); lucide.createIcons();
     }
 
     async function handleRegister(e) {
@@ -568,14 +553,12 @@
       const mood = document.querySelector('input[name="mood"]:checked')?.value || '';
       const finalReason = `[รู้สึก: ${mood}] ${rawReason}`;
       
-      const btn = e.target.querySelector('button[type="submit"]');
-      const originText = btn.innerText; btn.innerText = 'กำลังส่งข้อมูล...';
-      
+      showLoader('กำลังลงทะเบียนเข้าห้อง...');
       try {
         await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: 'registerRoom', name: loggedInStudentName, class: loggedInStudentClass, reason: finalReason }) });
         hideModal('register-modal'); e.target.reset(); showToast('ลงทะเบียนเข้าห้องเรียบร้อย'); fetchSystemData(); 
       } catch(err) { showToast('ส่งข้อมูลไม่สำเร็จ'); }
-      btn.innerText = originText;
+      hideLoader();
     }
 
     // ==========================================
@@ -585,20 +568,15 @@
       const img = item.image ? `<img src="${item.image}" class="w-full h-full object-cover">` : `<i data-lucide="${type==='activity'?'trophy':'newspaper'}" class="w-10 h-10 text-white/80"></i>`;
       return `<div class="min-w-[260px] max-w-[260px] bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer flex-shrink-0 shadow-sm" onclick='showDetail(${JSON.stringify(item)})'><div class="h-32 ${item.color || 'bg-primary'} flex items-center justify-center overflow-hidden">${img}</div><div class="p-4"><p class="text-xs text-gray-500 mb-1">${item.date || ''}</p><h4 class="text-sm font-semibold line-clamp-2">${item.title}</h4></div></div>`;
     }
-
     function createPersonCard(person) {
       const img = person.image ? `<img src="${person.image}" class="w-full h-full object-cover">` : `<i data-lucide="user" class="w-8 h-8 text-primary"></i>`;
       return `<div class="min-w-[200px] max-w-[200px] bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 text-center card-hover flex-shrink-0 shadow-sm"><div class="w-16 h-16 bg-primary/10 rounded-full mx-auto mb-3 flex items-center justify-center overflow-hidden border border-primary/20">${img}</div><p class="text-sm font-bold text-gray-800 dark:text-gray-200">${person.name}</p><p class="text-xs text-primary font-medium mt-1">${person.role}</p>${person.class ? `<p class="text-[10px] text-gray-500 mt-1">${person.class}</p>` : ''}</div>`;
     }
-
     function showDetail(item) {
-      document.getElementById('detail-title').textContent = item.title;
-      document.getElementById('detail-date').textContent = item.date;
-      document.getElementById('detail-desc').textContent = item.desc;
+      document.getElementById('detail-title').textContent = item.title; document.getElementById('detail-date').textContent = item.date; document.getElementById('detail-desc').textContent = item.desc;
       document.getElementById('detail-image-container').innerHTML = item.image ? `<img src="${item.image}" class="w-full h-full object-cover">` : `<i data-lucide="image" class="w-12 h-12 text-gray-300"></i>`;
       document.getElementById('detail-modal').classList.remove('hidden'); document.getElementById('detail-modal').classList.add('flex'); lucide.createIcons();
     }
-
     function renderSliders() {
       document.getElementById('activities-slider').innerHTML = allActivitiesData.map(a => createCard(a, 'activity')).join('');
       document.getElementById('news-slider').innerHTML = allNewsData.map(n => createCard(n, 'news')).join('');
@@ -606,7 +584,6 @@
       document.getElementById('committee-slider').innerHTML = opCom.length ? opCom.map(c => createPersonCard(c)).join('') : '<p class="text-sm text-gray-500 px-4">กำลังเตรียมข้อมูล...</p>';
       lucide.createIcons();
     }
-
     function renderGrids() {
       document.getElementById('news-grid').innerHTML = allNewsData.map(n => `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer shadow-sm" onclick='showDetail(${JSON.stringify(n)})'><div class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center overflow-hidden">${n.image ? `<img src="${n.image}" class="w-full h-full object-cover">` : `<i data-lucide="newspaper" class="w-12 h-12 text-white/80"></i>`}</div><div class="p-5"><p class="text-xs text-gray-500 mb-1">${n.date}</p><h4 class="font-bold text-lg leading-tight mb-2">${n.title}</h4><p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">${n.desc}</p></div></div>`).join('');
       document.getElementById('activities-grid').innerHTML = allActivitiesData.map(a => `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer shadow-sm" onclick='showDetail(${JSON.stringify(a)})'><div class="h-48 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center overflow-hidden">${a.image ? `<img src="${a.image}" class="w-full h-full object-cover">` : `<i data-lucide="trophy" class="w-12 h-12 text-white/80"></i>`}</div><div class="p-5"><p class="text-xs text-gray-500 mb-1">${a.date}</p><h4 class="font-bold text-lg leading-tight mb-2">${a.title}</h4><p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">${a.desc}</p></div></div>`).join('');
@@ -618,18 +595,15 @@
     // ==========================================
     function showOpDocTab(tabId) {
       ['komakarn', 'kongtun', 'kitjakam', 'strat1', 'strat2', 'strat3'].forEach(t => { const btn = document.getElementById(`op-tab-${t}`); if(btn) btn.className = t === tabId ? 'px-5 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md' : 'px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all'; });
-      const data = opDocData[tabId];
-      const header = document.getElementById('op-doc-header');
+      const data = opDocData[tabId]; const header = document.getElementById('op-doc-header');
       if (data.title) { header.textContent = data.title; header.classList.remove('hidden'); } else { header.classList.add('hidden'); }
       document.getElementById('op-doc-content').innerHTML = data.images.map(imgUrl => `<img src="${imgUrl}" class="w-full max-w-4xl shadow-xl rounded-lg border border-gray-200 dark:border-gray-700 object-contain">`).join('');
     }
-
     function showCommitteeTab(tab) {
       currentCommitteeTab = tab;
       ['advisory', 'honorary', 'operations'].forEach(t => { const btn = document.getElementById(`tab-${t}`); if(btn) btn.className = t === tab ? 'px-6 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md' : 'px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all'; });
       renderCommitteeFull();
     }
-
     function renderCommitteeFull() {
       function section(title, people) {
         if (!people || !people.length) return '';
@@ -638,15 +612,14 @@
           return `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 text-center card-hover shadow-sm w-64"><div class="w-24 h-24 bg-gray-50 dark:bg-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden border-2 border-primary/20">${img}</div><p class="font-bold text-gray-900 dark:text-gray-100">${p.name}</p><p class="text-sm text-primary font-medium mt-1">${p.role}</p>${p.class ? `<p class="text-xs text-gray-500 mt-1">${p.class}</p>` : ''}</div>`;
         }).join('')}</div></div>`;
       }
-      const data = committeeData[currentCommitteeTab];
-      const container = document.getElementById('committee-content');
+      const data = committeeData[currentCommitteeTab]; const container = document.getElementById('committee-content');
       if (!data.president.length && !data.vice.length && !data.members.length) { container.innerHTML = '<div class="text-center py-16 text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700">ยังไม่มีรายชื่อในหมวดหมู่นี้</div>'; return; }
       container.innerHTML = section('ประธาน / หัวหน้า', data.president) + section('รองประธาน และ ฝ่ายบริหาร', data.vice) + section('คณะกรรมการ / สมาชิก', data.members);
       lucide.createIcons();
     }
 
     // ==========================================
-    // Admin Panel Functions
+    // Admin Panel Functions (มี Loader)
     // ==========================================
     function showAdminTab(tab) {
       currentAdminTab = tab;
@@ -656,69 +629,51 @@
       if (tab === 'committee') document.getElementById('admin-form-committee').classList.remove('hidden');
       renderAdminItems();
     }
-
     function renderAdminItems() {
       const container = document.getElementById('admin-items-container');
       if (currentAdminTab === 'dashboard') { return renderDashboard(container); }
-      
       let dataList = [];
       if (currentAdminTab === 'news') dataList = allNewsData; else if (currentAdminTab === 'activities') dataList = allActivitiesData;
       else if (currentAdminTab === 'committee') { ['advisory', 'honorary', 'operations'].forEach(sec => { ['president', 'vice', 'members'].forEach(lvl => { committeeData[sec][lvl].forEach(p => dataList.push({...p, _sec: sec, _lvl: lvl})); }); }); }
-
       if (!dataList.length) { container.innerHTML = '<div class="text-center py-10 text-gray-400 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border-2 border-dashed border-gray-200">ไม่มีข้อมูล</div>'; return; }
       container.innerHTML = dataList.map(item => {
         const isCom = currentAdminTab === 'committee'; const img = item.image ? `<img src="${item.image}" class="w-full h-full object-cover">` : `<i data-lucide="${isCom ? 'user' : (currentAdminTab==='news'?'newspaper':'trophy')}" class="w-6 h-6 text-gray-400"></i>`;
         return `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 flex items-center justify-between card-hover mb-3 shadow-sm group"><div class="flex items-center gap-4 w-full overflow-hidden"><div class="w-14 h-14 bg-gray-50 dark:bg-gray-700 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden relative">${img}</div><div class="flex-1 min-w-0 pr-4"><h4 class="font-bold text-base text-gray-900 dark:text-gray-100 truncate">${item.title || item.name}</h4><p class="text-xs text-gray-500 mt-1">${isCom ? item.role : item.date}</p></div></div><button onclick="deleteAdminItem('${item.id}', '${isCom ? 'Committee' : currentAdminTab}')" class="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100" title="ลบข้อมูล"><i data-lucide="trash-2" class="w-5 h-5"></i></button></div>`;
       }).join(''); lucide.createIcons();
     }
-
     function renderDashboard(container) {
       container.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 fade-in"><div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg"><div class="flex items-center justify-between mb-2"><h3 class="font-bold text-lg">ล็อกอินเข้าระบบ</h3><div class="p-2 bg-white/20 rounded-xl"><i data-lucide="log-in" class="w-6 h-6"></i></div></div><p class="text-4xl font-black">${allLogins.length} <span class="text-base font-normal opacity-80">ครั้ง</span></p></div><div class="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl p-6 text-white shadow-lg"><div class="flex items-center justify-between mb-2"><h3 class="font-bold text-lg">ขอเข้าใช้ศูนย์เพื่อนใจ</h3><div class="p-2 bg-white/20 rounded-xl"><i data-lucide="heart-handshake" class="w-6 h-6"></i></div></div><p class="text-4xl font-black">${allRoomUsage.length} <span class="text-base font-normal opacity-80">รายการ</span></p></div></div><div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden fade-in"><div class="p-5 border-b border-gray-100 dark:border-gray-700"><h3 class="font-bold text-lg">ประวัติขอเข้าใช้ห้องล่าสุด</h3></div><div class="overflow-x-auto"><table class="w-full text-sm text-left"><thead class="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-gray-700/50"><tr><th class="px-6 py-4">วัน-เวลา</th><th class="px-6 py-4">ชื่อ-สกุล</th><th class="px-6 py-4">ชั้นเรียน</th><th class="px-6 py-4">เหตุผล</th></tr></thead><tbody>${allRoomUsage.length ? allRoomUsage.slice().reverse().slice(0, 10).map(u => `<tr class="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/20"><td class="px-6 py-4 text-gray-500">${u.date}</td><td class="px-6 py-4 font-medium">${u.name}</td><td class="px-6 py-4">${u.class}</td><td class="px-6 py-4 text-gray-500">${u.reason}</td></tr>`).join('') : `<tr><td colspan="4" class="px-6 py-8 text-center text-gray-400">ยังไม่มีข้อมูล</td></tr>`}</tbody></table></div></div>`;
       lucide.createIcons();
     }
-
+    
     async function handleAdminAddItem(e) {
       e.preventDefault();
-      let rawDate = document.getElementById('admin-date').value; 
-      let d = rawDate ? new Date(rawDate) : new Date();
-      
+      let rawDate = document.getElementById('admin-date').value; let d = rawDate ? new Date(rawDate) : new Date();
       const thaiMonths = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม']; 
       let finalDate = `${d.getDate()} ${thaiMonths[d.getMonth()]} ${d.getFullYear() + 543}`;
-
-      const payload = { 
-        action: currentAdminTab === 'news' ? 'addNews' : 'addActivity', 
-        title: document.getElementById('admin-title').value, 
-        date: finalDate, 
-        desc: document.getElementById('admin-desc').value, 
-        image: document.getElementById('admin-image').value 
-      };
+      const payload = { action: currentAdminTab === 'news' ? 'addNews' : 'addActivity', title: document.getElementById('admin-title').value, date: finalDate, desc: document.getElementById('admin-desc').value, image: document.getElementById('admin-image').value };
       
-      const btn = e.target.querySelector('button[type="submit"]'); 
-      const originHtml = btn.innerHTML; 
-      btn.innerHTML = 'กำลังบันทึก...';
-      
-      try { 
-        await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify(payload) }); 
-        showToast('เพิ่มข้อมูลเรียบร้อย'); 
-        e.target.reset(); 
-        fetchSystemData(); 
-      } catch (err) { 
-        showToast('Error'); 
-      } 
-      btn.innerHTML = originHtml;
+      showLoader('กำลังบันทึกข้อมูล...');
+      try { await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify(payload) }); showToast('เพิ่มข้อมูลเรียบร้อย'); e.target.reset(); fetchSystemData(); } catch (err) { showToast('Error'); } 
+      hideLoader();
     }
 
     async function handleAdminAddCommittee(e) {
       e.preventDefault();
       const payload = { action: 'addCommittee', name: document.getElementById('admin-com-name').value, class: document.getElementById('admin-com-class').value, role: document.getElementById('admin-com-role').value, section: document.getElementById('admin-com-section').value, level: document.getElementById('admin-com-level').value, image: document.getElementById('admin-com-image').value };
-      const btn = e.target.querySelector('button[type="submit"]'); const originHtml = btn.innerHTML; btn.innerHTML = 'กำลังบันทึก...';
-      try { await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify(payload) }); showToast('เพิ่มกรรมการเรียบร้อย'); e.target.reset(); fetchSystemData(); } catch (err) { showToast('Error'); } btn.innerHTML = originHtml;
+      
+      showLoader('กำลังบันทึกข้อมูลกรรมการ...');
+      try { await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify(payload) }); showToast('เพิ่มกรรมการเรียบร้อย'); e.target.reset(); fetchSystemData(); } catch (err) { showToast('Error'); } 
+      hideLoader();
     }
 
     async function deleteAdminItem(id, type) {
       if(!confirm('ลบข้อมูลนี้ทิ้งเลยไหม?')) return;
       let action = type === 'news' ? 'deleteNews' : (type === 'activities' ? 'deleteActivity' : 'deleteCommittee');
+      
+      showLoader('กำลังลบข้อมูล...');
       try { await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: action, id: id }) }); showToast('ลบข้อมูลสำเร็จ'); fetchSystemData(); } catch (err) { showToast('ลบไม่สำเร็จ ลองใหม่นะ'); }
+      hideLoader();
     }
 
     // ==========================================
