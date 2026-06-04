@@ -55,7 +55,7 @@
           <a href="#" onclick="showPage('home')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">หน้าหลัก</a>
           <a href="#" onclick="showPage('news')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">ข่าวสาร</a>
           <a href="#" onclick="showPage('activities')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">กิจกรรม</a>
-          <a href="#" onclick="showPage('operations')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">ผลการดำเนินงาน</a>
+          <a href="#" onclick="showPage('operations')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">การดำเนินงาน</a>
           <a href="#" onclick="showPage('committee')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">ผังคณะกรรมการ</a>
         </nav>
 
@@ -90,7 +90,7 @@
         <a href="#" onclick="showPage('home');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">หน้าหลัก</a>
         <a href="#" onclick="showPage('news');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">ข่าวสาร</a>
         <a href="#" onclick="showPage('activities');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">กิจกรรม</a>
-        <a href="#" onclick="showPage('operations');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">ผลการดำเนินงาน</a>
+        <a href="#" onclick="showPage('operations');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">การดำเนินงาน</a>
         <a href="#" onclick="showPage('committee');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">ผังคณะกรรมการ</a>
       </div>
     </header>
@@ -335,7 +335,7 @@
           <h3 id="detail-title" class="text-lg font-bold"></h3>
           <button onclick="hideModal('detail-modal')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><i data-lucide="x" class="w-5 h-5"></i></button>
         </div>
-        <div class="w-full h-48 rounded-xl bg-gray-100 dark:bg-gray-700 mb-4 flex items-center justify-center overflow-hidden" id="detail-image-container"></div>
+        <div class="w-full max-h-[70vh] rounded-xl bg-gray-100 dark:bg-gray-700 mb-4 flex items-center justify-center overflow-hidden" id="detail-image-container"></div>
         <p id="detail-date" class="text-xs text-gray-500 dark:text-gray-400 mb-2"></p>
         <p id="detail-desc" class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed"></p>
       </div>
@@ -642,12 +642,17 @@
     }
 
     function createCard(item, type) {
+      const isActivity = type === 'activity';
+      const cardWidth = 'min-w-[230px] max-w-[230px] md:min-w-[260px] md:max-w-[260px]';
+      const imageRatio = isActivity ? 'aspect-[210/297]' : 'aspect-[4/5]';
+      const icon = isActivity ? 'trophy' : 'newspaper';
+
       const img = item.image
         ? `<img src="${item.image}" class="w-full h-full object-cover" onerror="this.style.display='none'">`
-        : `<i data-lucide="${type === 'activity' ? 'trophy' : 'newspaper'}" class="w-10 h-10 text-white/80"></i>`;
+        : `<i data-lucide="${icon}" class="w-10 h-10 text-white/80"></i>`;
 
-      return `<div class="min-w-[260px] max-w-[260px] bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer flex-shrink-0 shadow-sm" onclick='showDetail(${safeJson(item)})'>
-        <div class="h-32 ${item.color || 'bg-primary'} flex items-center justify-center overflow-hidden">${img}</div>
+      return `<div class="${cardWidth} bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer flex-shrink-0 shadow-sm" onclick='showDetail(${safeJson(item)})'>
+        <div class="${imageRatio} ${item.color || 'bg-primary'} flex items-center justify-center overflow-hidden">${img}</div>
         <div class="p-4">
           <p class="text-xs text-gray-500 mb-1">${item.date || ''}</p>
           <h4 class="text-sm font-semibold line-clamp-2">${item.title || ''}</h4>
@@ -658,10 +663,10 @@
     function createPersonCard(person) {
       const img = person.image
         ? `<img src="${person.image}" class="w-full h-full object-cover" onerror="this.style.display='none'">`
-        : `<i data-lucide="user" class="w-8 h-8 text-primary"></i>`;
+        : `<i data-lucide="user" class="w-10 h-10 text-primary"></i>`;
 
-      return `<div class="min-w-[200px] max-w-[200px] bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 text-center card-hover flex-shrink-0 shadow-sm">
-        <div class="w-16 h-16 bg-primary/10 rounded-full mx-auto mb-3 flex items-center justify-center overflow-hidden border border-primary/20">${img}</div>
+      return `<div class="min-w-[190px] max-w-[190px] md:min-w-[220px] md:max-w-[220px] bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-3 text-center card-hover flex-shrink-0 shadow-sm">
+        <div class="aspect-[4/5] w-full bg-primary/10 rounded-xl mx-auto mb-3 flex items-center justify-center overflow-hidden border border-primary/20">${img}</div>
         <p class="text-sm font-bold text-gray-800 dark:text-gray-200">${person.name || ''}</p>
         <p class="text-xs text-primary font-medium mt-1">${person.role || ''}</p>
         ${person.class ? `<p class="text-[10px] text-gray-500 mt-1">${person.class}</p>` : ''}
@@ -673,7 +678,7 @@
       document.getElementById('detail-date').textContent = item.date || '';
       document.getElementById('detail-desc').textContent = item.desc || '';
       document.getElementById('detail-image-container').innerHTML = item.image
-        ? `<img src="${item.image}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<i data-lucide=&quot;image&quot; class=&quot;w-12 h-12 text-gray-300&quot;></i>'; lucide.createIcons();">`
+        ? `<img src="${item.image}" class="w-full h-auto max-h-[70vh] object-contain" onerror="this.parentElement.innerHTML='<i data-lucide=&quot;image&quot; class=&quot;w-12 h-12 text-gray-300&quot;></i>'; lucide.createIcons();">`
         : `<i data-lucide="image" class="w-12 h-12 text-gray-300"></i>`;
 
       document.getElementById('detail-modal').classList.remove('hidden');
@@ -710,9 +715,10 @@
     function gridCard(item, type) {
       const icon = type === 'news' ? 'newspaper' : 'trophy';
       const gradient = type === 'news' ? 'from-blue-400 to-blue-600' : 'from-green-400 to-green-600';
+      const imageRatio = type === 'activity' ? 'aspect-[210/297]' : 'aspect-[4/5] md:aspect-video';
 
       return `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer shadow-sm" onclick='showDetail(${safeJson(item)})'>
-        <div class="h-48 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden">
+        <div class="${imageRatio} bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden">
           ${item.image ? `<img src="${item.image}" class="w-full h-full object-cover" onerror="this.style.display='none'">` : `<i data-lucide="${icon}" class="w-12 h-12 text-white/80"></i>`}
         </div>
         <div class="p-5">
@@ -778,30 +784,26 @@
         return;
       }
 
-      container.innerHTML =
-        committeeSection('ประธาน / หัวหน้า', data.president) +
-        committeeSection('รองประธาน และ ฝ่ายบริหาร', data.vice) +
-        committeeSection('คณะกรรมการ / สมาชิก', data.members);
+      const orderedPeople = [...data.president, ...data.vice, ...data.members];
+      container.innerHTML = `<div class="fade-in">
+        <div class="flex flex-wrap justify-center gap-5">
+          ${orderedPeople.map(p => committeeMemberCard(p)).join('')}
+        </div>
+      </div>`;
 
       lucide.createIcons();
     }
 
-    function committeeSection(title, people) {
-      if (!people || !people.length) return '';
+    function committeeMemberCard(p) {
+      const img = p.image
+        ? `<img src="${p.image}" class="w-full h-full object-cover" onerror="this.style.display='none'">`
+        : `<i data-lucide="user" class="w-12 h-12 text-primary"></i>`;
 
-      return `<div class="mb-10 fade-in">
-        <h4 class="text-lg font-bold text-center mb-5 text-primary">${title}</h4>
-        <div class="flex flex-wrap justify-center gap-5">
-          ${people.map(p => {
-            const img = p.image ? `<img src="${p.image}" class="w-full h-full object-cover" onerror="this.style.display='none'">` : `<i data-lucide="user" class="w-10 h-10 text-primary"></i>`;
-            return `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 text-center card-hover shadow-sm w-64">
-              <div class="w-24 h-24 bg-gray-50 dark:bg-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden border-2 border-primary/20">${img}</div>
-              <p class="font-bold text-gray-900 dark:text-gray-100">${p.name || ''}</p>
-              <p class="text-sm text-primary font-medium mt-1">${p.role || ''}</p>
-              ${p.class ? `<p class="text-xs text-gray-500 mt-1">${p.class}</p>` : ''}
-            </div>`;
-          }).join('')}
-        </div>
+      return `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 text-center card-hover shadow-sm w-[180px] md:w-[220px]">
+        <div class="aspect-[4/5] w-full bg-gray-50 dark:bg-gray-700 rounded-xl mx-auto mb-4 flex items-center justify-center overflow-hidden border-2 border-primary/20">${img}</div>
+        <p class="font-bold text-gray-900 dark:text-gray-100">${p.name || ''}</p>
+        <p class="text-sm text-primary font-medium mt-1">${p.role || ''}</p>
+        ${p.class ? `<p class="text-xs text-gray-500 mt-1">${p.class}</p>` : ''}
       </div>`;
     }
 
