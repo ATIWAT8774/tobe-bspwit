@@ -340,22 +340,34 @@
           <input type="text" id="reg-class" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-4 focus:ring-2 outline-none" required readonly> 
           
           <label class="block text-sm font-bold mb-2">ฟีลลิ่งวันนี้เป็นไงบ้าง?</label>
-          <div class="grid grid-cols-2 gap-2 mb-4">
+          <div class="grid grid-cols-2 gap-3 mb-4">
             <label class="cursor-pointer">
-              <input type="radio" name="mood" value="ฟีลจอยๆ ✨" class="peer sr-only" required>
-              <div class="p-2.5 text-center border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">สดใส (ฟีลจอยๆ ✨)</div>
+              <input type="radio" name="mood" value="จอยเว่อร์" class="peer sr-only" required>
+              <div class="p-3 flex flex-col items-center gap-1 border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">
+                <i data-lucide="sun" class="w-5 h-5"></i>
+                <span>จอยเว่อร์</span>
+              </div>
             </label>
             <label class="cursor-pointer">
-              <input type="radio" name="mood" value="ชิลจัด 😎" class="peer sr-only">
-              <div class="p-2.5 text-center border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">เฉยๆ (ชิลจัด 😎)</div>
+              <input type="radio" name="mood" value="ชิลจัด" class="peer sr-only">
+              <div class="p-3 flex flex-col items-center gap-1 border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">
+                <i data-lucide="coffee" class="w-5 h-5"></i>
+                <span>ชิลจัด</span>
+              </div>
             </label>
             <label class="cursor-pointer">
-              <input type="radio" name="mood" value="นอยด์อะ 🥺" class="peer sr-only">
-              <div class="p-2.5 text-center border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">ซึม (นอยด์อะ 🥺)</div>
+              <input type="radio" name="mood" value="นอยด์อ่า" class="peer sr-only">
+              <div class="p-3 flex flex-col items-center gap-1 border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">
+                <i data-lucide="cloud-rain" class="w-5 h-5"></i>
+                <span>นอยด์อ่า</span>
+              </div>
             </label>
             <label class="cursor-pointer">
-              <input type="radio" name="mood" value="ใจสลาย 💔" class="peer sr-only">
-              <div class="p-2.5 text-center border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">เศร้า (ใจสลาย 💔)</div>
+              <input type="radio" name="mood" value="ช็อตฟีล" class="peer sr-only">
+              <div class="p-3 flex flex-col items-center gap-1 border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">
+                <i data-lucide="zap" class="w-5 h-5"></i>
+                <span>ช็อตฟีล</span>
+              </div>
             </label>
           </div>
 
@@ -419,12 +431,12 @@
     // ข้อมูลหน้า "ผลการดำเนินงาน"
     // ==========================================
     const opDocData = {
-      'komakarn': { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=TEMPLATE+3K+1'] },
-      'kongtun': { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=TEMPLATE+FUND'] },
-      'kitjakam': { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=TEMPLATE+ACTIVITY'] },
-      'strat1': { title: 'การรณรงค์ปลุกจิตสำนึกและสร้างกระแสที่เอื้อต่อการป้องกันและแก้ไขปัญหายาเสพติด', images: ['https://placehold.co/800x1131/eeeeee/999999?text=STRATEGY+1'] },
-      'strat2': { title: 'การเสริมสร้างภูมิคุ้มกันทางจิตใจให้เยาวชนและสมาชิก', images: ['https://placehold.co/800x1131/eeeeee/999999?text=STRATEGY+2'] },
-      'strat3': { title: 'การสร้างและพัฒนาเครือข่ายเพื่อป้องกันและแก้ไข ปัญหายาเสพติด', images: ['https://placehold.co/800x1131/eeeeee/999999?text=STRATEGY+3'] }
+      'komakarn': { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=กรรมการ+1', 'https://placehold.co/800x1131/eeeeee/999999?text=กรรมการ+2', 'https://placehold.co/800x1131/eeeeee/999999?text=กรรมการ+3', 'https://placehold.co/800x1131/eeeeee/999999?text=กรรมการ+4'] },
+      'kongtun': { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=กองทุน+1', 'https://placehold.co/800x1131/eeeeee/999999?text=กองทุน+2', 'https://placehold.co/800x1131/eeeeee/999999?text=กองทุน+3', 'https://placehold.co/800x1131/eeeeee/999999?text=กองทุน+4'] },
+      'kitjakam': { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=กิจกรรม+1', 'https://placehold.co/800x1131/eeeeee/999999?text=กิจกรรม+2', 'https://placehold.co/800x1131/eeeeee/999999?text=กิจกรรม+3', 'https://placehold.co/800x1131/eeeeee/999999?text=กิจกรรม+4'] },
+      'strat1': { title: 'การรณรงค์ปลุกจิตสำนึกและสร้างกระแสที่เอื้อต่อการป้องกันและแก้ไขปัญหายาเสพติด', images: ['https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป1)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป2)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป3)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป4)'] },
+      'strat2': { title: 'การเสริมสร้างภูมิคุ้มกันทางจิตใจให้เยาวชนและสมาชิก', images: ['https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป1)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป2)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป3)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป4)'] },
+      'strat3': { title: 'การสร้างและพัฒนาเครือข่ายเพื่อป้องกันและแก้ไข ปัญหายาเสพติด', images: ['https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป1)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป2)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป3)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป4)'] }
     };
 
     // ==========================================
@@ -451,12 +463,28 @@
       } catch (error) { console.log('API ยังไม่พร้อมหรือใส่ลิงก์ผิด', error); }
     }
     
-    window.onload = () => { fetchSystemData(); showOpDocTab('komakarn'); lucide.createIcons(); };
+    window.onload = () => { 
+      // โหลดการตั้งค่า Dark Mode
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+      fetchSystemData(); 
+      showOpDocTab('komakarn'); 
+      lucide.createIcons(); 
+    };
 
     // ==========================================
     // ฟังก์ชันจัดการ UI ทั่วไป
     // ==========================================
-    function toggleTheme() { document.documentElement.classList.toggle('dark'); }
+    function toggleTheme() { 
+      document.documentElement.classList.toggle('dark'); 
+      if (document.documentElement.classList.contains('dark')) {
+        localStorage.setItem('theme', 'dark');
+      } else {
+        localStorage.setItem('theme', 'light');
+      }
+    }
+    
     function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
     
     function showPage(page) {
@@ -522,10 +550,16 @@
     }
 
     function showRegisterModal() {
-      if (!isStudentLoggedIn) { showToast('กรุณาลงชื่อเข้าใช้ระบบก่อนขอใช้งานครับ'); showLoginModal(); return; }
+      if (!isStudentLoggedIn) { 
+        showToast('กรุณาลงชื่อเข้าใช้ระบบก่อนขอใช้งานครับ'); 
+        showLoginModal(); 
+        return; 
+      }
       document.getElementById('reg-name').value = loggedInStudentName;
       document.getElementById('reg-class').value = loggedInStudentClass;
-      document.getElementById('register-modal').classList.remove('hidden'); document.getElementById('register-modal').classList.add('flex'); 
+      document.getElementById('register-modal').classList.remove('hidden'); 
+      document.getElementById('register-modal').classList.add('flex'); 
+      lucide.createIcons();
     }
 
     async function handleRegister(e) {
@@ -645,13 +679,33 @@
 
     async function handleAdminAddItem(e) {
       e.preventDefault();
-      let rawDate = document.getElementById('admin-date').value; let finalDate = '';
-      if (rawDate) { const d = new Date(rawDate); const thaiMonths = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม']; finalDate = `${d.getDate()} ${thaiMonths[d.getMonth()]} ${d.getFullYear() + 543}`; } 
-      else { finalDate = new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' }); }
+      let rawDate = document.getElementById('admin-date').value; 
+      let d = rawDate ? new Date(rawDate) : new Date();
+      
+      const thaiMonths = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม']; 
+      let finalDate = `${d.getDate()} ${thaiMonths[d.getMonth()]} ${d.getFullYear() + 543}`;
 
-      const payload = { action: currentAdminTab === 'news' ? 'addNews' : 'addActivity', title: document.getElementById('admin-title').value, date: finalDate, desc: document.getElementById('admin-desc').value, image: document.getElementById('admin-image').value };
-      const btn = e.target.querySelector('button[type="submit"]'); const originHtml = btn.innerHTML; btn.innerHTML = 'กำลังบันทึก...';
-      try { await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify(payload) }); showToast('เพิ่มข้อมูลเรียบร้อย'); e.target.reset(); fetchSystemData(); } catch (err) { showToast('Error'); } btn.innerHTML = originHtml;
+      const payload = { 
+        action: currentAdminTab === 'news' ? 'addNews' : 'addActivity', 
+        title: document.getElementById('admin-title').value, 
+        date: finalDate, 
+        desc: document.getElementById('admin-desc').value, 
+        image: document.getElementById('admin-image').value 
+      };
+      
+      const btn = e.target.querySelector('button[type="submit"]'); 
+      const originHtml = btn.innerHTML; 
+      btn.innerHTML = 'กำลังบันทึก...';
+      
+      try { 
+        await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify(payload) }); 
+        showToast('เพิ่มข้อมูลเรียบร้อย'); 
+        e.target.reset(); 
+        fetchSystemData(); 
+      } catch (err) { 
+        showToast('Error'); 
+      } 
+      btn.innerHTML = originHtml;
     }
 
     async function handleAdminAddCommittee(e) {
