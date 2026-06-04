@@ -1,349 +1,829 @@
 <!doctype html>
 <html lang="th" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TO BE NUMBER ONE - Bangsaphan Wittaya School</title>
-    
-    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        red: { primary: '#D90429', dark: '#A3001B', light: '#FF2E4D' },
-                        neutral: { 50: '#FAFAFA', 100: '#F5F5F5', 200: '#E5E5E5', 800: '#262626', 900: '#171717' }
-                    },
-                    fontFamily: {
-                        prompt: ['Prompt', 'sans-serif'],
-                        space: ['Space Grotesk', 'sans-serif']
-                    }
-                }
-            }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To Be Number One - โรงเรียนบางสะพานวิทยา</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Sarabun', 'Outfit', 'sans-serif'] },
+          colors: { primary: '#DC2626', 'primary-dark': '#991B1B' }
         }
-    </script>
-    
-    <style>
-        html, body { height: 100%; margin: 0; }
-        body { font-family: 'Prompt', sans-serif; overflow-x: hidden; box-sizing: border-box; }
-
-        /* ปรับปรุง Glassmorphism ให้เนียนและดูแพงขึ้น */
-        .glass {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        .glass-dark {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-        }
-
-        /* ปรับปรุง Card 3D ให้มิติชัดขึ้นเวลานำเมาส์ไปชี้ */
-        .card-3d {
-            transform-style: preserve-3d;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-        }
-        .card-3d:hover {
-            box-shadow: 0 20px 40px rgba(217, 4, 41, 0.15), 
-                        0 1px 3px rgba(0,0,0,0.05),
-                        inset 0 1px 0 rgba(255,255,255,1);
-            transform: translateY(-5px); 
-        }
-
-        .glow-btn {
-            box-shadow: 0 0 20px rgba(217,4,41,0.4), 0 0 60px rgba(217,4,41,0.2);
-            transition: all 0.3s ease;
-        }
-        .glow-btn:hover {
-            box-shadow: 0 0 30px rgba(217,4,41,0.6), 0 0 80px rgba(217,4,41,0.3);
-            transform: translateY(-2px);
-        }
-
-        .scroll-gallery { scrollbar-width: none; -ms-overflow-style: none; }
-        .scroll-gallery::-webkit-scrollbar { display: none; }
-
-        .sticky-note { animation: floatNote 8s ease-in-out infinite; }
-        @keyframes floatNote {
-            0%, 100% { transform: translateY(0) rotate(var(--rot, 2deg)); }
-            50% { transform: translateY(-15px) rotate(calc(var(--rot, 2deg) * -1)); }
-        }
-        
-        .chat-bubble { animation: popIn 0.3s cubic-bezier(0.68,-0.55,0.265,1.55); }
-        @keyframes popIn { from { transform: scale(0.8); opacity:0; } to { transform: scale(1); opacity:1; } }
-
-        .hero-gradient {
-            background: radial-gradient(ellipse at 30% 20%, rgba(217,4,41,0.08) 0%, transparent 50%),
-                        radial-gradient(ellipse at 70% 80%, rgba(217,4,41,0.05) 0%, transparent 50%),
-                        #FAFAFA;
-        }
-        .section-reveal { opacity: 0; transform: translateY(40px); }
-
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
-        }
-        .accordion-content.open { max-height: 500px; }
-
-        /* เอฟเฟกต์ 3D Orbs ลอยตัวใน Hero Section */
-        .orb-1, .orb-2 {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(40px);
-            z-index: 0;
-            animation: float 10s ease-in-out infinite alternate;
-            pointer-events: none;
-        }
-        .orb-1 {
-            background: linear-gradient(135deg, rgba(217,4,41,0.4), rgba(255,46,77,0.1));
-            width: 300px; height: 300px;
-            top: 10%; right: 15%;
-        }
-        .orb-2 {
-            background: linear-gradient(135deg, rgba(255,46,77,0.3), rgba(163,0,27,0.1));
-            width: 250px; height: 250px;
-            bottom: 10%; left: 10%;
-            animation-delay: -5s;
-        }
-        @keyframes float {
-            0% { transform: translateY(0) scale(1); }
-            100% { transform: translateY(-30px) scale(1.05); }
-        }
-    </style>
+      }
+    }
+  </script>
+  <style>
+    * { font-family: 'Sarabun', 'Outfit', sans-serif; }
+    .slide-container { scroll-behavior: smooth; }
+    .slide-container::-webkit-scrollbar { display: none; }
+    .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(220,38,38,0.15); }
+    .fade-in { animation: fadeIn 0.5s ease forwards; opacity: 0; }
+    @keyframes fadeIn { to { opacity: 1; } }
+    .slide-up { animation: slideUp 0.6s ease forwards; opacity: 0; transform: translateY(20px); }
+    @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+    .pulse-dot { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .modal-backdrop { animation: fadeIn 0.2s ease forwards; }
+    .modal-content { animation: slideUp 0.3s ease forwards; }
+    .nav-link { position: relative; }
+    .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #DC2626; transition: width 0.3s; }
+    .nav-link:hover::after { width: 100%; }
+    .dark .card-hover:hover { box-shadow: 0 12px 40px rgba(220,38,38,0.3); }
+    @media (max-width: 1024px) { html, body, #app, main, .page-content { height: auto; min-height: 100%; } }
+  </style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/telemetry_sdk.js"></script>
 </head>
-<body class="h-full bg-neutral-50 text-neutral-800 overflow-auto">
+<body class="h-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+  <div id="app" class="h-full w-full overflow-auto">
+   
+    <header class="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 transition-colors">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div>
+            <h1 class="text-xl font-bold text-primary tracking-tight">To Be Number One</h1>
+            <p class="text-xs text-gray-500 dark:text-gray-400 -mt-0.5" id="school-subtitle">โรงเรียนบางสะพานวิทยา</p>
+          </div>
+        </div>
+        <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+          <a href="#" onclick="showPage('home')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">หน้าหลัก</a> 
+          <a href="#" onclick="showPage('news')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">ข่าวสาร</a> 
+          <a href="#" onclick="showPage('activities')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">กิจกรรม</a> 
+          <a href="#" onclick="showPage('committee')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">ผังคณะกรรมการ</a> 
+          <a href="#" onclick="showPage('manual')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">คู่มือปฏิบัติงาน</a>
+        </nav>
+        <div class="flex items-center gap-2">
+          <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" title="เปลี่ยนธีม"> 
+            <i data-lucide="sun" class="w-5 h-5 dark:hidden"></i> <i data-lucide="moon" class="w-5 h-5 hidden dark:block"></i> 
+          </button>
+          <div id="login-btn" class="flex gap-2">
+            <button onclick="showLoginModal()" class="px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-primary-dark transition-colors"> ลงชื่อเข้าใช้ </button>
+          </div>
+          <div id="user-info" class="hidden text-right">
+            <p class="text-sm font-semibold text-gray-800 dark:text-gray-200" id="user-name"></p>
+            <p class="text-xs text-gray-500 dark:text-gray-400" id="user-class"></p>
+            <button onclick="handleLogout()" class="text-xs text-red-600 dark:text-red-400 hover:underline mt-1">ออกจากระบบ</button>
+          </div>
+          <div id="admin-info" class="hidden text-right">
+            <p class="text-sm font-semibold text-primary">Admin Panel</p>
+            <button onclick="handleAdminLogout()" class="text-xs text-red-600 dark:text-red-400 hover:underline">ออกจากระบบ</button>
+          </div>
+          <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"> 
+            <i data-lucide="menu" class="w-5 h-5"></i> 
+          </button>
+        </div>
+      </div>
+      <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 px-4 py-3">
+        <a href="#" onclick="showPage('home');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">หน้าหลัก</a> 
+        <a href="#" onclick="showPage('news');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">ข่าวสาร</a> 
+        <a href="#" onclick="showPage('activities');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">กิจกรรม</a> 
+        <a href="#" onclick="showPage('committee');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">ผังคณะกรรมการ</a> 
+        <a href="#" onclick="showPage('manual');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">คู่มือปฏิบัติงาน</a>
+      </div>
+    </header>
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 left-0 w-full z-50 glass-dark">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-red-primary flex items-center justify-center">
-                    <span class="text-white font-bold text-sm font-space">1</span>
-                </div>
-                <span class="font-bold text-sm sm:text-base" id="nav-title">TO BE NUMBER ONE</span>
+    <main id="pages-container">
+      
+      <div id="page-home" class="page-content">
+        <section class="relative overflow-hidden bg-gradient-to-br from-red-600 via-red-500 to-red-700 dark:from-red-800 dark:via-red-900 dark:to-gray-900">
+          <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-10 left-10 w-40 h-40 border-2 border-white rounded-full"></div>
+            <div class="absolute bottom-10 right-20 w-60 h-60 border border-white rounded-full"></div>
+            <div class="absolute top-20 right-40 w-20 h-20 border border-white rounded-full"></div>
+          </div>
+          <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 relative">
+            <div class="text-center text-white slide-up">
+              <h2 class="text-4xl md:text-6xl font-bold tracking-tight mb-3" id="banner-title">TO BE NUMBER ONE</h2>
+              <p class="text-lg md:text-xl opacity-90 font-light">ชมรม TO BE NUMBER ONE โรงเรียนบางสะพานวิทยา</p>
+              <p class="mt-2 text-sm opacity-75">เป็นหนึ่งโดยไม่พึ่งยาเสพติด</p>
             </div>
-            <div class="hidden md:flex items-center gap-6 text-sm font-medium">
-                <a href="#org" class="hover:text-red-primary transition-colors">คณะกรรมการ</a> 
-                <a href="#checkin" class="hover:text-red-primary transition-colors">ลงทะเบียน</a> 
-                <a href="#portfolio" class="hover:text-red-primary transition-colors">ผลงาน</a> 
-                <a href="#manual" class="hover:text-red-primary transition-colors">คู่มือ</a> 
-                <a href="#safespace" class="hover:text-red-primary transition-colors">Safe Space</a>
-            </div>
-            <button id="mobile-menu-btn" class="md:hidden p-2"> 
-                <i data-lucide="menu" class="w-5 h-5"></i> 
-            </button>
-        </div>
-        <div id="mobile-menu" class="md:hidden hidden px-4 pb-4 space-y-2 text-sm bg-white/95 backdrop-blur-md border-b border-neutral-100 shadow-sm absolute w-full">
-            <a href="#org" class="block py-3 hover:text-red-primary">คณะกรรมการ</a> 
-            <a href="#checkin" class="block py-3 hover:text-red-primary">ลงทะเบียน</a> 
-            <a href="#portfolio" class="block py-3 hover:text-red-primary">ผลงาน</a> 
-            <a href="#manual" class="block py-3 hover:text-red-primary">คู่มือ</a> 
-            <a href="#safespace" class="block py-3 hover:text-red-primary">Safe Space</a>
-        </div>
-    </nav>
+          </div>
+        </section>
 
-    <!-- Hero Section -->
-    <section class="hero-gradient min-h-[100%] flex items-center justify-center relative pt-16 px-4 overflow-hidden">
-        <!-- 3D Orbs พื้นหลัง -->
-        <div class="orb-1"></div>
-        <div class="orb-2"></div>
-        
-        <div class="text-center relative z-10 max-w-4xl mx-auto">
-            <div class="overflow-hidden mb-4">
-                <p id="hero-subtitle" class="text-sm sm:text-base font-semibold text-red-primary tracking-[0.2em] uppercase hero-text opacity-0">Bangsaphan Wittaya School</p>
+        <section class="max-w-7xl mx-auto px-4 py-8">
+          <div class="bg-gradient-to-r from-red-50 to-white dark:from-gray-800 dark:to-gray-850 rounded-2xl p-6 border border-red-100 dark:border-gray-700 flex flex-col md:flex-row items-center justify-between gap-4 card-hover">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-primary/10 dark:bg-primary/20 rounded-xl flex items-center justify-center">
+                <i data-lucide="heart-handshake" class="w-6 h-6 text-primary"></i>
+              </div>
+              <div>
+                <h3 class="font-semibold text-lg">ลงทะเบียนเข้าใช้งานห้องศูนย์เพื่อนใจ</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">ร่วมเป็นส่วนหนึ่งของศูนย์เพื่อนใจ TO BE NUMBER ONE</p>
+              </div>
             </div>
-            <div class="overflow-hidden mb-6">
-                <h1 id="hero-title" class="text-5xl sm:text-7xl lg:text-8xl font-black text-neutral-900 hero-text opacity-0 font-space leading-tight drop-shadow-sm">
-                    TO BE<br>
-                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-red-primary via-red-light to-red-dark">NUMBER ONE</span>
-                </h1>
-            </div>
-            <div class="overflow-hidden mb-10">
-                <p id="hero-slogan" class="text-lg sm:text-xl text-neutral-600 hero-text opacity-0 font-light">"เป็นหนึ่งโดยไม่พึ่งยาเสพติด — พื้นที่ปลอดภัยของทุกคน"</p>
-            </div>
-            <div class="hero-text opacity-0">
-                <a href="#safespace" id="hero-cta" class="inline-flex items-center gap-2 bg-red-primary text-white px-8 py-4 rounded-full font-semibold text-lg glow-btn"> 
-                    <i data-lucide="heart" class="w-5 h-5"></i> 
-                    <span>เข้าสู่ Safe Space</span> 
-                </a>
-            </div>
-            <div class="mt-16 hero-text opacity-0">
-                <i data-lucide="chevrons-down" class="w-6 h-6 mx-auto text-neutral-400 animate-bounce"></i>
-            </div>
-        </div>
-    </section>
+            <button onclick="showRegisterModal()" class="px-6 py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-all hover:scale-105"> ลงทะเบียน </button>
+          </div>
+        </section>
 
-    <!-- Org Chart Section -->
-    <section id="org" class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div class="section-reveal text-center mb-16">
-            <h2 class="text-3xl sm:text-4xl font-bold mb-3 font-space">ผังคณะกรรมการ</h2>
-            <p class="text-neutral-500">โครงสร้างองค์กร TO BE NUMBER ONE</p>
-        </div>
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 section-reveal">
-            <!-- กิตติมศักดิ์ -->
-            <div class="bg-white rounded-3xl p-6 shadow-sm border border-neutral-100">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-xl bg-red-primary/10 flex items-center justify-center">
-                        <i data-lucide="crown" class="w-5 h-5 text-red-primary"></i>
-                    </div>
-                    <h3 class="font-bold text-lg">คณะกรรมการกิตติมศักดิ์</h3>
-                </div>
-                <div class="space-y-3">
-                    <div class="card-3d bg-neutral-50 rounded-2xl p-4 cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetCard(this)">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-primary to-red-dark flex items-center justify-center text-white font-bold">ผอ</div>
-                            <div>
-                                <p class="font-semibold text-sm">ผู้อำนวยการ</p>
-                                <p class="text-xs text-neutral-500">ที่ปรึกษากิตติมศักดิ์</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-3d bg-neutral-50 rounded-2xl p-4 cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetCard(this)">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-primary to-red-dark flex items-center justify-center text-white font-bold text-xs">รอง</div>
-                            <div>
-                                <p class="font-semibold text-sm">รองผู้อำนวยการ</p>
-                                <p class="text-xs text-neutral-500">ที่ปรึกษากิตติมศักดิ์</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- อำนวยการ -->
-            <div class="bg-white rounded-3xl p-6 shadow-sm border border-neutral-100">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-xl bg-red-primary/10 flex items-center justify-center">
-                        <i data-lucide="shield" class="w-5 h-5 text-red-primary"></i>
-                    </div>
-                    <h3 class="font-bold text-lg">คณะกรรมการอำนวยการ</h3>
-                </div>
-                <div class="space-y-3">
-                    <div class="card-3d bg-neutral-50 rounded-2xl p-4 cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetCard(this)">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-primary to-red-dark flex items-center justify-center text-white font-bold text-xs">ครู</div>
-                            <div>
-                                <p class="font-semibold text-sm">ครูที่ปรึกษาชมรม</p>
-                                <p class="text-xs text-neutral-500">กำกับดูแลกิจกรรม</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-3d bg-neutral-50 rounded-2xl p-4 cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetCard(this)">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-primary to-red-dark flex items-center justify-center text-white font-bold text-xs">สภ</div>
-                            <div>
-                                <p class="font-semibold text-sm">สภานักเรียน</p>
-                                <p class="text-xs text-neutral-500">สนับสนุนกิจกรรม</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- ดำเนินงาน -->
-            <div class="bg-white rounded-3xl p-6 shadow-sm border border-neutral-100">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-xl bg-red-primary/10 flex items-center justify-center">
-                        <i data-lucide="users" class="w-5 h-5 text-red-primary"></i>
-                    </div>
-                    <h3 class="font-bold text-lg">คณะกรรมการดำเนินงาน</h3>
-                </div>
-                <div class="space-y-3">
-                    <div class="card-3d bg-neutral-50 rounded-2xl p-4 cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetCard(this)">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-primary to-red-dark flex items-center justify-center text-white font-bold text-xs">อัน</div>
-                            <div>
-                                <p class="font-semibold text-sm">พี่อันอัน</p>
-                                <p class="text-xs text-neutral-500">ประธานชมรม</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-3d bg-neutral-50 rounded-2xl p-4 cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetCard(this)">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-primary to-red-dark flex items-center justify-center text-white font-bold text-xs">พาย</div>
-                            <div>
-                                <p class="font-semibold text-sm">พาย</p>
-                                <p class="text-xs text-neutral-500">รองประธาน</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-3d bg-neutral-50 rounded-2xl p-4 cursor-pointer" onmousemove="tiltCard(event, this)" onmouseleave="resetCard(this)">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-primary to-red-dark flex items-center justify-center text-white font-bold text-xs">ฝ่าย</div>
-                            <div>
-                                <p class="font-semibold text-sm">ฝ่ายประชาสัมพันธ์</p>
-                                <p class="text-xs text-neutral-500">สื่อสารองค์กร</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <section class="max-w-7xl mx-auto px-4 py-6">
+          <div class="flex items-center justify-between mb-5">
+            <h3 class="text-2xl font-bold">ผลงานชมรม</h3>
+            <button onclick="showPage('activities')" class="text-sm text-primary font-medium hover:underline flex items-center gap-1"> ดูทั้งหมด <i data-lucide="arrow-right" class="w-4 h-4"></i> </button>
+          </div>
+          <div class="relative">
+            <button onclick="scrollSlider('activities-slider', -300)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"> <i data-lucide="chevron-left" class="w-5 h-5"></i> </button>
+            <div id="activities-slider" class="slide-container flex gap-4 overflow-x-auto px-12 pb-4"></div>
+            <button onclick="scrollSlider('activities-slider', 300)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"> <i data-lucide="chevron-right" class="w-5 h-5"></i> </button>
+          </div>
+        </section>
 
-    <!-- Check-in Form -->
-    <section id="checkin" class="py-20 px-4 sm:px-6 relative">
-        <div class="absolute inset-0 bg-gradient-to-b from-neutral-50 via-red-primary/[0.02] to-neutral-50 pointer-events-none"></div>
-        <div class="max-w-md mx-auto relative z-10 section-reveal">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl sm:text-4xl font-bold mb-3 font-space">ลงทะเบียนเข้าห้อง</h2>
-                <p class="text-neutral-500">Smart Check-in System</p>
-            </div>
-            <div class="glass-dark rounded-3xl p-8 shadow-xl">
-                <form id="checkin-form" class="space-y-5">
-                    <div>
-                        <label for="name" class="block text-sm font-medium mb-2 text-neutral-700">ชื่อ-นามสกุล</label> 
-                        <input type="text" id="name" required placeholder="กรอกชื่อของคุณ" class="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-red-primary focus:ring-2 focus:ring-red-primary/20 outline-none transition-all text-sm bg-white/80">
-                    </div>
-                    <div>
-                        <label for="student-id" class="block text-sm font-medium mb-2 text-neutral-700">เลขประจำตัวนักเรียน</label> 
-                        <input type="text" id="student-id" required placeholder="เช่น 12345" class="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-red-primary focus:ring-2 focus:ring-red-primary/20 outline-none transition-all text-sm bg-white/80">
-                    </div>
-                    <div>
-                        <label for="service" class="block text-sm font-medium mb-2 text-neutral-700">บริการที่ต้องการ</label> 
-                        <select id="service" required class="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-red-primary focus:ring-2 focus:ring-red-primary/20 outline-none transition-all text-sm bg-white/80 appearance-none"> 
-                            <option value="">เลือกบริการ...</option> 
-                            <option value="counsel">😢 ปรับทุกข์</option> 
-                            <option value="happy">😊 สร้างสุข</option> 
-                            <option value="solve">💡 แก้ปัญหา</option> 
-                            <option value="eq">🧠 พัฒนา EQ</option> 
-                        </select>
-                    </div>
-                    <button type="submit" class="w-full bg-red-primary text-white py-3.5 rounded-xl font-semibold hover:bg-red-dark transition-colors glow-btn flex items-center justify-center gap-2"> 
-                        <i data-lucide="check-circle" class="w-5 h-5"></i> 
-                        <span>ลงทะเบียน</span> 
-                    </button>
-                </form>
-                <div id="form-success" class="hidden text-center py-8">
-                    <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-                        <i data-lucide="check" class="w-8 h-8 text-green-600"></i>
-                    </div>
-                    <p class="font-semibold text-lg">ลงทะเบียนสำเร็จ!</p>
-                    <p class="text-sm text-neutral-500 mt-1">ยินดีต้อนรับเข้าสู่ห้อง TO BE NUMBER ONE</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        <section class="max-w-7xl mx-auto px-4 py-6">
+          <div class="flex items-center justify-between mb-5">
+            <h3 class="text-2xl font-bold">ข่าวสาร</h3>
+            <button onclick="showPage('news')" class="text-sm text-primary font-medium hover:underline flex items-center gap-1"> ดูทั้งหมด <i data-lucide="arrow-right" class="w-4 h-4"></i> </button>
+          </div>
+          <div class="relative">
+            <button onclick="scrollSlider('news-slider', -300)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700"> <i data-lucide="chevron-left" class="w-5 h-5"></i> </button>
+            <div id="news-slider" class="slide-container flex gap-4 overflow-x-auto px-12 pb-4"></div>
+            <button onclick="scrollSlider('news-slider', 300)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700"> <i data-lucide="chevron-right" class="w-5 h-5"></i> </button>
+          </div>
+        </section>
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 section-reveal">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl sm:text-4xl font-bold mb-3 font-space">ผลงานชมรม</h2>
-                <p class="text-neutral-500">กิจกรรมที่เราภูมิใจ</p>
-            </div>
+        <section class="max-w-7xl mx-auto px-4 py-6 pb-12">
+          <div class="flex items-center justify-between mb-5">
+            <h3 class="text-2xl font-bold">คณะกรรมการดำเนินงาน</h3>
+            <button onclick="showPage('committee')" class="text-sm text-primary font-medium hover:underline flex items-center gap-1"> ดูผังทั้งหมด <i data-lucide="arrow-right" class="w-4 h-4"></i> </button>
+          </div>
+          <div class="relative">
+            <button onclick="scrollSlider('committee-slider', -300)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700"> <i data-lucide="chevron-left" class="w-5 h-5"></i> </button>
+            <div id="committee-slider" class="slide-container flex gap-4 overflow-x-auto px-12 pb-4"></div>
+            <button onclick="scrollSlider('committee-slider', 300)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700"> <i data-lucide="chevron-right" class="w-5 h-5"></i> </button>
+          </div>
+        </section>
+      </div>
+
+      <div id="page-news" class="page-content hidden">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+          <h2 class="text-3xl font-bold mb-6">ข่าวสารทั้งหมด</h2>
+          <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </div>
-        <div class="scroll-gallery flex gap-5 overflow-x-auto px-4 sm:px-6 pb-8 pt-2 section-reveal">
-            <div class="flex-shrink-0 w-72 sm:w-80 h-48 rounded-3xl bg-gradient-to-br from-red-primary to-red-dark relative overflow-hidden group cursor-pointer transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-2xl hover:shadow-red-primary/20">
-                <div class="absolute inset-0 bg-black/30 flex items-end p-5 opacity-0 group-hover:opacity-100 transition-opacity dura
+      </div>
+
+      <div id="page-activities" class="page-content hidden">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+          <h2 class="text-3xl font-bold mb-6">กิจกรรมทั้งหมด</h2>
+          <div id="activities-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+      </div>
+
+      <div id="page-committee" class="page-content hidden">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+          <h2 class="text-3xl font-bold mb-8 text-center">ผังคณะกรรมการชมรม</h2>
+          <div class="flex flex-wrap justify-center gap-3 mb-10">
+            <button onclick="showCommitteeTab('advisory')" id="tab-advisory" class="px-6 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md">คณะกรรมการอำนวยการ</button>
+            <button onclick="showCommitteeTab('honorary')" id="tab-honorary" class="px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">คณะกรรมการกิตติมศักดิ์</button>
+            <button onclick="showCommitteeTab('operations')" id="tab-operations" class="px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">คณะกรรมการดำเนินงาน</button>
+          </div>
+          <div id="committee-content" class="space-y-10 min-h-[300px]"></div>
+        </div>
+      </div>
+
+      <div id="page-manual" class="page-content hidden">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+          <h2 class="text-3xl font-bold mb-6">คู่มือปฏิบัติงานชมรม</h2>
+          <div id="manual-list" class="space-y-4"></div>
+        </div>
+      </div>
+
+      <div id="page-admin" class="page-content hidden">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
+            <h2 class="text-3xl font-bold">Admin Panel</h2>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="showAdminTab('dashboard')" id="admin-tab-dashboard" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium transition-all">ภาพรวมระบบ</button>
+              <button onclick="showAdminTab('news')" id="admin-tab-news" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium transition-all">ข่าวสาร</button>
+              <button onclick="showAdminTab('activities')" id="admin-tab-activities" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium transition-all">กิจกรรม</button>
+              <button onclick="showAdminTab('committee')" id="admin-tab-committee" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium transition-all">คณะกรรมการ</button>
+            </div>
+          </div>
+
+          <div id="admin-form-container" class="hidden">
+            <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 mb-8 shadow-sm">
+              <h3 class="text-lg font-bold mb-5 flex items-center gap-2">
+                <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <i data-lucide="plus" class="w-4 h-4 text-primary"></i>
+                </div>
+                เพิ่มข้อมูลใหม่
+              </h3>
+              <form onsubmit="handleAdminAddItem(event)" class="grid md:grid-cols-2 gap-5">
+                <div class="space-y-1">
+                  <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">ชื่อเรื่อง</label>
+                  <input type="text" id="admin-title" placeholder="ใส่ชื่อหัวข้อ..." class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/30" required>
+                </div>
+                <div class="space-y-1">
+                  <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">วันที่</label>
+                  <input type="text" id="admin-date" placeholder="เช่น 4 มิ.ย. 2569" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/30">
+                </div>
+                <div class="space-y-1 md:col-span-2">
+                  <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">ลิงก์รูปภาพ (URL)</label>
+                  <input type="url" id="admin-image" placeholder="https://..." class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/30">
+                </div>
+                <div class="space-y-1 md:col-span-2">
+                  <label class="text-xs font-semibold text-gray-500 uppercase tracking-wider">รายละเอียด</label>
+                  <textarea id="admin-desc" placeholder="พิมพ์รายละเอียดที่นี่..." rows="3" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"></textarea>
+                </div>
+                <div class="md:col-span-2 flex justify-end pt-2">
+                  <button type="submit" class="px-6 py-2.5 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-all shadow-md flex items-center gap-2">
+                    <i data-lucide="save" class="w-4 h-4"></i> บันทึกข้อมูล
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div id="admin-items-container" class="space-y-3"></div>
+        </div>
+      </div>
+    </main>
+
+    <button onclick="toggleChatbot()" id="chat-fab" class="fixed bottom-6 right-6 z-40 w-14 h-14 bg-primary text-white rounded-full shadow-xl flex items-center justify-center hover:bg-primary-dark transition-all hover:scale-110"> 
+      <i data-lucide="message-circle" class="w-6 h-6"></i> 
+      <span class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full pulse-dot border-2 border-white dark:border-gray-900"></span> 
+    </button> 
+    
+    <div id="chatbot-panel" class="fixed bottom-24 right-6 z-50 w-80 max-w-[calc(100vw-3rem)] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 hidden flex-col" style="height: 420px;">
+      <div class="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center"><i data-lucide="bot" class="w-4 h-4 text-primary"></i></div>
+          <div>
+            <p class="text-sm font-semibold">AI ศูนย์เพื่อนใจ</p>
+            <p class="text-xs text-green-500">ออนไลน์</p>
+          </div>
+        </div>
+        <button onclick="toggleChatbot()" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"> <i data-lucide="x" class="w-4 h-4"></i> </button>
+      </div>
+      <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3" style="height: 300px;">
+        <div class="flex gap-2 fade-in">
+          <div class="w-6 h-6 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1"><i data-lucide="bot" class="w-3 h-3 text-primary"></i></div>
+          <div class="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-sm px-4 py-2.5 text-sm max-w-[80%] shadow-sm">
+            สวัสดีค่ะ! ฉันคือ AI ศูนย์เพื่อนใจ พร้อมรับฟังและให้คำปรึกษาค่ะ มีอะไรให้ช่วยไหมคะ?
+          </div>
+        </div>
+      </div>
+      <div class="p-3 border-t border-gray-100 dark:border-gray-700">
+        <form onsubmit="sendChat(event)" class="flex gap-2">
+          <input type="text" id="chat-input" placeholder="พิมพ์ข้อความ..." class="flex-1 px-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/30"> 
+          <button type="submit" class="p-2 bg-primary text-white rounded-xl hover:bg-primary-dark transition-colors"> <i data-lucide="send" class="w-4 h-4"></i> </button>
+        </form>
+      </div>
+    </div>
+
+    <div id="login-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/50 modal-backdrop" onclick="closeModal(event, 'login-modal')">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm mx-4 modal-content" onclick="event.stopPropagation()">
+        <div class="flex items-center justify-between mb-5">
+          <h3 class="text-lg font-bold">ลงชื่อเข้าใช้</h3>
+          <button onclick="hideModal('login-modal')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"> <i data-lucide="x" class="w-5 h-5"></i> </button>
+        </div>
+        <form onsubmit="handleLogin(event)">
+          <label class="block text-sm font-medium mb-1">เลขประจำตัวนักเรียน</label> 
+          <input type="text" id="student-id" placeholder="กรอกเลขประจำตัว (แอดมิน: admin123)" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-primary/30 text-sm">
+          <p id="login-error" class="text-xs text-red-500 mb-3 hidden">กรุณากรอกเลขประจำตัว</p>
+          <button type="submit" class="w-full py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-colors"> เข้าสู่ระบบ </button>
+        </form>
+      </div>
+    </div>
+
+    <div id="register-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/50 modal-backdrop" onclick="closeModal(event, 'register-modal')">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm mx-4 modal-content" onclick="event.stopPropagation()">
+        <div class="flex items-center justify-between mb-5">
+          <h3 class="text-lg font-bold">ลงทะเบียนศูนย์เพื่อนใจ</h3>
+          <button onclick="hideModal('register-modal')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"> <i data-lucide="x" class="w-5 h-5"></i> </button>
+        </div>
+        <form onsubmit="handleRegister(event)">
+          <label class="block text-sm font-medium mb-1">ชื่อ-สกุล</label> 
+          <input type="text" id="reg-name" placeholder="ชื่อ-สกุล" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-3 focus:outline-none focus:ring-2 focus:ring-primary/30 text-sm" required> 
+          <label class="block text-sm font-medium mb-1">ชั้นเรียน</label> 
+          <input type="text" id="reg-class" placeholder="เช่น ม.1/3" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-3 focus:outline-none focus:ring-2 focus:ring-primary/30 text-sm" required> 
+          <label class="block text-sm font-medium mb-1">เหตุผลที่ต้องการเข้าใช้</label> 
+          <textarea id="reg-reason" rows="3" placeholder="เหตุผล..." class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-4 focus:outline-none focus:ring-2 focus:ring-primary/30 text-sm resize-none"></textarea> 
+          <button type="submit" class="w-full py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-colors"> ลงทะเบียน </button>
+          <p id="register-success" class="text-xs text-green-600 mt-3 text-center hidden">ลงทะเบียนสำเร็จ!</p>
+        </form>
+      </div>
+    </div>
+
+    <div id="detail-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/50 modal-backdrop" onclick="closeModal(event, 'detail-modal')">
+      <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-lg mx-4 max-h-[80%] overflow-y-auto modal-content" onclick="event.stopPropagation()">
+        <div class="flex items-center justify-between mb-4">
+          <h3 id="detail-title" class="text-lg font-bold pr-4"></h3>
+          <button onclick="hideModal('detail-modal')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"> <i data-lucide="x" class="w-5 h-5"></i> </button>
+        </div>
+        <div class="w-full h-48 rounded-xl bg-gray-100 dark:bg-gray-700 mb-4 flex items-center justify-center overflow-hidden relative" id="detail-image-container">
+          </div>
+        <p id="detail-date" class="text-xs text-gray-500 dark:text-gray-400 mb-2"></p>
+        <p id="detail-desc" class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed"></p>
+      </div>
+    </div>
+
+    <div id="toast" class="fixed top-20 right-4 z-[200] bg-gray-900 text-white px-5 py-3 rounded-xl shadow-lg text-sm font-medium hidden transition-all flex items-center gap-2">
+      <i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i>
+      <span id="toast-msg"></span>
+    </div>
+
+  </div>
+
+<script>
+// ==========================================
+// 1. CONFIGURATION & STATE
+// ==========================================
+const GAS_API_URL = 'ใส่_WEB_APP_URL_ที่ได้จาก_GAS_ตรงนี้'; 
+
+let allNewsData = [];
+let allActivitiesData = [];
+let allRoomUsage = [];
+let allLogins = [];
+let committeeData = {
+  advisory: { president: [], vice: [], members: [] },
+  honorary: { president: [], vice: [], members: [] },
+  operations: { president: [], vice: [], members: [] }
+};
+
+let currentAdminTab = 'dashboard';
+let currentCommitteeTab = 'advisory';
+let isAdminLoggedIn = false;
+
+// Mock Data (Fallback if GAS is not connected)
+const students = {
+  '12345': { name: 'นายสมชาย ใจดี', class: 'ชั้นมัธยมศึกษาปีที่ 5/1' },
+  '00000': { name: 'ผู้ใช้ทดสอบ', class: 'ชั้นมัธยมศึกษาปีที่ 1/3' },
+};
+
+const manuals = [
+  { title: 'คู่มือการดำเนินงานชมรม', desc: 'แนวทางปฏิบัติในการบริหารจัดการชมรม', icon: 'book-open' },
+  { title: 'คู่มือศูนย์เพื่อนใจ', desc: 'แนวทางการให้คำปรึกษาและดูแลสมาชิก', icon: 'heart' },
+  { title: 'แผนปฏิบัติงานประจำปี', desc: 'แผนการจัดกิจกรรมตลอดปีการศึกษา', icon: 'calendar' },
+];
+
+// ==========================================
+// 2. INITIALIZATION & DATA FETCHING
+// ==========================================
+window.onload = () => {
+  fetchSystemData();
+  renderManuals();
+  lucide.createIcons();
+};
+
+async function fetchSystemData() {
+  if (!GAS_API_URL || GAS_API_URL.includes('ใส่_WEB_APP_URL')) {
+    console.log('API URL is not set. Running in UI-only mode.');
+    renderSliders(); renderGrids(); renderCommitteeFull(); return;
+  }
+  
+  try {
+    const response = await fetch(GAS_API_URL);
+    const result = await response.json();
+    
+    if (result.status === 'success') {
+      allNewsData = result.data.news || [];
+      allActivitiesData = result.data.activities || [];
+      allRoomUsage = result.data.roomUsage || [];
+      allLogins = result.data.logins || [];
+      
+      // Parse Committee
+      committeeData = {
+        advisory: { president: [], vice: [], members: [] },
+        honorary: { president: [], vice: [], members: [] },
+        operations: { president: [], vice: [], members: [] }
+      };
+      
+      const rawComm = result.data.committee || [];
+      rawComm.forEach(person => {
+        const sec = person.section; const lvl = person.level;
+        if (committeeData[sec] && committeeData[sec][lvl]) {
+          committeeData[sec][lvl].push(person);
+        }
+      });
+      
+      renderSliders();
+      renderGrids();
+      renderCommitteeFull();
+      if (isAdminLoggedIn) renderAdminItems();
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+// ==========================================
+// 3. UI TOGGLES & NAVIGATION
+// ==========================================
+function toggleTheme() { document.documentElement.classList.toggle('dark'); }
+function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
+function showPage(page) {
+  document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+  document.getElementById('page-' + page).classList.remove('hidden');
+  document.getElementById('app').scrollTop = 0;
+}
+function scrollSlider(id, amount) { document.getElementById(id).scrollBy({ left: amount, behavior: 'smooth' }); }
+function showLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); document.getElementById('login-modal').classList.add('flex'); }
+function showRegisterModal() { document.getElementById('register-modal').classList.remove('hidden'); document.getElementById('register-modal').classList.add('flex'); }
+function hideModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
+function closeModal(e, id) { if (e.target === document.getElementById(id)) hideModal(id); }
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.remove('hidden');
+  setTimeout(() => t.classList.add('hidden'), 3000);
+}
+function toggleChatbot() {
+  const p = document.getElementById('chatbot-panel');
+  p.classList.toggle('hidden');
+  if (!p.classList.contains('hidden')) p.style.display = 'flex'; else p.style.display = '';
+}
+function escapeHtml(str) { return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function showDetail(item) {
+  document.getElementById('detail-title').textContent = item.title;
+  document.getElementById('detail-date').textContent = item.date;
+  document.getElementById('detail-desc').textContent = item.desc;
+  
+  const imgContainer = document.getElementById('detail-image-container');
+  if(item.image) {
+    imgContainer.innerHTML = `<img src="${item.image}" class="w-full h-full object-cover">`;
+  } else {
+    imgContainer.innerHTML = `<i data-lucide="image" class="w-12 h-12 text-gray-300"></i>`;
+  }
+  
+  document.getElementById('detail-modal').classList.remove('hidden');
+  document.getElementById('detail-modal').classList.add('flex');
+  lucide.createIcons();
+}
+
+// ==========================================
+// 4. AUTH & FORMS
+// ==========================================
+async function handleLogin(e) {
+  e.preventDefault();
+  const id = document.getElementById('student-id').value.trim();
+  if (!id) return document.getElementById('login-error').classList.remove('hidden');
+  document.getElementById('login-error').classList.add('hidden');
+
+  // Admin Login
+  if (id === 'admin123') {
+    isAdminLoggedIn = true;
+    document.getElementById('login-btn').classList.add('hidden');
+    document.getElementById('admin-info').classList.remove('hidden');
+    document.getElementById('user-info').classList.add('hidden');
+    hideModal('login-modal'); e.target.reset();
+    showToast('เข้าสู่ Admin Panel');
+    showPage('admin'); showAdminTab('dashboard');
+    return;
+  }
+
+  // Student Login
+  const student = students[id] || { name: 'นักเรียน #' + id, class: 'มัธยมศึกษา' };
+  
+  // Record Login silently via API
+  if (GAS_API_URL && !GAS_API_URL.includes('ใส่_WEB_APP_URL')) {
+    fetch(GAS_API_URL, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'recordLogin', studentId: id })
+    }).then(() => fetchSystemData());
+  }
+
+  document.getElementById('user-name').textContent = student.name;
+  document.getElementById('user-class').textContent = student.class;
+  document.getElementById('login-btn').classList.add('hidden');
+  document.getElementById('user-info').classList.remove('hidden');
+  document.getElementById('admin-info').classList.add('hidden');
+  hideModal('login-modal'); e.target.reset();
+  showToast('เข้าสู่ระบบสำเร็จ'); showPage('home');
+}
+
+function handleLogout() {
+  document.getElementById('login-btn').classList.remove('hidden');
+  document.getElementById('user-info').classList.add('hidden');
+  showToast('ออกจากระบบสำเร็จ'); showPage('home');
+}
+function handleAdminLogout() {
+  isAdminLoggedIn = false;
+  document.getElementById('login-btn').classList.remove('hidden');
+  document.getElementById('admin-info').classList.add('hidden');
+  showToast('ออกจากระบบสำเร็จ'); showPage('home');
+}
+
+async function handleRegister(e) {
+  e.preventDefault();
+  const name = document.getElementById('reg-name').value.trim();
+  const className = document.getElementById('reg-class').value.trim();
+  const reason = document.getElementById('reg-reason').value.trim();
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.innerText = 'กำลังลงทะเบียน...';
+
+  if (GAS_API_URL && !GAS_API_URL.includes('ใส่_WEB_APP_URL')) {
+    try {
+      await fetch(GAS_API_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'registerRoom', name, class: className, reason })
+      });
+      fetchSystemData();
+    } catch(err) { console.error('Reg Error', err); }
+  }
+
+  document.getElementById('register-success').classList.remove('hidden');
+  setTimeout(() => {
+    hideModal('register-modal');
+    document.getElementById('register-success').classList.add('hidden');
+    e.target.reset();
+    showToast('ลงทะเบียนสำเร็จ');
+    btn.innerText = 'ลงทะเบียน';
+  }, 1500);
+}
+
+// ==========================================
+// 5. RENDERING FUNCTIONS
+// ==========================================
+function createCard(item, type) {
+  const imgContent = item.image 
+    ? `<img src="${item.image}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+       <i data-lucide="${type === 'activity' ? 'trophy' : 'newspaper'}" class="w-10 h-10 text-white/80" style="display:none;"></i>`
+    : `<i data-lucide="${type === 'activity' ? 'trophy' : 'newspaper'}" class="w-10 h-10 text-white/80"></i>`;
+
+  return `<div class="min-w-[260px] max-w-[260px] bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer flex-shrink-0" onclick='showDetail(${JSON.stringify(item).replace(/'/g, "&#39;")})'>
+    <div class="h-32 bg-gray-200 dark:bg-gray-700 ${item.color || 'bg-primary'} flex items-center justify-center relative overflow-hidden">
+      ${imgContent}
+    </div>
+    <div class="p-4">
+      <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">${item.date}</p>
+      <h4 class="text-sm font-semibold line-clamp-2">${item.title}</h4>
+    </div>
+  </div>`;
+}
+
+function createGridCard(item, type) {
+  const imgContent = item.image 
+    ? `<img src="${item.image}" class="w-full h-full object-cover">`
+    : `<i data-lucide="${type === 'activity' ? 'trophy' : 'newspaper'}" class="w-12 h-12 text-white/80"></i>`;
+
+  return `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer" onclick='showDetail(${JSON.stringify(item).replace(/'/g, "&#39;")})'>
+    <div class="h-40 bg-gray-200 dark:bg-gray-700 ${item.color || 'bg-primary'} flex items-center justify-center relative overflow-hidden">
+      ${imgContent}
+    </div>
+    <div class="p-4">
+      <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">${item.date}</p>
+      <h4 class="font-semibold">${item.title}</h4>
+      <p class="text-sm text-gray-600 dark:text-gray-400 mt-2 line-clamp-2">${item.desc}</p>
+    </div>
+  </div>`;
+}
+
+function createPersonCard(person) {
+  const imgHTML = person.image ? `<img src="${person.image}" class="w-full h-full object-cover">` : `<i data-lucide="user" class="w-8 h-8 text-primary"></i>`;
+  return `<div class="min-w-[200px] max-w-[200px] bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 text-center card-hover flex-shrink-0">
+    <div class="w-16 h-16 bg-primary/10 dark:bg-primary/20 rounded-full mx-auto mb-3 flex items-center justify-center overflow-hidden">
+      ${imgHTML}
+    </div>
+    <p class="text-sm font-semibold">${person.name}</p>
+    <p class="text-xs text-primary font-medium mt-1">${person.role}</p>
+    ${person.class ? `<p class="text-xs text-gray-500 dark:text-gray-400">${person.class}</p>` : ''}
+  </div>`;
+}
+
+function renderSliders() {
+  document.getElementById('activities-slider').innerHTML = allActivitiesData.map(a => createCard(a, 'activity')).join('');
+  document.getElementById('news-slider').innerHTML = allNewsData.map(n => createCard(n, 'news')).join('');
+  
+  const opData = committeeData.operations;
+  const operationsCommittee = [...opData.president, ...opData.vice, ...opData.members];
+  const cSlider = document.getElementById('committee-slider');
+  cSlider.innerHTML = operationsCommittee.length > 0 ? operationsCommittee.map(c => createPersonCard(c)).join('') : '<div class="px-4 text-sm text-gray-500">กำลังเตรียมข้อมูลคณะกรรมการ</div>';
+  lucide.createIcons();
+}
+
+function renderGrids() {
+  document.getElementById('news-grid').innerHTML = allNewsData.map(n => createGridCard(n, 'news')).join('');
+  document.getElementById('activities-grid').innerHTML = allActivitiesData.map(a => createGridCard(a, 'activity')).join('');
+  lucide.createIcons();
+}
+
+function showCommitteeTab(tabName) {
+  currentCommitteeTab = tabName;
+  ['advisory', 'honorary', 'operations'].forEach(t => {
+    const btn = document.getElementById(`tab-${t}`);
+    if (t === tabName) btn.className = 'px-6 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md';
+    else btn.className = 'px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all';
+  });
+  renderCommitteeFull();
+}
+
+function renderCommitteeFull() {
+  function section(title, people, highlight) {
+    if (!people || people.length === 0) return '';
+    const gridClass = highlight ? 'flex flex-wrap justify-center' : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5';
+    return `<div class="mb-10 fade-in">
+      <h4 class="text-lg font-bold text-center mb-5 text-primary">${title}</h4>
+      <div class="${gridClass} gap-5">
+        ${people.map(p => {
+          const img = p.image ? `<img src="${p.image}" class="w-full h-full object-cover">` : `<i data-lucide="user" class="w-10 h-10 text-primary"></i>`;
+          return `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 text-center card-hover shadow-sm ${highlight ? 'w-64' : ''}">
+            <div class="w-24 h-24 bg-gray-50 dark:bg-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden border-2 border-primary/20">${img}</div>
+            <p class="font-bold">${p.name}</p>
+            <p class="text-sm text-primary font-medium mt-1.5">${p.role}</p>
+            ${p.class ? `<p class="text-xs text-gray-500 mt-1">${p.class}</p>` : ''}
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }
+  const container = document.getElementById('committee-content');
+  const data = committeeData[currentCommitteeTab];
+  if (data.president.length === 0 && data.vice.length === 0 && data.members.length === 0) {
+    container.innerHTML = '<div class="text-center py-16 text-gray-400 border border-dashed border-gray-200 dark:border-gray-700 rounded-2xl">ยังไม่มีข้อมูล</div>';
+    return;
+  }
+  container.innerHTML = section('ประธาน / หัวหน้า', data.president, true) + section('รองประธาน และ ฝ่ายบริหาร', data.vice, false) + section('คณะกรรมการ / สมาชิก', data.members, false);
+  lucide.createIcons();
+}
+
+function renderManuals() {
+  document.getElementById('manual-list').innerHTML = manuals.map(m => `
+    <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-5 flex items-center gap-4 card-hover">
+      <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0"><i data-lucide="${m.icon}" class="w-6 h-6 text-primary"></i></div>
+      <div class="flex-1">
+        <h4 class="font-semibold">${m.title}</h4><p class="text-sm text-gray-500 dark:text-gray-400">${m.desc}</p>
+      </div>
+      <button class="px-4 py-2 bg-primary/10 text-primary rounded-xl text-sm font-medium hover:bg-primary/20 transition-colors flex items-center gap-1">
+        <i data-lucide="download" class="w-4 h-4"></i> โหลด
+      </button>
+    </div>`).join('');
+}
+
+// ==========================================
+// 6. ADMIN SYSTEM
+// ==========================================
+function showAdminTab(tabName) {
+  currentAdminTab = tabName;
+  ['dashboard', 'news', 'activities', 'committee'].forEach(t => {
+    const btn = document.getElementById(`admin-tab-${t}`);
+    if(btn) btn.className = (t === tabName) ? 'px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium transition-all shadow-md' : 'px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium transition-all hover:bg-gray-300 dark:hover:bg-gray-600';
+  });
+  
+  const formBox = document.getElementById('admin-form-container');
+  if (tabName === 'dashboard' || tabName === 'committee') formBox.classList.add('hidden');
+  else formBox.classList.remove('hidden');
+  
+  renderAdminItems();
+}
+
+function renderAdminItems() {
+  const container = document.getElementById('admin-items-container');
+  if (currentAdminTab === 'dashboard') { renderDashboard(container); return; }
+  if (currentAdminTab === 'committee') { container.innerHTML = '<div class="text-center py-10 text-gray-400 border border-dashed rounded-xl">ระบบจัดการหน้าคณะกรรมการกำลังพัฒนา</div>'; return; }
+  
+  const data = currentAdminTab === 'news' ? allNewsData : allActivitiesData;
+  if (data.length === 0) { container.innerHTML = '<div class="text-center py-10 text-gray-400 border border-dashed rounded-xl">ไม่มีข้อมูล</div>'; return; }
+
+  container.innerHTML = data.map(item => {
+    const imgContent = item.image 
+      ? `<img src="${item.image}" class="w-full h-full object-cover">`
+      : `<i data-lucide="${currentAdminTab === 'activity' ? 'trophy' : 'newspaper'}" class="w-6 h-6 text-gray-400"></i>`;
+    return `
+    <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 flex items-center justify-between card-hover mb-3 group">
+      <div class="flex items-center gap-4 w-full overflow-hidden">
+        <div class="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden relative">${imgContent}</div>
+        <div class="flex-1 min-w-0 pr-4">
+          <h4 class="font-bold text-base truncate">${item.title}</h4>
+          <div class="flex items-center mt-1"><span class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-md">${item.date}</span></div>
+        </div>
+      </div>
+      <button onclick="deleteAdminItem('${item.id || item.__backendId}')" class="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
+    </div>`
+  }).join('');
+  lucide.createIcons();
+}
+
+function renderDashboard(container) {
+  container.innerHTML = `
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-bold text-lg">การเข้าสู่ระบบทั้งหมด</h3><div class="p-2 bg-white/20 rounded-xl"><i data-lucide="log-in" class="w-6 h-6"></i></div>
+        </div>
+        <p class="text-4xl font-black">${allLogins.length} <span class="text-base font-normal opacity-80">ครั้ง</span></p>
+      </div>
+      <div class="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl p-6 text-white shadow-lg">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-bold text-lg">ขอเข้าใช้ศูนย์เพื่อนใจ</h3><div class="p-2 bg-white/20 rounded-xl"><i data-lucide="heart-handshake" class="w-6 h-6"></i></div>
+        </div>
+        <p class="text-4xl font-black">${allRoomUsage.length} <span class="text-base font-normal opacity-80">รายการ</span></p>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
+      <div class="p-5 border-b border-gray-100 dark:border-gray-700"><h3 class="font-bold text-lg">ประวัติขอเข้าใช้ห้องล่าสุด</h3></div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left">
+          <thead class="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-gray-700/50">
+            <tr><th class="px-6 py-4">วัน-เวลา</th><th class="px-6 py-4">ชื่อ-สกุล</th><th class="px-6 py-4">ชั้นเรียน</th><th class="px-6 py-4">เหตุผล</th></tr>
+          </thead>
+          <tbody>
+            ${allRoomUsage.length > 0 ? allRoomUsage.slice().reverse().slice(0, 10).map(u => `
+              <tr class="border-b border-gray-100 dark:border-gray-700">
+                <td class="px-6 py-4 text-gray-500">${u.date}</td><td class="px-6 py-4 font-medium">${u.name}</td>
+                <td class="px-6 py-4">${u.class}</td><td class="px-6 py-4 text-gray-500">${u.reason}</td>
+              </tr>`).join('') : `<tr><td colspan="4" class="px-6 py-8 text-center text-gray-400">ยังไม่มีข้อมูล</td></tr>`}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+  lucide.createIcons();
+}
+
+async function handleAdminAddItem(e) {
+  e.preventDefault();
+  const title = document.getElementById('admin-title').value.trim();
+  const dateInput = document.getElementById('admin-date').value.trim();
+  const image = document.getElementById('admin-image').value.trim();
+  const desc = document.getElementById('admin-desc').value.trim();
+  const date = dateInput || new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' });
+
+  if (!title || !desc) return showToast('กรุณากรอกข้อมูลให้ครบ');
+  
+  const btn = e.target.querySelector('button[type="submit"]');
+  const oldHtml = btn.innerHTML;
+  btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> บันทึก...';
+  btn.disabled = true; lucide.createIcons();
+
+  if (GAS_API_URL && !GAS_API_URL.includes('ใส่_WEB_APP_URL')) {
+    try {
+      await fetch(GAS_API_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: currentAdminTab === 'news' ? 'addNews' : 'addActivity', title, date, desc, image })
+      });
+      showToast('เพิ่มข้อมูลสำเร็จ');
+      e.target.reset();
+      await fetchSystemData();
+    } catch(err) { showToast('เกิดข้อผิดพลาด'); }
+  } else {
+    showToast('Demo: ทำงานในโหมดไม่เชื่อมต่อ API');
+    e.target.reset();
+  }
+  btn.innerHTML = oldHtml; btn.disabled = false; lucide.createIcons();
+}
+
+async function deleteAdminItem(id) {
+  if(!confirm('ยืนยันลบข้อมูล?')) return;
+  if (GAS_API_URL && !GAS_API_URL.includes('ใส่_WEB_APP_URL')) {
+    try {
+      await fetch(GAS_API_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: currentAdminTab === 'news' ? 'deleteNews' : 'deleteActivity', id })
+      });
+      showToast('ลบสำเร็จ');
+      fetchSystemData();
+    } catch(err) { showToast('เกิดข้อผิดพลาด'); }
+  }
+}
+
+// ==========================================
+// 7. GEMINI AI CHATBOT
+// ==========================================
+async function sendChat(e) {
+  e.preventDefault();
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  const c = document.getElementById('chat-messages');
+  c.innerHTML += `<div class="flex justify-end fade-in"><div class="bg-primary text-white rounded-2xl rounded-tr-sm px-4 py-2.5 text-sm max-w-[80%] shadow-sm">${escapeHtml(msg)}</div></div>`;
+  input.value = ''; c.scrollTop = c.scrollHeight;
+
+  const typingId = 't-' + Date.now();
+  c.innerHTML += `<div id="${typingId}" class="flex gap-2 fade-in"><div class="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1"><i data-lucide="bot" class="w-4 h-4 text-primary"></i></div><div class="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-sm px-4 py-2.5 text-sm max-w-[80%] flex items-center gap-1 shadow-sm"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></span><span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span><span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></span></div></div>`;
+  c.scrollTop = c.scrollHeight; lucide.createIcons();
+
+  if (GAS_API_URL && !GAS_API_URL.includes('ใส่_WEB_APP_URL')) {
+    try {
+      const res = await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: 'chatAI', message: msg }) });
+      const data = await res.json();
+      document.getElementById(typingId)?.remove();
+      const reply = data.status === 'success' ? data.reply : 'ขออภัยค่ะ ไม่สามารถเชื่อมต่อกับระบบได้ในขณะนี้';
+      c.innerHTML += `<div class="flex gap-2 fade-in"><div class="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1"><i data-lucide="bot" class="w-4 h-4 text-primary"></i></div><div class="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-sm px-4 py-2.5 text-sm max-w-[80%] shadow-sm leading-relaxed whitespace-pre-wrap">${escapeHtml(reply)}</div></div>`;
+    } catch(err) {
+      document.getElementById(typingId)?.remove();
+      c.innerHTML += `<div class="flex gap-2 fade-in"><div class="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1"><i data-lucide="bot" class="w-4 h-4 text-primary"></i></div><div class="bg-red-50 text-red-600 rounded-2xl px-4 py-2 text-sm max-w-[80%]">เกิดข้อผิดพลาดในการเชื่อมต่อเครือข่ายค่ะ</div></div>`;
+    }
+  } else {
+    setTimeout(() => {
+      document.getElementById(typingId)?.remove();
+      c.innerHTML += `<div class="flex gap-2 fade-in"><div class="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1"><i data-lucide="bot" class="w-4 h-4 text-primary"></i></div><div class="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-sm px-4 py-2.5 text-sm max-w-[80%] shadow-sm leading-relaxed whitespace-pre-wrap">ระบบ Demo: โปรดเชื่อมต่อ Google Apps Script เพื่อใช้งานระบบ AI ค่ะ</div></div>`;
+      c.scrollTop = c.scrollHeight; lucide.createIcons();
+    }, 1000);
+  }
+  c.scrollTop = c.scrollHeight; lucide.createIcons();
+}
+
+// SDK INIT (Original logic preserved)
+window.elementSdk.init({
+  defaultConfig: { font_family: 'Sarabun' },
+  onConfigChange: async (config) => { document.body.style.fontFamily = `${config.font_family || 'Sarabun'}, sans-serif`; }
+});
+</script>
+</body>
+</html>
