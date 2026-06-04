@@ -10,11 +10,17 @@
   <script>
     tailwind.config = {
       darkMode: 'class',
-      theme: { extend: { fontFamily: { sans: ['Sarabun', 'Outfit', 'sans-serif'] }, colors: { primary: '#DC2626', 'primary-dark': '#991B1B' } } }
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Sarabun', 'Outfit', 'sans-serif'] },
+          colors: { primary: '#DC2626', 'primary-dark': '#991B1B' }
+        }
+      }
     }
   </script>
   <style>
     * { font-family: 'Sarabun', 'Outfit', sans-serif; }
+    body { box-sizing: border-box; }
     .slide-container { scroll-behavior: smooth; }
     .slide-container::-webkit-scrollbar { display: none; }
     .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
@@ -31,9 +37,9 @@
     .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #DC2626; transition: width 0.3s; }
     .nav-link:hover::after { width: 100%; }
     .dark .card-hover:hover { box-shadow: 0 12px 40px rgba(220,38,38,0.3); }
-    body { box-sizing: border-box; }
   </style>
 </head>
+
 <body class="h-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
   <div id="app" class="h-full w-full overflow-auto">
     <header class="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800 transition-colors">
@@ -41,43 +47,51 @@
         <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
           <div>
             <h1 class="text-xl font-bold text-primary tracking-tight">To Be Number One</h1>
-            <p class="text-xs text-gray-500 dark:text-gray-400 -mt-0.5" id="school-subtitle">โรงเรียนบางสะพานวิทยา</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 -mt-0.5">โรงเรียนบางสะพานวิทยา</p>
           </div>
         </div>
+
         <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-          <a href="#" onclick="showPage('home')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">หน้าหลัก</a> 
-          <a href="#" onclick="showPage('news')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">ข่าวสาร</a> 
-          <a href="#" onclick="showPage('activities')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">กิจกรรม</a> 
+          <a href="#" onclick="showPage('home')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">หน้าหลัก</a>
+          <a href="#" onclick="showPage('news')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">ข่าวสาร</a>
+          <a href="#" onclick="showPage('activities')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">กิจกรรม</a>
           <a href="#" onclick="showPage('operations')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">ผลการดำเนินงาน</a>
-          <a href="#" onclick="showPage('committee')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">ผังคณะกรรมการ</a> 
+          <a href="#" onclick="showPage('committee')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">ผังคณะกรรมการ</a>
         </nav>
+
         <div class="flex items-center gap-2">
-          <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" title="เปลี่ยนธีม"> 
-            <i data-lucide="sun" class="w-5 h-5 dark:hidden"></i> <i data-lucide="moon" class="w-5 h-5 hidden dark:block"></i> 
+          <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" title="เปลี่ยนธีม">
+            <i data-lucide="sun" class="w-5 h-5 dark:hidden"></i>
+            <i data-lucide="moon" class="w-5 h-5 hidden dark:block"></i>
           </button>
+
           <div id="login-btn" class="flex gap-2">
-            <button onclick="showLoginModal()" class="px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-primary-dark transition-colors"> ลงชื่อเข้าใช้ </button>
+            <button onclick="showLoginModal()" class="px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-primary-dark transition-colors">ลงชื่อเข้าใช้</button>
           </div>
+
           <div id="user-info" class="hidden text-right">
             <p class="text-sm font-semibold text-gray-800 dark:text-gray-200" id="user-name"></p>
             <p class="text-xs text-gray-500 dark:text-gray-400" id="user-class"></p>
             <button onclick="handleLogout()" class="text-xs text-red-600 dark:text-red-400 hover:underline mt-1">ออกจากระบบ</button>
           </div>
+
           <div id="admin-info" class="hidden text-right">
             <button onclick="showPage('admin')" class="text-sm font-semibold text-primary hover:underline block">Admin Panel</button>
             <button onclick="handleLogout()" class="text-xs text-red-600 dark:text-red-400 hover:underline">ออกจากระบบ</button>
           </div>
-          <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"> 
-            <i data-lucide="menu" class="w-5 h-5"></i> 
+
+          <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+            <i data-lucide="menu" class="w-5 h-5"></i>
           </button>
         </div>
       </div>
+
       <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 px-4 py-3">
-        <a href="#" onclick="showPage('home');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">หน้าหลัก</a> 
-        <a href="#" onclick="showPage('news');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">ข่าวสาร</a> 
-        <a href="#" onclick="showPage('activities');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">กิจกรรม</a> 
+        <a href="#" onclick="showPage('home');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">หน้าหลัก</a>
+        <a href="#" onclick="showPage('news');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">ข่าวสาร</a>
+        <a href="#" onclick="showPage('activities');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">กิจกรรม</a>
         <a href="#" onclick="showPage('operations');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">ผลการดำเนินงาน</a>
-        <a href="#" onclick="showPage('committee');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">ผังคณะกรรมการ</a> 
+        <a href="#" onclick="showPage('committee');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">ผังคณะกรรมการ</a>
       </div>
     </header>
 
@@ -90,7 +104,7 @@
           </div>
           <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 relative">
             <div class="text-center text-white slide-up">
-              <h2 class="text-4xl md:text-6xl font-bold tracking-tight mb-3" id="banner-title">TO BE NUMBER ONE</h2>
+              <h2 class="text-4xl md:text-6xl font-bold tracking-tight mb-3">TO BE NUMBER ONE</h2>
               <p class="text-lg md:text-xl opacity-90 font-light">ชมรม TO BE NUMBER ONE โรงเรียนบางสะพานวิทยา</p>
               <p class="mt-2 text-sm opacity-75">เป็นหนึ่งโดยไม่พึ่งยาเสพติด</p>
             </div>
@@ -98,51 +112,53 @@
         </section>
 
         <section class="max-w-7xl mx-auto px-4 py-8">
-          <div class="bg-gradient-to-r from-red-50 to-white dark:from-gray-800 dark:to-gray-850 rounded-2xl p-6 border border-red-100 dark:border-gray-700 flex flex-col md:flex-row items-center justify-between gap-4 card-hover">
+          <div class="bg-gradient-to-r from-red-50 to-white dark:from-gray-800 dark:to-gray-800 rounded-2xl p-6 border border-red-100 dark:border-gray-700 flex flex-col md:flex-row items-center justify-between gap-4 card-hover">
             <div class="flex items-center gap-3">
-              <div class="w-12 h-12 bg-primary/10 dark:bg-primary/20 rounded-xl flex items-center justify-center"><i data-lucide="heart-handshake" class="w-6 h-6 text-primary"></i></div>
+              <div class="w-12 h-12 bg-primary/10 dark:bg-primary/20 rounded-xl flex items-center justify-center">
+                <i data-lucide="heart-handshake" class="w-6 h-6 text-primary"></i>
+              </div>
               <div>
                 <h3 class="font-semibold text-lg">ลงทะเบียนเข้าใช้งานห้องศูนย์เพื่อนใจ</h3>
                 <p class="text-sm text-gray-500 dark:text-gray-400">ร่วมเป็นส่วนหนึ่งของศูนย์เพื่อนใจ TO BE NUMBER ONE</p>
               </div>
             </div>
-            <button onclick="showRegisterModal()" class="px-6 py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-all hover:scale-105 shadow-md"> ลงทะเบียน </button>
+            <button onclick="showRegisterModal()" class="px-6 py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-all hover:scale-105 shadow-md">ลงทะเบียน</button>
           </div>
         </section>
 
         <section class="max-w-7xl mx-auto px-4 py-6">
           <div class="flex items-center justify-between mb-5">
             <h3 class="text-2xl font-bold">ผลงานชมรม</h3>
-            <button onclick="showPage('activities')" class="text-sm text-primary font-medium hover:underline flex items-center gap-1"> ดูทั้งหมด <i data-lucide="arrow-right" class="w-4 h-4"></i> </button>
+            <button onclick="showPage('activities')" class="text-sm text-primary font-medium hover:underline flex items-center gap-1">ดูทั้งหมด <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
           </div>
           <div class="relative">
-            <button onclick="scrollSlider('activities-slider', -300)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700"> <i data-lucide="chevron-left" class="w-5 h-5"></i> </button>
+            <button onclick="scrollSlider('activities-slider', -300)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
             <div id="activities-slider" class="slide-container flex gap-4 overflow-x-auto px-12 pb-4"></div>
-            <button onclick="scrollSlider('activities-slider', 300)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700"> <i data-lucide="chevron-right" class="w-5 h-5"></i> </button>
+            <button onclick="scrollSlider('activities-slider', 300)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
           </div>
         </section>
 
         <section class="max-w-7xl mx-auto px-4 py-6">
           <div class="flex items-center justify-between mb-5">
             <h3 class="text-2xl font-bold">ข่าวสาร</h3>
-            <button onclick="showPage('news')" class="text-sm text-primary font-medium hover:underline flex items-center gap-1"> ดูทั้งหมด <i data-lucide="arrow-right" class="w-4 h-4"></i> </button>
+            <button onclick="showPage('news')" class="text-sm text-primary font-medium hover:underline flex items-center gap-1">ดูทั้งหมด <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
           </div>
           <div class="relative">
-            <button onclick="scrollSlider('news-slider', -300)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700"> <i data-lucide="chevron-left" class="w-5 h-5"></i> </button>
+            <button onclick="scrollSlider('news-slider', -300)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
             <div id="news-slider" class="slide-container flex gap-4 overflow-x-auto px-12 pb-4"></div>
-            <button onclick="scrollSlider('news-slider', 300)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700"> <i data-lucide="chevron-right" class="w-5 h-5"></i> </button>
+            <button onclick="scrollSlider('news-slider', 300)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
           </div>
         </section>
 
         <section class="max-w-7xl mx-auto px-4 py-6 pb-12">
           <div class="flex items-center justify-between mb-5">
             <h3 class="text-2xl font-bold">คณะกรรมการดำเนินงาน</h3>
-            <button onclick="showPage('committee');showCommitteeTab('operations')" class="text-sm text-primary font-medium hover:underline flex items-center gap-1"> ดูทั้งหมด <i data-lucide="arrow-right" class="w-4 h-4"></i> </button>
+            <button onclick="showPage('committee');showCommitteeTab('operations')" class="text-sm text-primary font-medium hover:underline flex items-center gap-1">ดูทั้งหมด <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
           </div>
           <div class="relative">
-            <button onclick="scrollSlider('committee-slider', -300)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700"> <i data-lucide="chevron-left" class="w-5 h-5"></i> </button>
+            <button onclick="scrollSlider('committee-slider', -300)" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
             <div id="committee-slider" class="slide-container flex gap-4 overflow-x-auto px-12 pb-4"></div>
-            <button onclick="scrollSlider('committee-slider', 300)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700"> <i data-lucide="chevron-right" class="w-5 h-5"></i> </button>
+            <button onclick="scrollSlider('committee-slider', 300)" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-full flex items-center justify-center"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
           </div>
         </section>
       </div>
@@ -164,16 +180,14 @@
       <div id="page-operations" class="page-content hidden">
         <div class="max-w-7xl mx-auto px-4 py-8">
           <h2 class="text-3xl font-bold mb-8 text-center text-primary">การดำเนินงานชมรม TO BE NUMBER ONE</h2>
-
           <div class="flex flex-wrap justify-center gap-3 mb-8">
             <button onclick="showOpDocTab('komakarn')" id="op-tab-komakarn" class="px-5 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md">3ก กรรมการ</button>
-            <button onclick="showOpDocTab('kongtun')" id="op-tab-kongtun" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 transition-all">3ก กองทุน</button>
-            <button onclick="showOpDocTab('kitjakam')" id="op-tab-kitjakam" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 transition-all">3ก กิจกรรม</button>
-            <button onclick="showOpDocTab('strat1')" id="op-tab-strat1" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 transition-all">ยุทธศาสตร์ที่ 1</button>
-            <button onclick="showOpDocTab('strat2')" id="op-tab-strat2" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 transition-all">ยุทธศาสตร์ที่ 2</button>
-            <button onclick="showOpDocTab('strat3')" id="op-tab-strat3" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 transition-all">ยุทธศาสตร์ที่ 3</button>
+            <button onclick="showOpDocTab('kongtun')" id="op-tab-kongtun" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">3ก กองทุน</button>
+            <button onclick="showOpDocTab('kitjakam')" id="op-tab-kitjakam" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">3ก กิจกรรม</button>
+            <button onclick="showOpDocTab('strat1')" id="op-tab-strat1" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">ยุทธศาสตร์ที่ 1</button>
+            <button onclick="showOpDocTab('strat2')" id="op-tab-strat2" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">ยุทธศาสตร์ที่ 2</button>
+            <button onclick="showOpDocTab('strat3')" id="op-tab-strat3" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">ยุทธศาสตร์ที่ 3</button>
           </div>
-
           <div id="op-doc-header" class="text-center text-lg md:text-xl font-bold text-gray-700 dark:text-gray-300 mb-8 fade-in hidden"></div>
           <div id="op-doc-content" class="flex flex-col items-center gap-8 fade-in min-h-[400px]"></div>
         </div>
@@ -182,13 +196,11 @@
       <div id="page-committee" class="page-content hidden">
         <div class="max-w-7xl mx-auto px-4 py-8">
           <h2 class="text-3xl font-bold mb-8 text-center">ผังคณะกรรมการชมรม</h2>
-          
           <div class="flex flex-wrap justify-center gap-3 mb-10">
             <button onclick="showCommitteeTab('advisory')" id="tab-advisory" class="px-6 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md">คณะกรรมการอำนวยการ</button>
-            <button onclick="showCommitteeTab('honorary')" id="tab-honorary" class="px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">คณะกรรมการกิตติมศักดิ์</button>
-            <button onclick="showCommitteeTab('operations')" id="tab-operations" class="px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">คณะกรรมการดำเนินงาน</button>
+            <button onclick="showCommitteeTab('honorary')" id="tab-honorary" class="px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">คณะกรรมการกิตติมศักดิ์</button>
+            <button onclick="showCommitteeTab('operations')" id="tab-operations" class="px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">คณะกรรมการดำเนินงาน</button>
           </div>
-
           <div id="committee-content" class="space-y-10 min-h-[300px]"></div>
         </div>
       </div>
@@ -199,80 +211,44 @@
             <h2 class="text-3xl font-bold">Admin Panel</h2>
             <div class="flex flex-wrap gap-2">
               <button onclick="showAdminTab('dashboard')" id="admin-tab-dashboard" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium transition-all shadow-md">ภาพรวมระบบ</button>
-              <button onclick="showAdminTab('news')" id="admin-tab-news" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium transition-all">ข่าวสาร</button>
-              <button onclick="showAdminTab('activities')" id="admin-tab-activities" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium transition-all">กิจกรรม</button>
-              <button onclick="showAdminTab('committee')" id="admin-tab-committee" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium transition-all">คณะกรรมการ</button>
+              <button onclick="showAdminTab('news')" id="admin-tab-news" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">ข่าวสาร</button>
+              <button onclick="showAdminTab('activities')" id="admin-tab-activities" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">กิจกรรม</button>
+              <button onclick="showAdminTab('committee')" id="admin-tab-committee" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">คณะกรรมการ</button>
             </div>
           </div>
 
           <div id="admin-form-general" class="hidden bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 mb-8 shadow-sm">
-            <h3 class="text-lg font-bold mb-5 flex items-center gap-2">
-              <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center"><i data-lucide="plus" class="w-4 h-4 text-primary"></i></div>
-              เพิ่มข้อมูล (ข่าว/กิจกรรม)
-            </h3>
+            <h3 class="text-lg font-bold mb-5">เพิ่มข้อมูล ข่าว/กิจกรรม</h3>
             <form onsubmit="handleAdminAddItem(event)" class="grid md:grid-cols-2 gap-5">
-              <div class="space-y-1">
-                <label class="text-xs font-semibold text-gray-500 uppercase">ชื่อเรื่อง</label>
-                <input type="text" id="admin-title" placeholder="ใส่ชื่อหัวข้อ..." class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl focus:ring-2 focus:ring-primary/30 outline-none" required>
-              </div>
-              <div class="space-y-1">
-                <label class="text-xs font-semibold text-gray-500 uppercase">วันที่</label>
-                <input type="date" id="admin-date" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl focus:ring-2 focus:ring-primary/30 outline-none">
-              </div>
-              <div class="space-y-1 md:col-span-2">
-                <label class="text-xs font-semibold text-gray-500 uppercase">ลิงก์รูปภาพ (URL)</label>
-                <input type="url" id="admin-image" placeholder="https://..." class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl focus:ring-2 focus:ring-primary/30 outline-none">
-              </div>
-              <div class="space-y-1 md:col-span-2">
-                <label class="text-xs font-semibold text-gray-500 uppercase">รายละเอียด</label>
-                <textarea id="admin-desc" rows="3" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl focus:ring-2 focus:ring-primary/30 outline-none resize-none"></textarea>
-              </div>
-              <div class="md:col-span-2 flex justify-end pt-2">
-                <button type="submit" class="px-6 py-2.5 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-all flex items-center gap-2"><i data-lucide="save" class="w-4 h-4"></i> บันทึกข้อมูล</button>
+              <input type="text" id="admin-title" placeholder="ชื่อเรื่อง" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl outline-none" required>
+              <input type="date" id="admin-date" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl outline-none">
+              <input type="url" id="admin-image" placeholder="ลิงก์รูปภาพ https://..." class="md:col-span-2 w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl outline-none">
+              <textarea id="admin-desc" rows="3" placeholder="รายละเอียด" class="md:col-span-2 w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl outline-none resize-none"></textarea>
+              <div class="md:col-span-2 flex justify-end">
+                <button type="submit" class="px-6 py-2.5 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark">บันทึกข้อมูล</button>
               </div>
             </form>
           </div>
 
           <div id="admin-form-committee" class="hidden bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 mb-8 shadow-sm">
-            <h3 class="text-lg font-bold mb-5 flex items-center gap-2">
-              <div class="w-8 h-8 bg-blue-500/10 rounded-lg flex items-center justify-center"><i data-lucide="user-plus" class="w-4 h-4 text-blue-500"></i></div>
-              เพิ่มรายชื่อคณะกรรมการ
-            </h3>
+            <h3 class="text-lg font-bold mb-5">เพิ่มรายชื่อคณะกรรมการ</h3>
             <form onsubmit="handleAdminAddCommittee(event)" class="grid md:grid-cols-2 gap-5">
-              <div class="space-y-1">
-                <label class="text-xs font-semibold text-gray-500 uppercase">ชื่อ-สกุล</label>
-                <input type="text" id="admin-com-name" placeholder="นาย/นางสาว..." class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl focus:ring-2 focus:ring-primary/30 outline-none" required>
-              </div>
-              <div class="space-y-1">
-                <label class="text-xs font-semibold text-gray-500 uppercase">ชั้นเรียน</label>
-                <input type="text" id="admin-com-class" placeholder="เช่น ม.5/1 (เว้นว่างได้)" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl focus:ring-2 focus:ring-primary/30 outline-none">
-              </div>
-              <div class="space-y-1">
-                <label class="text-xs font-semibold text-gray-500 uppercase">ตำแหน่ง</label>
-                <input type="text" id="admin-com-role" placeholder="เช่น ประธานชมรม" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl focus:ring-2 focus:ring-primary/30 outline-none" required>
-              </div>
-              <div class="space-y-1">
-                <label class="text-xs font-semibold text-gray-500 uppercase">หมวดหมู่</label>
-                <select id="admin-com-section" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl focus:ring-2 focus:ring-primary/30 outline-none">
-                  <option value="operations">คณะกรรมการดำเนินงาน</option>
-                  <option value="advisory">คณะกรรมการอำนวยการ</option>
-                  <option value="honorary">คณะกรรมการกิตติมศักดิ์</option>
-                </select>
-              </div>
-              <div class="space-y-1 md:col-span-2 lg:col-span-1">
-                <label class="text-xs font-semibold text-gray-500 uppercase">ระดับตำแหน่ง</label>
-                <select id="admin-com-level" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl focus:ring-2 focus:ring-primary/30 outline-none">
-                  <option value="president">ประธาน / หัวหน้า</option>
-                  <option value="vice">รองประธาน / ฝ่ายบริหาร</option>
-                  <option value="members">กรรมการ / สมาชิก</option>
-                </select>
-              </div>
-              <div class="space-y-1 md:col-span-2 lg:col-span-1">
-                <label class="text-xs font-semibold text-gray-500 uppercase">ลิงก์รูปภาพ (URL)</label>
-                <input type="url" id="admin-com-image" placeholder="https://..." class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl focus:ring-2 focus:ring-primary/30 outline-none">
-              </div>
-              <div class="md:col-span-2 flex justify-end pt-2">
-                <button type="submit" class="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-all flex items-center gap-2"><i data-lucide="user-check" class="w-4 h-4"></i> เพิ่มรายชื่อ</button>
+              <input type="text" id="admin-com-name" placeholder="ชื่อ-สกุล" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl outline-none" required>
+              <input type="text" id="admin-com-class" placeholder="ชั้นเรียน เช่น ม.5/1" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl outline-none">
+              <input type="text" id="admin-com-role" placeholder="ตำแหน่ง" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl outline-none" required>
+              <select id="admin-com-section" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl outline-none">
+                <option value="operations">คณะกรรมการดำเนินงาน</option>
+                <option value="advisory">คณะกรรมการอำนวยการ</option>
+                <option value="honorary">คณะกรรมการกิตติมศักดิ์</option>
+              </select>
+              <select id="admin-com-level" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl outline-none">
+                <option value="president">ประธาน / หัวหน้า</option>
+                <option value="vice">รองประธาน / ฝ่ายบริหาร</option>
+                <option value="members">กรรมการ / สมาชิก</option>
+              </select>
+              <input type="url" id="admin-com-image" placeholder="ลิงก์รูปภาพ https://..." class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl outline-none">
+              <div class="md:col-span-2 flex justify-end">
+                <button type="submit" class="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700">เพิ่มรายชื่อ</button>
               </div>
             </form>
           </div>
@@ -282,10 +258,10 @@
       </div>
     </main>
 
-    <button onclick="toggleChatbot()" id="chat-fab" class="fixed bottom-6 right-6 z-40 w-14 h-14 bg-primary text-white rounded-full shadow-xl flex items-center justify-center hover:bg-primary-dark transition-all hover:scale-110"> 
-      <i data-lucide="message-circle" class="w-6 h-6"></i> 
-      <span class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full pulse-dot border-2 border-white dark:border-gray-900"></span> 
-    </button> 
+    <button onclick="toggleChatbot()" id="chat-fab" class="fixed bottom-6 right-6 z-40 w-14 h-14 bg-primary text-white rounded-full shadow-xl flex items-center justify-center hover:bg-primary-dark transition-all hover:scale-110">
+      <i data-lucide="message-circle" class="w-6 h-6"></i>
+      <span class="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full pulse-dot border-2 border-white dark:border-gray-900"></span>
+    </button>
 
     <div id="chatbot-panel" class="fixed bottom-24 right-6 z-50 w-80 max-w-[calc(100vw-3rem)] bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 hidden flex-col" style="height: 420px;">
       <div class="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700">
@@ -296,7 +272,7 @@
             <p class="text-xs text-green-500">ออนไลน์</p>
           </div>
         </div>
-        <button onclick="toggleChatbot()" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"> <i data-lucide="x" class="w-4 h-4"></i> </button>
+        <button onclick="toggleChatbot()" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><i data-lucide="x" class="w-4 h-4"></i></button>
       </div>
       <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 scroll-smooth">
         <div class="flex gap-2 fade-in">
@@ -308,8 +284,8 @@
       </div>
       <div class="p-3 border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800 rounded-b-2xl">
         <form onsubmit="sendChat(event)" class="flex gap-2">
-          <input type="text" id="chat-input" placeholder="พิมพ์ข้อความ..." class="flex-1 px-3 py-2.5 text-sm bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/30"> 
-          <button type="submit" class="p-2.5 bg-primary text-white rounded-xl hover:bg-primary-dark transition-colors shadow-sm"> <i data-lucide="send" class="w-4 h-4"></i> </button>
+          <input type="text" id="chat-input" placeholder="พิมพ์ข้อความ..." class="flex-1 px-3 py-2.5 text-sm bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/30">
+          <button type="submit" class="p-2.5 bg-primary text-white rounded-xl hover:bg-primary-dark transition-colors shadow-sm"><i data-lucide="send" class="w-4 h-4"></i></button>
         </form>
       </div>
     </div>
@@ -318,13 +294,13 @@
       <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm mx-4 modal-content" onclick="event.stopPropagation()">
         <div class="flex items-center justify-between mb-5">
           <h3 class="text-lg font-bold">ลงชื่อเข้าใช้</h3>
-          <button onclick="hideModal('login-modal')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"> <i data-lucide="x" class="w-5 h-5"></i> </button>
+          <button onclick="hideModal('login-modal')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><i data-lucide="x" class="w-5 h-5"></i></button>
         </div>
         <form onsubmit="handleLogin(event)">
-          <label class="block text-sm font-medium mb-1">เลขประจำตัวนักเรียน</label> 
+          <label class="block text-sm font-medium mb-1">เลขประจำตัวนักเรียน</label>
           <input type="text" id="student-id" placeholder="กรอกรหัสนักเรียน หรือรหัสแอดมิน" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-4 focus:ring-2 focus:ring-primary/30 text-sm outline-none">
           <p id="login-error" class="text-xs text-red-500 mb-3 hidden">กรุณากรอกรหัสนักเรียน</p>
-          <button type="submit" class="w-full py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-colors"> เข้าสู่ระบบ </button>
+          <button type="submit" class="w-full py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-colors">เข้าสู่ระบบ</button>
         </form>
       </div>
     </div>
@@ -333,42 +309,22 @@
       <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm mx-4 modal-content" onclick="event.stopPropagation()">
         <div class="flex items-center justify-between mb-5">
           <h3 class="text-lg font-bold">ลงทะเบียนศูนย์เพื่อนใจ</h3>
-          <button onclick="hideModal('register-modal')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"> <i data-lucide="x" class="w-5 h-5"></i> </button>
+          <button onclick="hideModal('register-modal')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><i data-lucide="x" class="w-5 h-5"></i></button>
         </div>
         <form onsubmit="handleRegister(event)">
-          <input type="text" id="reg-name" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-3 focus:ring-2 outline-none" required readonly> 
-          <input type="text" id="reg-class" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-4 focus:ring-2 outline-none" required readonly> 
-          
+          <input type="text" id="reg-name" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-3 outline-none" required readonly>
+          <input type="text" id="reg-class" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-4 outline-none" required readonly>
+
           <label class="block text-sm font-bold mb-2">ฟีลลิ่งวันนี้เป็นไงบ้าง?</label>
           <div class="grid grid-cols-2 gap-3 mb-4">
-            <label class="cursor-pointer">
-              <input type="radio" name="mood" value="จอยเว่อร์" class="peer sr-only" required>
-              <div class="p-3 flex flex-col items-center gap-1 border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">
-                <i data-lucide="sun" class="w-5 h-5"></i><span>จอยเว่อร์</span>
-              </div>
-            </label>
-            <label class="cursor-pointer">
-              <input type="radio" name="mood" value="ชิลจัด" class="peer sr-only">
-              <div class="p-3 flex flex-col items-center gap-1 border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">
-                <i data-lucide="coffee" class="w-5 h-5"></i><span>ชิลจัด</span>
-              </div>
-            </label>
-            <label class="cursor-pointer">
-              <input type="radio" name="mood" value="นอยด์อ่า" class="peer sr-only">
-              <div class="p-3 flex flex-col items-center gap-1 border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">
-                <i data-lucide="cloud-rain" class="w-5 h-5"></i><span>นอยด์อ่า</span>
-              </div>
-            </label>
-            <label class="cursor-pointer">
-              <input type="radio" name="mood" value="ช็อตฟีล" class="peer sr-only">
-              <div class="p-3 flex flex-col items-center gap-1 border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">
-                <i data-lucide="zap" class="w-5 h-5"></i><span>ช็อตฟีล</span>
-              </div>
-            </label>
+            <label class="cursor-pointer"><input type="radio" name="mood" value="จอยเว่อร์" class="peer sr-only" required><div class="p-3 flex flex-col items-center gap-1 border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all"><i data-lucide="sun" class="w-5 h-5"></i><span>จอยเว่อร์</span></div></label>
+            <label class="cursor-pointer"><input type="radio" name="mood" value="ชิลจัด" class="peer sr-only"><div class="p-3 flex flex-col items-center gap-1 border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all"><i data-lucide="coffee" class="w-5 h-5"></i><span>ชิลจัด</span></div></label>
+            <label class="cursor-pointer"><input type="radio" name="mood" value="นอยด์อ่า" class="peer sr-only"><div class="p-3 flex flex-col items-center gap-1 border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all"><i data-lucide="cloud-rain" class="w-5 h-5"></i><span>นอยด์อ่า</span></div></label>
+            <label class="cursor-pointer"><input type="radio" name="mood" value="ช็อตฟีล" class="peer sr-only"><div class="p-3 flex flex-col items-center gap-1 border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all"><i data-lucide="zap" class="w-5 h-5"></i><span>ช็อตฟีล</span></div></label>
           </div>
 
-          <textarea id="reg-reason" rows="2" placeholder="อยากระบายอะไร พิมพ์ไว้ได้เลย..." class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-4 focus:ring-2 text-sm resize-none outline-none"></textarea> 
-          <button type="submit" class="w-full py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-colors"> ลงทะเบียนเข้าห้อง </button>
+          <textarea id="reg-reason" rows="2" placeholder="อยากระบายอะไร พิมพ์ไว้ได้เลย..." class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-4 text-sm resize-none outline-none"></textarea>
+          <button type="submit" class="w-full py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-colors">ลงทะเบียนเข้าห้อง</button>
         </form>
       </div>
     </div>
@@ -377,7 +333,7 @@
       <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-lg mx-4 max-h-[80%] overflow-y-auto modal-content" onclick="event.stopPropagation()">
         <div class="flex items-center justify-between mb-4">
           <h3 id="detail-title" class="text-lg font-bold"></h3>
-          <button onclick="hideModal('detail-modal')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"> <i data-lucide="x" class="w-5 h-5"></i> </button>
+          <button onclick="hideModal('detail-modal')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"><i data-lucide="x" class="w-5 h-5"></i></button>
         </div>
         <div class="w-full h-48 rounded-xl bg-gray-100 dark:bg-gray-700 mb-4 flex items-center justify-center overflow-hidden" id="detail-image-container"></div>
         <p id="detail-date" class="text-xs text-gray-500 dark:text-gray-400 mb-2"></p>
@@ -386,7 +342,8 @@
     </div>
 
     <div id="toast" class="fixed top-20 right-4 z-[200] bg-gray-900 text-white px-5 py-3 rounded-xl shadow-xl text-sm font-medium hidden transition-all flex items-center gap-2">
-      <i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span id="toast-msg"></span>
+      <i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i>
+      <span id="toast-msg"></span>
     </div>
 
     <div id="global-loader" class="fixed inset-0 z-[300] hidden items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity modal-backdrop">
@@ -395,315 +352,780 @@
         <p id="loader-text" class="text-sm font-semibold text-gray-700 dark:text-gray-300">กำลังประมวลผล...</p>
       </div>
     </div>
-
   </div>
 
   <script>
     // ==========================================
-    // 1. นำ URL Web App ของคุณมาใส่ตรงนี้
+    // Config
     // ==========================================
     const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzT7dEl5lDKoF1SDChTgVN0NEmIRkctmEIU6bBaFtEToLBMMsY18CQXuBwUouXMabA2fw/exec';
-    
+
     // ==========================================
-    // ตัวแปรระบบ
+    // State
     // ==========================================
-    let allUsers = []; 
+    let allUsers = [];
     let allNewsData = [];
     let allActivitiesData = [];
     let allRoomUsage = [];
     let allLogins = [];
-    let committeeData = { advisory: { president: [], vice: [], members: [] }, honorary: { president: [], vice: [], members: [] }, operations: { president: [], vice: [], members: [] } };
-    
-    let isStudentLoggedIn = false; let isAdminLoggedIn = false;
-    let loggedInStudentName = ""; let loggedInStudentClass = "";
-    let currentAdminTab = 'dashboard'; let currentCommitteeTab = 'advisory';
+    let committeeData = emptyCommitteeData();
 
-    // ==========================================
-    // ข้อมูลหน้า "ผลการดำเนินงาน"
-    // ==========================================
+    let isStudentLoggedIn = false;
+    let isAdminLoggedIn = false;
+    let loggedInStudentName = "";
+    let loggedInStudentClass = "";
+    let currentAdminTab = 'dashboard';
+    let currentCommitteeTab = 'advisory';
+
+    function emptyCommitteeData() {
+      return {
+        advisory: { president: [], vice: [], members: [] },
+        honorary: { president: [], vice: [], members: [] },
+        operations: { president: [], vice: [], members: [] }
+      };
+    }
+
     const opDocData = {
-      'komakarn': { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=กรรมการ+1', 'https://placehold.co/800x1131/eeeeee/999999?text=กรรมการ+2', 'https://placehold.co/800x1131/eeeeee/999999?text=กรรมการ+3', 'https://placehold.co/800x1131/eeeeee/999999?text=กรรมการ+4'] },
-      'kongtun': { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=กองทุน+1', 'https://placehold.co/800x1131/eeeeee/999999?text=กองทุน+2', 'https://placehold.co/800x1131/eeeeee/999999?text=กองทุน+3', 'https://placehold.co/800x1131/eeeeee/999999?text=กองทุน+4'] },
-      'kitjakam': { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=กิจกรรม+1', 'https://placehold.co/800x1131/eeeeee/999999?text=กิจกรรม+2', 'https://placehold.co/800x1131/eeeeee/999999?text=กิจกรรม+3', 'https://placehold.co/800x1131/eeeeee/999999?text=กิจกรรม+4'] },
-      'strat1': { title: 'การรณรงค์ปลุกจิตสำนึกและสร้างกระแสที่เอื้อต่อการป้องกันและแก้ไขปัญหายาเสพติด', images: ['https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป1)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป2)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป3)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป4)'] },
-      'strat2': { title: 'การเสริมสร้างภูมิคุ้มกันทางจิตใจให้เยาวชนและสมาชิก', images: ['https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป1)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป2)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป3)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป4)'] },
-      'strat3': { title: 'การสร้างและพัฒนาเครือข่ายเพื่อป้องกันและแก้ไข ปัญหายาเสพติด', images: ['https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป1)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป2)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป3)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป4)'] }
+      komakarn: { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=กรรมการ+1', 'https://placehold.co/800x1131/eeeeee/999999?text=กรรมการ+2', 'https://placehold.co/800x1131/eeeeee/999999?text=กรรมการ+3', 'https://placehold.co/800x1131/eeeeee/999999?text=กรรมการ+4'] },
+      kongtun: { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=กองทุน+1', 'https://placehold.co/800x1131/eeeeee/999999?text=กองทุน+2', 'https://placehold.co/800x1131/eeeeee/999999?text=กองทุน+3', 'https://placehold.co/800x1131/eeeeee/999999?text=กองทุน+4'] },
+      kitjakam: { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=กิจกรรม+1', 'https://placehold.co/800x1131/eeeeee/999999?text=กิจกรรม+2', 'https://placehold.co/800x1131/eeeeee/999999?text=กิจกรรม+3', 'https://placehold.co/800x1131/eeeeee/999999?text=กิจกรรม+4'] },
+      strat1: { title: 'การรณรงค์ปลุกจิตสำนึกและสร้างกระแสที่เอื้อต่อการป้องกันและแก้ไขปัญหายาเสพติด', images: ['https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป1)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป2)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป3)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป4)'] },
+      strat2: { title: 'การเสริมสร้างภูมิคุ้มกันทางจิตใจให้เยาวชนและสมาชิก', images: ['https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป1)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป2)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป3)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป4)'] },
+      strat3: { title: 'การสร้างและพัฒนาเครือข่ายเพื่อป้องกันและแก้ไขปัญหายาเสพติด', images: ['https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป1)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป2)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป3)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป4)'] }
     };
 
     // ==========================================
-    // ฟังก์ชันควบคุม Loader
+    // Loader / Toast
     // ==========================================
     function showLoader(text = 'กำลังประมวลผล...') {
       document.getElementById('loader-text').textContent = text;
       const loader = document.getElementById('global-loader');
-      loader.classList.remove('hidden'); loader.classList.add('flex');
+      loader.classList.remove('hidden');
+      loader.classList.add('flex');
     }
-    
+
     function hideLoader() {
       const loader = document.getElementById('global-loader');
-      loader.classList.add('hidden'); loader.classList.remove('flex');
+      loader.classList.add('hidden');
+      loader.classList.remove('flex');
+    }
+
+    function showToast(msg) {
+      document.getElementById('toast-msg').textContent = msg;
+      const t = document.getElementById('toast');
+      t.classList.remove('hidden');
+      setTimeout(() => t.classList.add('hidden'), 3000);
+      lucide.createIcons();
     }
 
     // ==========================================
-    // Fetch Data จาก Google Sheets
+    // API
     // ==========================================
     async function fetchSystemData() {
       try {
         const response = await fetch(GAS_API_URL);
         const result = await response.json();
-        
+
         if (result.status === 'success') {
           allNewsData = result.data.news || [];
           allActivitiesData = result.data.activities || [];
           allRoomUsage = result.data.roomUsage || [];
           allLogins = result.data.logins || [];
-          allUsers = result.data.users || []; // โหลดฐานข้อมูล Users มาเก็บไว้
-          
-          committeeData = { advisory: { president: [], vice: [], members: [] }, honorary: { president: [], vice: [], members: [] }, operations: { president: [], vice: [], members: [] } };
+          allUsers = result.data.users || [];
+
+          committeeData = emptyCommitteeData();
           const rawCom = result.data.committee || [];
-          rawCom.forEach(p => { if (committeeData[p.section] && committeeData[p.section][p.level]) committeeData[p.section][p.level].push(p); });
+          rawCom.forEach(p => {
+            const section = p.section || 'operations';
+            const level = p.level || 'members';
+            if (committeeData[section] && committeeData[section][level]) {
+              committeeData[section][level].push(p);
+            }
+          });
 
-          renderSliders(); renderGrids(); renderCommitteeFull();
-          if(isAdminLoggedIn) renderAdminItems();
+          renderSliders();
+          renderGrids();
+          renderCommitteeFull();
+          if (isAdminLoggedIn) renderAdminItems();
+        } else {
+          showToast(result.message || 'โหลดข้อมูลไม่สำเร็จ');
         }
-      } catch (error) { console.log('API Error', error); }
+      } catch (error) {
+        console.error('API Error', error);
+        showToast('เชื่อมต่อฐานข้อมูลไม่ได้');
+      }
     }
-    
-    window.onload = () => { 
-      if (localStorage.getItem('theme') === 'dark') { document.documentElement.classList.add('dark'); }
-      fetchSystemData(); showOpDocTab('komakarn'); lucide.createIcons(); 
-    };
+
+    async function postData(payload) {
+      const response = await fetch(GAS_API_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+      return response.json();
+    }
 
     // ==========================================
-    // ฟังก์ชันจัดการ UI ทั่วไป
+    // UI
     // ==========================================
-    function toggleTheme() { 
-      document.documentElement.classList.toggle('dark'); 
-      if (document.documentElement.classList.contains('dark')) { localStorage.setItem('theme', 'dark'); } else { localStorage.setItem('theme', 'light'); }
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
     }
-    function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
+
+    function toggleMobileMenu() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    }
+
     function showPage(page) {
+      if (page === 'admin' && !isAdminLoggedIn) {
+        showToast('ต้องเข้าสู่ระบบแอดมินก่อน');
+        showLoginModal();
+        return;
+      }
+
       document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
       document.getElementById('page-' + page).classList.remove('hidden');
       document.getElementById('app').scrollTop = 0;
-      if(page === 'admin' && isAdminLoggedIn) renderAdminItems();
+
+      if (page === 'admin' && isAdminLoggedIn) renderAdminItems();
     }
-    function scrollSlider(id, amount) { document.getElementById(id).scrollBy({ left: amount, behavior: 'smooth' }); }
-    function showLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); document.getElementById('login-modal').classList.add('flex'); }
-    function hideModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
-    function closeModal(e, id) { if (e.target === document.getElementById(id)) hideModal(id); }
-    function showToast(msg) {
-      document.getElementById('toast-msg').textContent = msg;
-      const t = document.getElementById('toast');
-      t.classList.remove('hidden'); setTimeout(() => t.classList.add('hidden'), 3000);
+
+    function scrollSlider(id, amount) {
+      document.getElementById(id).scrollBy({ left: amount, behavior: 'smooth' });
+    }
+
+    function showLoginModal() {
+      document.getElementById('login-modal').classList.remove('hidden');
+      document.getElementById('login-modal').classList.add('flex');
+    }
+
+    function hideModal(id) {
+      document.getElementById(id).classList.add('hidden');
+      document.getElementById(id).classList.remove('flex');
+    }
+
+    function closeModal(e, id) {
+      if (e.target === document.getElementById(id)) hideModal(id);
     }
 
     // ==========================================
-    // Authentication & Registration (ดึงจาก Sheets)
+    // Auth
     // ==========================================
     async function handleLogin(e) {
       e.preventDefault();
       const id = document.getElementById('student-id').value.trim();
       const errorMsg = document.getElementById('login-error');
-      
-      if (!id) { errorMsg.textContent = "กรุณากรอกรหัสนักเรียน"; errorMsg.classList.remove('hidden'); return; }
 
-      showLoader('กำลังตรวจสอบข้อมูล...'); 
-      const user = allUsers.find(u => u.studentId && u.studentId.toString() === id.toString());
-
-      if (user) {
-        if (user.role === 'admin') {
-          isAdminLoggedIn = true; isStudentLoggedIn = false;
-          document.getElementById('login-btn').classList.add('hidden');
-          document.getElementById('admin-info').classList.remove('hidden');
-          hideModal('login-modal'); showToast(`ยินดีต้อนรับแอดมิน: ${user.name}`); showPage('admin');
-        } else {
-          isStudentLoggedIn = true; isAdminLoggedIn = false;
-          loggedInStudentName = user.name; loggedInStudentClass = user.class;
-          document.getElementById('user-name').textContent = loggedInStudentName;
-          document.getElementById('user-class').textContent = loggedInStudentClass;
-          document.getElementById('login-btn').classList.add('hidden');
-          document.getElementById('user-info').classList.remove('hidden');
-          hideModal('login-modal'); showToast('เข้าสู่ระบบสำเร็จ');
-        }
-        errorMsg.classList.add('hidden'); document.getElementById('student-id').value = '';
-        fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: 'recordLogin', studentId: id }) }).then(()=>fetchSystemData());
-      } else {
-        errorMsg.textContent = "รหัสนักเรียนไม่ถูกต้อง หรือไม่มีในระบบ"; errorMsg.classList.remove('hidden');
+      if (!id) {
+        errorMsg.textContent = "กรุณากรอกรหัสนักเรียน";
+        errorMsg.classList.remove('hidden');
+        return;
       }
-      hideLoader(); 
+
+      showLoader('กำลังตรวจสอบข้อมูล...');
+
+      try {
+        if (!allUsers.length) await fetchSystemData();
+
+        const user = allUsers.find(u => String(u.studentId) === String(id));
+
+        if (user) {
+          if (user.role === 'admin') {
+            isAdminLoggedIn = true;
+            isStudentLoggedIn = false;
+            document.getElementById('login-btn').classList.add('hidden');
+            document.getElementById('user-info').classList.add('hidden');
+            document.getElementById('admin-info').classList.remove('hidden');
+            hideModal('login-modal');
+            showToast(`ยินดีต้อนรับแอดมิน: ${user.name}`);
+            showPage('admin');
+          } else {
+            isStudentLoggedIn = true;
+            isAdminLoggedIn = false;
+            loggedInStudentName = user.name;
+            loggedInStudentClass = user.class;
+            document.getElementById('user-name').textContent = loggedInStudentName;
+            document.getElementById('user-class').textContent = loggedInStudentClass;
+            document.getElementById('login-btn').classList.add('hidden');
+            document.getElementById('admin-info').classList.add('hidden');
+            document.getElementById('user-info').classList.remove('hidden');
+            hideModal('login-modal');
+            showToast('เข้าสู่ระบบสำเร็จ');
+          }
+
+          errorMsg.classList.add('hidden');
+          document.getElementById('student-id').value = '';
+
+          try {
+            await postData({ action: 'recordLogin', studentId: id });
+            await fetchSystemData();
+          } catch (logErr) {
+            console.warn('recordLogin failed', logErr);
+          }
+
+        } else {
+          errorMsg.textContent = "รหัสนักเรียนไม่ถูกต้อง หรือไม่มีในระบบ";
+          errorMsg.classList.remove('hidden');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('เข้าสู่ระบบไม่สำเร็จ');
+      }
+
+      hideLoader();
     }
 
     function handleLogout() {
-      isStudentLoggedIn = false; isAdminLoggedIn = false; loggedInStudentName = ""; loggedInStudentClass = "";
+      isStudentLoggedIn = false;
+      isAdminLoggedIn = false;
+      loggedInStudentName = "";
+      loggedInStudentClass = "";
       document.getElementById('login-btn').classList.remove('hidden');
-      document.getElementById('user-info').classList.add('hidden'); document.getElementById('admin-info').classList.add('hidden');
-      showToast('ออกจากระบบ'); showPage('home');
+      document.getElementById('user-info').classList.add('hidden');
+      document.getElementById('admin-info').classList.add('hidden');
+      showToast('ออกจากระบบ');
+      showPage('home');
     }
 
     function showRegisterModal() {
-      if (!isStudentLoggedIn) { showToast('กรุณาลงชื่อเข้าใช้ระบบก่อนขอใช้งานครับ'); showLoginModal(); return; }
-      document.getElementById('reg-name').value = loggedInStudentName; document.getElementById('reg-class').value = loggedInStudentClass;
-      document.getElementById('register-modal').classList.remove('hidden'); document.getElementById('register-modal').classList.add('flex'); lucide.createIcons();
+      if (!isStudentLoggedIn) {
+        showToast('กรุณาลงชื่อเข้าใช้ระบบก่อนขอใช้งานครับ');
+        showLoginModal();
+        return;
+      }
+
+      document.getElementById('reg-name').value = loggedInStudentName;
+      document.getElementById('reg-class').value = loggedInStudentClass;
+      document.getElementById('register-modal').classList.remove('hidden');
+      document.getElementById('register-modal').classList.add('flex');
+      lucide.createIcons();
     }
 
     async function handleRegister(e) {
       e.preventDefault();
+
       const rawReason = document.getElementById('reg-reason').value.trim();
       const mood = document.querySelector('input[name="mood"]:checked')?.value || '';
       const finalReason = `[รู้สึก: ${mood}] ${rawReason}`;
-      
+
       showLoader('กำลังลงทะเบียนเข้าห้อง...');
+
       try {
-        await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: 'registerRoom', name: loggedInStudentName, class: loggedInStudentClass, reason: finalReason }) });
-        hideModal('register-modal'); e.target.reset(); showToast('ลงทะเบียนเข้าห้องเรียบร้อย'); fetchSystemData(); 
-      } catch(err) { showToast('ส่งข้อมูลไม่สำเร็จ'); }
+        const result = await postData({
+          action: 'registerRoom',
+          name: loggedInStudentName,
+          class: loggedInStudentClass,
+          reason: finalReason
+        });
+
+        if (result.status === 'success') {
+          hideModal('register-modal');
+          e.target.reset();
+          showToast('ลงทะเบียนเข้าห้องเรียบร้อย');
+          await fetchSystemData();
+        } else {
+          showToast(result.message || 'ส่งข้อมูลไม่สำเร็จ');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('ส่งข้อมูลไม่สำเร็จ');
+      }
+
       hideLoader();
     }
 
     // ==========================================
-    // Render Functions (Cards & Grids)
+    // Render Cards
     // ==========================================
+    function safeJson(obj) {
+      return JSON.stringify(obj).replace(/'/g, '&#39;');
+    }
+
     function createCard(item, type) {
-      const img = item.image ? `<img src="${item.image}" class="w-full h-full object-cover">` : `<i data-lucide="${type==='activity'?'trophy':'newspaper'}" class="w-10 h-10 text-white/80"></i>`;
-      return `<div class="min-w-[260px] max-w-[260px] bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer flex-shrink-0 shadow-sm" onclick='showDetail(${JSON.stringify(item)})'><div class="h-32 ${item.color || 'bg-primary'} flex items-center justify-center overflow-hidden">${img}</div><div class="p-4"><p class="text-xs text-gray-500 mb-1">${item.date || ''}</p><h4 class="text-sm font-semibold line-clamp-2">${item.title}</h4></div></div>`;
+      const img = item.image
+        ? `<img src="${item.image}" class="w-full h-full object-cover" onerror="this.style.display='none'">`
+        : `<i data-lucide="${type === 'activity' ? 'trophy' : 'newspaper'}" class="w-10 h-10 text-white/80"></i>`;
+
+      return `<div class="min-w-[260px] max-w-[260px] bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer flex-shrink-0 shadow-sm" onclick='showDetail(${safeJson(item)})'>
+        <div class="h-32 ${item.color || 'bg-primary'} flex items-center justify-center overflow-hidden">${img}</div>
+        <div class="p-4">
+          <p class="text-xs text-gray-500 mb-1">${item.date || ''}</p>
+          <h4 class="text-sm font-semibold line-clamp-2">${item.title || ''}</h4>
+        </div>
+      </div>`;
     }
+
     function createPersonCard(person) {
-      const img = person.image ? `<img src="${person.image}" class="w-full h-full object-cover">` : `<i data-lucide="user" class="w-8 h-8 text-primary"></i>`;
-      return `<div class="min-w-[200px] max-w-[200px] bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 text-center card-hover flex-shrink-0 shadow-sm"><div class="w-16 h-16 bg-primary/10 rounded-full mx-auto mb-3 flex items-center justify-center overflow-hidden border border-primary/20">${img}</div><p class="text-sm font-bold text-gray-800 dark:text-gray-200">${person.name}</p><p class="text-xs text-primary font-medium mt-1">${person.role}</p>${person.class ? `<p class="text-[10px] text-gray-500 mt-1">${person.class}</p>` : ''}</div>`;
+      const img = person.image
+        ? `<img src="${person.image}" class="w-full h-full object-cover" onerror="this.style.display='none'">`
+        : `<i data-lucide="user" class="w-8 h-8 text-primary"></i>`;
+
+      return `<div class="min-w-[200px] max-w-[200px] bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 text-center card-hover flex-shrink-0 shadow-sm">
+        <div class="w-16 h-16 bg-primary/10 rounded-full mx-auto mb-3 flex items-center justify-center overflow-hidden border border-primary/20">${img}</div>
+        <p class="text-sm font-bold text-gray-800 dark:text-gray-200">${person.name || ''}</p>
+        <p class="text-xs text-primary font-medium mt-1">${person.role || ''}</p>
+        ${person.class ? `<p class="text-[10px] text-gray-500 mt-1">${person.class}</p>` : ''}
+      </div>`;
     }
+
     function showDetail(item) {
-      document.getElementById('detail-title').textContent = item.title; document.getElementById('detail-date').textContent = item.date; document.getElementById('detail-desc').textContent = item.desc;
-      document.getElementById('detail-image-container').innerHTML = item.image ? `<img src="${item.image}" class="w-full h-full object-cover">` : `<i data-lucide="image" class="w-12 h-12 text-gray-300"></i>`;
-      document.getElementById('detail-modal').classList.remove('hidden'); document.getElementById('detail-modal').classList.add('flex'); lucide.createIcons();
-    }
-    function renderSliders() {
-      document.getElementById('activities-slider').innerHTML = allActivitiesData.map(a => createCard(a, 'activity')).join('');
-      document.getElementById('news-slider').innerHTML = allNewsData.map(n => createCard(n, 'news')).join('');
-      const op = committeeData.operations; const opCom = [...op.president, ...op.vice, ...op.members];
-      document.getElementById('committee-slider').innerHTML = opCom.length ? opCom.map(c => createPersonCard(c)).join('') : '<p class="text-sm text-gray-500 px-4">กำลังเตรียมข้อมูล...</p>';
-      lucide.createIcons();
-    }
-    function renderGrids() {
-      document.getElementById('news-grid').innerHTML = allNewsData.map(n => `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer shadow-sm" onclick='showDetail(${JSON.stringify(n)})'><div class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center overflow-hidden">${n.image ? `<img src="${n.image}" class="w-full h-full object-cover">` : `<i data-lucide="newspaper" class="w-12 h-12 text-white/80"></i>`}</div><div class="p-5"><p class="text-xs text-gray-500 mb-1">${n.date}</p><h4 class="font-bold text-lg leading-tight mb-2">${n.title}</h4><p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">${n.desc}</p></div></div>`).join('');
-      document.getElementById('activities-grid').innerHTML = allActivitiesData.map(a => `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer shadow-sm" onclick='showDetail(${JSON.stringify(a)})'><div class="h-48 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center overflow-hidden">${a.image ? `<img src="${a.image}" class="w-full h-full object-cover">` : `<i data-lucide="trophy" class="w-12 h-12 text-white/80"></i>`}</div><div class="p-5"><p class="text-xs text-gray-500 mb-1">${a.date}</p><h4 class="font-bold text-lg leading-tight mb-2">${a.title}</h4><p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">${a.desc}</p></div></div>`).join('');
+      document.getElementById('detail-title').textContent = item.title || '';
+      document.getElementById('detail-date').textContent = item.date || '';
+      document.getElementById('detail-desc').textContent = item.desc || '';
+      document.getElementById('detail-image-container').innerHTML = item.image
+        ? `<img src="${item.image}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<i data-lucide=&quot;image&quot; class=&quot;w-12 h-12 text-gray-300&quot;></i>'; lucide.createIcons();">`
+        : `<i data-lucide="image" class="w-12 h-12 text-gray-300"></i>`;
+
+      document.getElementById('detail-modal').classList.remove('hidden');
+      document.getElementById('detail-modal').classList.add('flex');
       lucide.createIcons();
     }
 
+    function renderSliders() {
+      document.getElementById('activities-slider').innerHTML =
+        allActivitiesData.length ? allActivitiesData.map(a => createCard(a, 'activity')).join('') : '<p class="text-sm text-gray-500 px-4">ยังไม่มีข้อมูลกิจกรรม</p>';
+
+      document.getElementById('news-slider').innerHTML =
+        allNewsData.length ? allNewsData.map(n => createCard(n, 'news')).join('') : '<p class="text-sm text-gray-500 px-4">ยังไม่มีข่าวสาร</p>';
+
+      const op = committeeData.operations;
+      const opCom = [...op.president, ...op.vice, ...op.members];
+
+      document.getElementById('committee-slider').innerHTML =
+        opCom.length ? opCom.map(c => createPersonCard(c)).join('') : '<p class="text-sm text-gray-500 px-4">กำลังเตรียมข้อมูล...</p>';
+
+      lucide.createIcons();
+    }
+
+    function renderGrids() {
+      document.getElementById('news-grid').innerHTML =
+        allNewsData.length ? allNewsData.map(n => gridCard(n, 'news')).join('') : emptyBox('ยังไม่มีข่าวสาร');
+
+      document.getElementById('activities-grid').innerHTML =
+        allActivitiesData.length ? allActivitiesData.map(a => gridCard(a, 'activity')).join('') : emptyBox('ยังไม่มีกิจกรรม');
+
+      lucide.createIcons();
+    }
+
+    function gridCard(item, type) {
+      const icon = type === 'news' ? 'newspaper' : 'trophy';
+      const gradient = type === 'news' ? 'from-blue-400 to-blue-600' : 'from-green-400 to-green-600';
+
+      return `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer shadow-sm" onclick='showDetail(${safeJson(item)})'>
+        <div class="h-48 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden">
+          ${item.image ? `<img src="${item.image}" class="w-full h-full object-cover" onerror="this.style.display='none'">` : `<i data-lucide="${icon}" class="w-12 h-12 text-white/80"></i>`}
+        </div>
+        <div class="p-5">
+          <p class="text-xs text-gray-500 mb-1">${item.date || ''}</p>
+          <h4 class="font-bold text-lg leading-tight mb-2">${item.title || ''}</h4>
+          <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">${item.desc || ''}</p>
+        </div>
+      </div>`;
+    }
+
+    function emptyBox(text) {
+      return `<div class="col-span-full text-center py-16 text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700">${text}</div>`;
+    }
+
     // ==========================================
-    // Operations & Committee Pages
+    // Operations / Committee
     // ==========================================
     function showOpDocTab(tabId) {
-      ['komakarn', 'kongtun', 'kitjakam', 'strat1', 'strat2', 'strat3'].forEach(t => { const btn = document.getElementById(`op-tab-${t}`); if(btn) btn.className = t === tabId ? 'px-5 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md' : 'px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all'; });
-      const data = opDocData[tabId]; const header = document.getElementById('op-doc-header');
-      if (data.title) { header.textContent = data.title; header.classList.remove('hidden'); } else { header.classList.add('hidden'); }
-      document.getElementById('op-doc-content').innerHTML = data.images.map(imgUrl => `<img src="${imgUrl}" class="w-full max-w-4xl shadow-xl rounded-lg border border-gray-200 dark:border-gray-700 object-contain">`).join('');
+      ['komakarn', 'kongtun', 'kitjakam', 'strat1', 'strat2', 'strat3'].forEach(t => {
+        const btn = document.getElementById(`op-tab-${t}`);
+        if (!btn) return;
+        btn.className = t === tabId
+          ? 'px-5 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md'
+          : 'px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all';
+      });
+
+      const data = opDocData[tabId];
+      const header = document.getElementById('op-doc-header');
+
+      if (data.title) {
+        header.textContent = data.title;
+        header.classList.remove('hidden');
+      } else {
+        header.classList.add('hidden');
+      }
+
+      document.getElementById('op-doc-content').innerHTML =
+        data.images.map(imgUrl => `<img src="${imgUrl}" class="w-full max-w-4xl shadow-xl rounded-lg border border-gray-200 dark:border-gray-700 object-contain">`).join('');
     }
+
     function showCommitteeTab(tab) {
       currentCommitteeTab = tab;
-      ['advisory', 'honorary', 'operations'].forEach(t => { const btn = document.getElementById(`tab-${t}`); if(btn) btn.className = t === tab ? 'px-6 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md' : 'px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all'; });
+
+      ['advisory', 'honorary', 'operations'].forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        if (!btn) return;
+        btn.className = t === tab
+          ? 'px-6 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md'
+          : 'px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all';
+      });
+
       renderCommitteeFull();
     }
+
     function renderCommitteeFull() {
-      function section(title, people) {
-        if (!people || !people.length) return '';
-        return `<div class="mb-10 fade-in"><h4 class="text-lg font-bold text-center mb-5 text-primary">${title}</h4><div class="flex flex-wrap justify-center gap-5">${people.map(p => {
-          const img = p.image ? `<img src="${p.image}" class="w-full h-full object-cover">` : `<i data-lucide="user" class="w-10 h-10 text-primary"></i>`;
-          return `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 text-center card-hover shadow-sm w-64"><div class="w-24 h-24 bg-gray-50 dark:bg-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden border-2 border-primary/20">${img}</div><p class="font-bold text-gray-900 dark:text-gray-100">${p.name}</p><p class="text-sm text-primary font-medium mt-1">${p.role}</p>${p.class ? `<p class="text-xs text-gray-500 mt-1">${p.class}</p>` : ''}</div>`;
-        }).join('')}</div></div>`;
+      const container = document.getElementById('committee-content');
+      if (!container) return;
+
+      const data = committeeData[currentCommitteeTab];
+
+      if (!data.president.length && !data.vice.length && !data.members.length) {
+        container.innerHTML = '<div class="text-center py-16 text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700">ยังไม่มีรายชื่อในหมวดหมู่นี้</div>';
+        return;
       }
-      const data = committeeData[currentCommitteeTab]; const container = document.getElementById('committee-content');
-      if (!data.president.length && !data.vice.length && !data.members.length) { container.innerHTML = '<div class="text-center py-16 text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700">ยังไม่มีรายชื่อในหมวดหมู่นี้</div>'; return; }
-      container.innerHTML = section('ประธาน / หัวหน้า', data.president) + section('รองประธาน และ ฝ่ายบริหาร', data.vice) + section('คณะกรรมการ / สมาชิก', data.members);
+
+      container.innerHTML =
+        committeeSection('ประธาน / หัวหน้า', data.president) +
+        committeeSection('รองประธาน และ ฝ่ายบริหาร', data.vice) +
+        committeeSection('คณะกรรมการ / สมาชิก', data.members);
+
       lucide.createIcons();
     }
 
+    function committeeSection(title, people) {
+      if (!people || !people.length) return '';
+
+      return `<div class="mb-10 fade-in">
+        <h4 class="text-lg font-bold text-center mb-5 text-primary">${title}</h4>
+        <div class="flex flex-wrap justify-center gap-5">
+          ${people.map(p => {
+            const img = p.image ? `<img src="${p.image}" class="w-full h-full object-cover" onerror="this.style.display='none'">` : `<i data-lucide="user" class="w-10 h-10 text-primary"></i>`;
+            return `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 text-center card-hover shadow-sm w-64">
+              <div class="w-24 h-24 bg-gray-50 dark:bg-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden border-2 border-primary/20">${img}</div>
+              <p class="font-bold text-gray-900 dark:text-gray-100">${p.name || ''}</p>
+              <p class="text-sm text-primary font-medium mt-1">${p.role || ''}</p>
+              ${p.class ? `<p class="text-xs text-gray-500 mt-1">${p.class}</p>` : ''}
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+    }
+
     // ==========================================
-    // Admin Panel Functions (มี Loader)
+    // Admin
     // ==========================================
     function showAdminTab(tab) {
       currentAdminTab = tab;
-      ['dashboard', 'news', 'activities', 'committee'].forEach(t => { const btn = document.getElementById(`admin-tab-${t}`); if(btn) btn.className = t === tab ? 'px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium transition-all shadow-md' : 'px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-300 transition-all'; });
-      document.getElementById('admin-form-general').classList.add('hidden'); document.getElementById('admin-form-committee').classList.add('hidden');
+
+      ['dashboard', 'news', 'activities', 'committee'].forEach(t => {
+        const btn = document.getElementById(`admin-tab-${t}`);
+        if (!btn) return;
+        btn.className = t === tab
+          ? 'px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium transition-all shadow-md'
+          : 'px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-all';
+      });
+
+      document.getElementById('admin-form-general').classList.add('hidden');
+      document.getElementById('admin-form-committee').classList.add('hidden');
+
       if (tab === 'news' || tab === 'activities') document.getElementById('admin-form-general').classList.remove('hidden');
       if (tab === 'committee') document.getElementById('admin-form-committee').classList.remove('hidden');
+
       renderAdminItems();
     }
+
     function renderAdminItems() {
       const container = document.getElementById('admin-items-container');
-      if (currentAdminTab === 'dashboard') { return renderDashboard(container); }
+
+      if (currentAdminTab === 'dashboard') {
+        renderDashboard(container);
+        return;
+      }
+
       let dataList = [];
-      if (currentAdminTab === 'news') dataList = allNewsData; else if (currentAdminTab === 'activities') dataList = allActivitiesData;
-      else if (currentAdminTab === 'committee') { ['advisory', 'honorary', 'operations'].forEach(sec => { ['president', 'vice', 'members'].forEach(lvl => { committeeData[sec][lvl].forEach(p => dataList.push({...p, _sec: sec, _lvl: lvl})); }); }); }
-      if (!dataList.length) { container.innerHTML = '<div class="text-center py-10 text-gray-400 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border-2 border-dashed border-gray-200">ไม่มีข้อมูล</div>'; return; }
+
+      if (currentAdminTab === 'news') dataList = allNewsData;
+      else if (currentAdminTab === 'activities') dataList = allActivitiesData;
+      else if (currentAdminTab === 'committee') {
+        ['advisory', 'honorary', 'operations'].forEach(sec => {
+          ['president', 'vice', 'members'].forEach(lvl => {
+            committeeData[sec][lvl].forEach(p => dataList.push({ ...p, _sec: sec, _lvl: lvl }));
+          });
+        });
+      }
+
+      if (!dataList.length) {
+        container.innerHTML = '<div class="text-center py-10 text-gray-400 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700">ไม่มีข้อมูล</div>';
+        return;
+      }
+
       container.innerHTML = dataList.map(item => {
-        const isCom = currentAdminTab === 'committee'; const img = item.image ? `<img src="${item.image}" class="w-full h-full object-cover">` : `<i data-lucide="${isCom ? 'user' : (currentAdminTab==='news'?'newspaper':'trophy')}" class="w-6 h-6 text-gray-400"></i>`;
-        return `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 flex items-center justify-between card-hover mb-3 shadow-sm group"><div class="flex items-center gap-4 w-full overflow-hidden"><div class="w-14 h-14 bg-gray-50 dark:bg-gray-700 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden relative">${img}</div><div class="flex-1 min-w-0 pr-4"><h4 class="font-bold text-base text-gray-900 dark:text-gray-100 truncate">${item.title || item.name}</h4><p class="text-xs text-gray-500 mt-1">${isCom ? item.role : item.date}</p></div></div><button onclick="deleteAdminItem('${item.id}', '${isCom ? 'Committee' : currentAdminTab}')" class="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100" title="ลบข้อมูล"><i data-lucide="trash-2" class="w-5 h-5"></i></button></div>`;
-      }).join(''); lucide.createIcons();
-    }
-    function renderDashboard(container) {
-      container.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 fade-in"><div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg"><div class="flex items-center justify-between mb-2"><h3 class="font-bold text-lg">ล็อกอินเข้าระบบ</h3><div class="p-2 bg-white/20 rounded-xl"><i data-lucide="log-in" class="w-6 h-6"></i></div></div><p class="text-4xl font-black">${allLogins.length} <span class="text-base font-normal opacity-80">ครั้ง</span></p></div><div class="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl p-6 text-white shadow-lg"><div class="flex items-center justify-between mb-2"><h3 class="font-bold text-lg">ขอเข้าใช้ศูนย์เพื่อนใจ</h3><div class="p-2 bg-white/20 rounded-xl"><i data-lucide="heart-handshake" class="w-6 h-6"></i></div></div><p class="text-4xl font-black">${allRoomUsage.length} <span class="text-base font-normal opacity-80">รายการ</span></p></div></div><div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden fade-in"><div class="p-5 border-b border-gray-100 dark:border-gray-700"><h3 class="font-bold text-lg">ประวัติขอเข้าใช้ห้องล่าสุด</h3></div><div class="overflow-x-auto"><table class="w-full text-sm text-left"><thead class="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-gray-700/50"><tr><th class="px-6 py-4">วัน-เวลา</th><th class="px-6 py-4">ชื่อ-สกุล</th><th class="px-6 py-4">ชั้นเรียน</th><th class="px-6 py-4">เหตุผล</th></tr></thead><tbody>${allRoomUsage.length ? allRoomUsage.slice().reverse().slice(0, 10).map(u => `<tr class="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/20"><td class="px-6 py-4 text-gray-500">${u.date}</td><td class="px-6 py-4 font-medium">${u.name}</td><td class="px-6 py-4">${u.class}</td><td class="px-6 py-4 text-gray-500">${u.reason}</td></tr>`).join('') : `<tr><td colspan="4" class="px-6 py-8 text-center text-gray-400">ยังไม่มีข้อมูล</td></tr>`}</tbody></table></div></div>`;
+        const isCom = currentAdminTab === 'committee';
+        const type = isCom ? 'committee' : currentAdminTab;
+        const img = item.image
+          ? `<img src="${item.image}" class="w-full h-full object-cover" onerror="this.style.display='none'">`
+          : `<i data-lucide="${isCom ? 'user' : (currentAdminTab === 'news' ? 'newspaper' : 'trophy')}" class="w-6 h-6 text-gray-400"></i>`;
+
+        return `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 flex items-center justify-between card-hover mb-3 shadow-sm group">
+          <div class="flex items-center gap-4 w-full overflow-hidden">
+            <div class="w-14 h-14 bg-gray-50 dark:bg-gray-700 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">${img}</div>
+            <div class="flex-1 min-w-0 pr-4">
+              <h4 class="font-bold text-base text-gray-900 dark:text-gray-100 truncate">${item.title || item.name || ''}</h4>
+              <p class="text-xs text-gray-500 mt-1">${isCom ? item.role : item.date}</p>
+            </div>
+          </div>
+          <button onclick="deleteAdminItem('${item.id}', '${type}')" class="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100" title="ลบข้อมูล">
+            <i data-lucide="trash-2" class="w-5 h-5"></i>
+          </button>
+        </div>`;
+      }).join('');
+
       lucide.createIcons();
     }
-    
+
+    function renderDashboard(container) {
+      container.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 fade-in">
+        <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-bold text-lg">ล็อกอินเข้าระบบ</h3>
+            <div class="p-2 bg-white/20 rounded-xl"><i data-lucide="log-in" class="w-6 h-6"></i></div>
+          </div>
+          <p class="text-4xl font-black">${allLogins.length} <span class="text-base font-normal opacity-80">ครั้ง</span></p>
+        </div>
+        <div class="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl p-6 text-white shadow-lg">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-bold text-lg">ขอเข้าใช้ศูนย์เพื่อนใจ</h3>
+            <div class="p-2 bg-white/20 rounded-xl"><i data-lucide="heart-handshake" class="w-6 h-6"></i></div>
+          </div>
+          <p class="text-4xl font-black">${allRoomUsage.length} <span class="text-base font-normal opacity-80">รายการ</span></p>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden fade-in">
+        <div class="p-5 border-b border-gray-100 dark:border-gray-700">
+          <h3 class="font-bold text-lg">ประวัติขอเข้าใช้ห้องล่าสุด</h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left">
+            <thead class="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-gray-700/50">
+              <tr>
+                <th class="px-6 py-4">วัน-เวลา</th>
+                <th class="px-6 py-4">ชื่อ-สกุล</th>
+                <th class="px-6 py-4">ชั้นเรียน</th>
+                <th class="px-6 py-4">เหตุผล</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${allRoomUsage.length ? allRoomUsage.slice().reverse().slice(0, 10).map(u => `<tr class="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/20">
+                <td class="px-6 py-4 text-gray-500">${u.date || ''}</td>
+                <td class="px-6 py-4 font-medium">${u.name || ''}</td>
+                <td class="px-6 py-4">${u.class || ''}</td>
+                <td class="px-6 py-4 text-gray-500">${u.reason || ''}</td>
+              </tr>`).join('') : `<tr><td colspan="4" class="px-6 py-8 text-center text-gray-400">ยังไม่มีข้อมูล</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      </div>`;
+
+      lucide.createIcons();
+    }
+
     async function handleAdminAddItem(e) {
       e.preventDefault();
-      let rawDate = document.getElementById('admin-date').value; let d = rawDate ? new Date(rawDate) : new Date();
-      const thaiMonths = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม']; 
+
+      let rawDate = document.getElementById('admin-date').value;
+      let d = rawDate ? new Date(rawDate) : new Date();
+      const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
       let finalDate = `${d.getDate()} ${thaiMonths[d.getMonth()]} ${d.getFullYear() + 543}`;
-      const payload = { action: currentAdminTab === 'news' ? 'addNews' : 'addActivity', title: document.getElementById('admin-title').value, date: finalDate, desc: document.getElementById('admin-desc').value, image: document.getElementById('admin-image').value };
-      
+
+      const payload = {
+        action: currentAdminTab === 'news' ? 'addNews' : 'addActivity',
+        title: document.getElementById('admin-title').value.trim(),
+        date: finalDate,
+        desc: document.getElementById('admin-desc').value.trim(),
+        image: document.getElementById('admin-image').value.trim()
+      };
+
       showLoader('กำลังบันทึกข้อมูล...');
-      try { await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify(payload) }); showToast('เพิ่มข้อมูลเรียบร้อย'); e.target.reset(); fetchSystemData(); } catch (err) { showToast('Error'); } 
+
+      try {
+        const result = await postData(payload);
+
+        if (result.status === 'success') {
+          showToast('เพิ่มข้อมูลเรียบร้อย');
+          e.target.reset();
+          await fetchSystemData();
+        } else {
+          showToast(result.message || 'บันทึกไม่สำเร็จ');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Error');
+      }
+
       hideLoader();
     }
 
     async function handleAdminAddCommittee(e) {
       e.preventDefault();
-      const payload = { action: 'addCommittee', name: document.getElementById('admin-com-name').value, class: document.getElementById('admin-com-class').value, role: document.getElementById('admin-com-role').value, section: document.getElementById('admin-com-section').value, level: document.getElementById('admin-com-level').value, image: document.getElementById('admin-com-image').value };
-      
+
+      const payload = {
+        action: 'addCommittee',
+        name: document.getElementById('admin-com-name').value.trim(),
+        class: document.getElementById('admin-com-class').value.trim(),
+        role: document.getElementById('admin-com-role').value.trim(),
+        section: document.getElementById('admin-com-section').value,
+        level: document.getElementById('admin-com-level').value,
+        image: document.getElementById('admin-com-image').value.trim()
+      };
+
       showLoader('กำลังบันทึกข้อมูลกรรมการ...');
-      try { await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify(payload) }); showToast('เพิ่มกรรมการเรียบร้อย'); e.target.reset(); fetchSystemData(); } catch (err) { showToast('Error'); } 
+
+      try {
+        const result = await postData(payload);
+
+        if (result.status === 'success') {
+          showToast('เพิ่มกรรมการเรียบร้อย');
+          e.target.reset();
+          await fetchSystemData();
+        } else {
+          showToast(result.message || 'บันทึกไม่สำเร็จ');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('Error');
+      }
+
       hideLoader();
     }
 
     async function deleteAdminItem(id, type) {
-      if(!confirm('ลบข้อมูลนี้ทิ้งเลยไหม?')) return;
-      let action = type === 'news' ? 'deleteNews' : (type === 'activities' ? 'deleteActivity' : 'deleteCommittee');
-      
+      if (!confirm('ลบข้อมูลนี้ทิ้งเลยไหม?')) return;
+
+      let action = '';
+
+      if (type === 'news') action = 'deleteNews';
+      else if (type === 'activities') action = 'deleteActivity';
+      else if (type === 'committee') action = 'deleteCommittee';
+      else {
+        showToast('ประเภทข้อมูลไม่ถูกต้อง');
+        return;
+      }
+
       showLoader('กำลังลบข้อมูล...');
-      try { await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: action, id: id }) }); showToast('ลบข้อมูลสำเร็จ'); fetchSystemData(); } catch (err) { showToast('ลบไม่สำเร็จ ลองใหม่นะ'); }
+
+      try {
+        const result = await postData({ action, id });
+
+        if (result.status === 'success') {
+          showToast('ลบข้อมูลสำเร็จ');
+          await fetchSystemData();
+        } else {
+          showToast(result.message || 'ลบไม่สำเร็จ');
+        }
+      } catch (err) {
+        console.error(err);
+        showToast('ลบไม่สำเร็จ ลองใหม่นะ');
+      }
+
       hideLoader();
     }
 
     // ==========================================
-    // AI Chatbot Functions
+    // Chatbot
     // ==========================================
-    function toggleChatbot() { const p = document.getElementById('chatbot-panel'); p.classList.toggle('hidden'); if(!p.classList.contains('hidden')) p.style.display = 'flex'; else p.style.display = ''; }
-    function escapeHtml(str) { return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function toggleChatbot() {
+      const p = document.getElementById('chatbot-panel');
+      p.classList.toggle('hidden');
+      if (!p.classList.contains('hidden')) p.style.display = 'flex';
+      else p.style.display = '';
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
 
     async function sendChat(e) {
-      e.preventDefault(); const input = document.getElementById('chat-input'); const msg = input.value.trim(); if (!msg) return;
+      e.preventDefault();
+
+      const input = document.getElementById('chat-input');
+      const msg = input.value.trim();
+      if (!msg) return;
+
       const c = document.getElementById('chat-messages');
-      c.innerHTML += `<div class="flex justify-end fade-in"><div class="bg-primary text-white rounded-2xl rounded-tr-sm px-4 py-2.5 text-sm max-w-[80%] shadow-sm">${escapeHtml(msg)}</div></div>`;
-      input.value = ''; c.scrollTop = c.scrollHeight;
+
+      c.innerHTML += `<div class="flex justify-end fade-in">
+        <div class="bg-primary text-white rounded-2xl rounded-tr-sm px-4 py-2.5 text-sm max-w-[80%] shadow-sm">${escapeHtml(msg)}</div>
+      </div>`;
+
+      input.value = '';
+      c.scrollTop = c.scrollHeight;
 
       const typingId = 'typing-' + Date.now();
-      c.innerHTML += `<div id="${typingId}" class="flex gap-2 fade-in"><div class="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1"><i data-lucide="bot" class="w-4 h-4 text-primary"></i></div><div class="bg-gray-100 rounded-2xl rounded-tl-sm px-4 py-3 text-sm max-w-[80%] flex items-center gap-1"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></span><span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span><span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></span></div></div>`;
-      c.scrollTop = c.scrollHeight; lucide.createIcons();
+
+      c.innerHTML += `<div id="${typingId}" class="flex gap-2 fade-in">
+        <div class="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+          <i data-lucide="bot" class="w-4 h-4 text-primary"></i>
+        </div>
+        <div class="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-sm px-4 py-3 text-sm max-w-[80%] flex items-center gap-1">
+          <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></span>
+          <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
+          <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></span>
+        </div>
+      </div>`;
+
+      c.scrollTop = c.scrollHeight;
+      lucide.createIcons();
 
       try {
-        const response = await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: 'chatAI', message: msg }) });
-        const result = await response.json(); document.getElementById(typingId)?.remove();
-        const aiReply = result.status === 'success' ? result.reply : 'ขออภัย ระบบขัดข้องนิดหน่อย ลองพิมพ์มาใหม่นะ';
-        c.innerHTML += `<div class="flex gap-2 fade-in"><div class="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1"><i data-lucide="bot" class="w-4 h-4 text-primary"></i></div><div class="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-sm px-4 py-2.5 text-sm max-w-[80%] shadow-sm leading-relaxed whitespace-pre-wrap">${escapeHtml(aiReply)}</div></div>`;
-        c.scrollTop = c.scrollHeight; lucide.createIcons();
-      } catch (err) {
+        const result = await postData({
+          action: 'chatAI',
+          message: msg
+        });
+
         document.getElementById(typingId)?.remove();
-        c.innerHTML += `<div class="flex gap-2 fade-in"><div class="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center"><i data-lucide="bot" class="w-4 h-4 text-red-500"></i></div><div class="bg-red-50 text-red-500 rounded-2xl rounded-tl-sm px-4 py-2 text-sm">การเชื่อมต่อเครือข่ายมีปัญหาฮะ</div></div>`;
+
+        const aiReply = result.status === 'success'
+          ? (result.reply || 'ขออภัยค่ะ ระบบยังไม่มีคำตอบ')
+          : (result.message || 'ขออภัย ระบบขัดข้องนิดหน่อย ลองพิมพ์มาใหม่นะ');
+
+        c.innerHTML += `<div class="flex gap-2 fade-in">
+          <div class="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+            <i data-lucide="bot" class="w-4 h-4 text-primary"></i>
+          </div>
+          <div class="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-sm px-4 py-2.5 text-sm max-w-[80%] shadow-sm leading-relaxed whitespace-pre-wrap">${escapeHtml(aiReply)}</div>
+        </div>`;
+
         c.scrollTop = c.scrollHeight;
+        lucide.createIcons();
+
+      } catch (err) {
+        console.error(err);
+        document.getElementById(typingId)?.remove();
+
+        c.innerHTML += `<div class="flex gap-2 fade-in">
+          <div class="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center">
+            <i data-lucide="bot" class="w-4 h-4 text-red-500"></i>
+          </div>
+          <div class="bg-red-50 dark:bg-red-900/30 text-red-500 rounded-2xl rounded-tl-sm px-4 py-2 text-sm">การเชื่อมต่อเครือข่ายมีปัญหาฮะ</div>
+        </div>`;
+
+        c.scrollTop = c.scrollHeight;
+        lucide.createIcons();
       }
     }
+
+    // ==========================================
+    // Init
+    // ==========================================
+    window.onload = async () => {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+
+      showOpDocTab('komakarn');
+      lucide.createIcons();
+      await fetchSystemData();
+    };
   </script>
 </body>
 </html>
