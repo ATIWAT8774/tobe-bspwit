@@ -48,8 +48,8 @@
           <a href="#" onclick="showPage('home')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">หน้าหลัก</a> 
           <a href="#" onclick="showPage('news')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">ข่าวสาร</a> 
           <a href="#" onclick="showPage('activities')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">กิจกรรม</a> 
+          <a href="#" onclick="showPage('operations')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">ผลการดำเนินงาน</a>
           <a href="#" onclick="showPage('committee')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">ผังคณะกรรมการ</a> 
-          <a href="#" onclick="showPage('manual')" class="nav-link text-gray-700 dark:text-gray-300 hover:text-primary">คู่มือปฏิบัติงาน</a>
         </nav>
         <div class="flex items-center gap-2">
           <button onclick="toggleTheme()" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" title="เปลี่ยนธีม"> 
@@ -65,7 +65,7 @@
           </div>
           <div id="admin-info" class="hidden text-right">
             <button onclick="showPage('admin')" class="text-sm font-semibold text-primary hover:underline block">Admin Panel</button>
-            <button onclick="handleAdminLogout()" class="text-xs text-red-600 dark:text-red-400 hover:underline">ออกจากระบบ</button>
+            <button onclick="handleLogout()" class="text-xs text-red-600 dark:text-red-400 hover:underline">ออกจากระบบ</button>
           </div>
           <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"> 
             <i data-lucide="menu" class="w-5 h-5"></i> 
@@ -76,8 +76,8 @@
         <a href="#" onclick="showPage('home');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">หน้าหลัก</a> 
         <a href="#" onclick="showPage('news');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">ข่าวสาร</a> 
         <a href="#" onclick="showPage('activities');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">กิจกรรม</a> 
+        <a href="#" onclick="showPage('operations');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">ผลการดำเนินงาน</a>
         <a href="#" onclick="showPage('committee');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">ผังคณะกรรมการ</a> 
-        <a href="#" onclick="showPage('manual');toggleMobileMenu()" class="block py-2 text-sm text-gray-700 dark:text-gray-300">คู่มือปฏิบัติงาน</a>
       </div>
     </header>
 
@@ -91,7 +91,7 @@
           <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 relative">
             <div class="text-center text-white slide-up">
               <h2 class="text-4xl md:text-6xl font-bold tracking-tight mb-3" id="banner-title">TO BE NUMBER ONE</h2>
-              <p class="text-lg md:text-xl opacity-90 font-light">โรงเรียนบางสะพานวิทยา</p>
+              <p class="text-lg md:text-xl opacity-90 font-light">ชมรม TO BE NUMBER ONE โรงเรียนบางสะพานวิทยา</p>
               <p class="mt-2 text-sm opacity-75">เป็นหนึ่งโดยไม่พึ่งยาเสพติด</p>
             </div>
           </div>
@@ -161,6 +161,24 @@
         </div>
       </div>
 
+      <div id="page-operations" class="page-content hidden">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+          <h2 class="text-3xl font-bold mb-8 text-center text-primary">การดำเนินงานชมรม TO BE NUMBER ONE</h2>
+
+          <div class="flex flex-wrap justify-center gap-3 mb-8">
+            <button onclick="showOpDocTab('komakarn')" id="op-tab-komakarn" class="px-5 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md">3ก กรรมการ</button>
+            <button onclick="showOpDocTab('kongtun')" id="op-tab-kongtun" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 transition-all">3ก กองทุน</button>
+            <button onclick="showOpDocTab('kitjakam')" id="op-tab-kitjakam" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 transition-all">3ก กิจกรรม</button>
+            <button onclick="showOpDocTab('strat1')" id="op-tab-strat1" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 transition-all">ยุทธศาสตร์ที่ 1</button>
+            <button onclick="showOpDocTab('strat2')" id="op-tab-strat2" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 transition-all">ยุทธศาสตร์ที่ 2</button>
+            <button onclick="showOpDocTab('strat3')" id="op-tab-strat3" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 transition-all">ยุทธศาสตร์ที่ 3</button>
+          </div>
+
+          <div id="op-doc-header" class="text-center text-lg md:text-xl font-bold text-gray-700 dark:text-gray-300 mb-8 fade-in hidden"></div>
+          <div id="op-doc-content" class="flex flex-col items-center gap-8 fade-in min-h-[400px]"></div>
+        </div>
+      </div>
+
       <div id="page-committee" class="page-content hidden">
         <div class="max-w-7xl mx-auto px-4 py-8">
           <h2 class="text-3xl font-bold mb-8 text-center">ผังคณะกรรมการชมรม</h2>
@@ -172,13 +190,6 @@
           </div>
 
           <div id="committee-content" class="space-y-10 min-h-[300px]"></div>
-        </div>
-      </div>
-
-      <div id="page-manual" class="page-content hidden">
-        <div class="max-w-7xl mx-auto px-4 py-8">
-          <h2 class="text-3xl font-bold mb-6">คู่มือปฏิบัติงานชมรม</h2>
-          <div id="manual-list" class="space-y-4"></div>
         </div>
       </div>
 
@@ -197,7 +208,7 @@
           <div id="admin-form-general" class="hidden bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 mb-8 shadow-sm">
             <h3 class="text-lg font-bold mb-5 flex items-center gap-2">
               <div class="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center"><i data-lucide="plus" class="w-4 h-4 text-primary"></i></div>
-              เพิ่มข้อมูล (ข่าวสาร/กิจกรรม)
+              เพิ่มข้อมูล (ข่าว/กิจกรรม)
             </h3>
             <form onsubmit="handleAdminAddItem(event)" class="grid md:grid-cols-2 gap-5">
               <div class="space-y-1">
@@ -206,7 +217,7 @@
               </div>
               <div class="space-y-1">
                 <label class="text-xs font-semibold text-gray-500 uppercase">วันที่</label>
-                <input type="text" id="admin-date" placeholder="เช่น 4 มิ.ย. 2569" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl focus:ring-2 focus:ring-primary/30 outline-none">
+                <input type="date" id="admin-date" class="w-full px-4 py-2.5 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 rounded-xl focus:ring-2 focus:ring-primary/30 outline-none">
               </div>
               <div class="space-y-1 md:col-span-2">
                 <label class="text-xs font-semibold text-gray-500 uppercase">ลิงก์รูปภาพ (URL)</label>
@@ -310,9 +321,9 @@
           <button onclick="hideModal('login-modal')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"> <i data-lucide="x" class="w-5 h-5"></i> </button>
         </div>
         <form onsubmit="handleLogin(event)">
-          <label class="block text-sm font-medium mb-1">เลขประจำตัวนักเรียน (แอดมินพิมพ์ 12345)</label> 
-          <input type="text" id="student-id" placeholder="กรอกรหัส" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-4 focus:ring-2 focus:ring-primary/30 text-sm outline-none">
-          <p id="login-error" class="text-xs text-red-500 mb-3 hidden">กรุณากรอกข้อมูล</p>
+          <label class="block text-sm font-medium mb-1">เลขประจำตัวนักเรียน</label> 
+          <input type="text" id="student-id" placeholder="กรอกรหัสนักเรียน (แอดมิน: admin123)" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-4 focus:ring-2 focus:ring-primary/30 text-sm outline-none">
+          <p id="login-error" class="text-xs text-red-500 mb-3 hidden">กรุณากรอกรหัสนักเรียน</p>
           <button type="submit" class="w-full py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-colors"> เข้าสู่ระบบ </button>
         </form>
       </div>
@@ -325,11 +336,31 @@
           <button onclick="hideModal('register-modal')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"> <i data-lucide="x" class="w-5 h-5"></i> </button>
         </div>
         <form onsubmit="handleRegister(event)">
-          <input type="text" id="reg-name" placeholder="ชื่อ-สกุล" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-3 focus:ring-2 text-sm outline-none" required> 
-          <input type="text" id="reg-class" placeholder="เช่น ม.5/1" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-3 focus:ring-2 text-sm outline-none" required> 
-          <textarea id="reg-reason" rows="3" placeholder="เหตุผลที่ต้องการเข้าใช้..." class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-4 focus:ring-2 text-sm resize-none outline-none"></textarea> 
-          <button type="submit" class="w-full py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-colors"> ลงทะเบียน </button>
-          <p id="register-success" class="text-xs text-green-600 mt-3 text-center hidden">ลงทะเบียนสำเร็จ!</p>
+          <input type="text" id="reg-name" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-3 focus:ring-2 outline-none" required readonly> 
+          <input type="text" id="reg-class" class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-4 focus:ring-2 outline-none" required readonly> 
+          
+          <label class="block text-sm font-bold mb-2">ฟีลลิ่งวันนี้เป็นไงบ้าง?</label>
+          <div class="grid grid-cols-2 gap-2 mb-4">
+            <label class="cursor-pointer">
+              <input type="radio" name="mood" value="ฟีลจอยๆ ✨" class="peer sr-only" required>
+              <div class="p-2.5 text-center border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">สดใส (ฟีลจอยๆ ✨)</div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="mood" value="ชิลจัด 😎" class="peer sr-only">
+              <div class="p-2.5 text-center border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">เฉยๆ (ชิลจัด 😎)</div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="mood" value="นอยด์อะ 🥺" class="peer sr-only">
+              <div class="p-2.5 text-center border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">ซึม (นอยด์อะ 🥺)</div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="mood" value="ใจสลาย 💔" class="peer sr-only">
+              <div class="p-2.5 text-center border-2 border-gray-200 dark:border-gray-600 rounded-xl peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary text-sm font-medium transition-all">เศร้า (ใจสลาย 💔)</div>
+            </label>
+          </div>
+
+          <textarea id="reg-reason" rows="2" placeholder="อยากระบายอะไร พิมพ์ไว้ได้เลย..." class="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 rounded-xl mb-4 focus:ring-2 text-sm resize-none outline-none"></textarea> 
+          <button type="submit" class="w-full py-3 bg-primary text-white rounded-xl font-medium hover:bg-primary-dark transition-colors"> ลงทะเบียนเข้าห้อง </button>
         </form>
       </div>
     </div>
@@ -340,8 +371,7 @@
           <h3 id="detail-title" class="text-lg font-bold"></h3>
           <button onclick="hideModal('detail-modal')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"> <i data-lucide="x" class="w-5 h-5"></i> </button>
         </div>
-        <div class="w-full h-48 rounded-xl bg-gray-100 dark:bg-gray-700 mb-4 flex items-center justify-center overflow-hidden" id="detail-image-container">
-           </div>
+        <div class="w-full h-48 rounded-xl bg-gray-100 dark:bg-gray-700 mb-4 flex items-center justify-center overflow-hidden" id="detail-image-container"></div>
         <p id="detail-date" class="text-xs text-gray-500 dark:text-gray-400 mb-2"></p>
         <p id="detail-desc" class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed"></p>
       </div>
@@ -355,10 +385,13 @@
 
   <script>
     // ==========================================
-    // ตัวแปรระบบ & API
+    // 1. นำ URL Web App ของคุณมาใส่ตรงนี้
     // ==========================================
-    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzT7dEl5lDKoF1SDChTgVN0NEmIRkctmEIU6bBaFtEToLBMMsY18CQXuBwUouXMabA2fw/exec'; // << เอาลิงก์ API มาแปะตรงนี้นะ
+    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbzT7dEl5lDKoF1SDChTgVN0NEmIRkctmEIU6bBaFtEToLBMMsY18CQXuBwUouXMabA2fw/exec';
     
+    // ==========================================
+    // ตัวแปรระบบ & ฐานข้อมูลจำลองนักเรียน
+    // ==========================================
     let allNewsData = [];
     let allActivitiesData = [];
     let allRoomUsage = [];
@@ -369,9 +402,30 @@
       operations: { president: [], vice: [], members: [] }
     };
     
+    let isStudentLoggedIn = false;
     let isAdminLoggedIn = false;
+    let loggedInStudentName = "";
+    let loggedInStudentClass = "";
     let currentAdminTab = 'dashboard';
     let currentCommitteeTab = 'advisory';
+
+    // *** ใส่รหัสและชื่อนักเรียนที่อนุญาตให้เข้าระบบได้ตรงนี้ ***
+    const validStudents = {
+      '66001': { name: 'นายใจดี รักเรียน', class: 'ม.5/1' },
+      '66002': { name: 'นางสาวเรียนดี สุขใจ', class: 'ม.4/3' }
+    };
+
+    // ==========================================
+    // ข้อมูลหน้า "ผลการดำเนินงาน"
+    // ==========================================
+    const opDocData = {
+      'komakarn': { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=TEMPLATE+3K+1'] },
+      'kongtun': { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=TEMPLATE+FUND'] },
+      'kitjakam': { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=TEMPLATE+ACTIVITY'] },
+      'strat1': { title: 'การรณรงค์ปลุกจิตสำนึกและสร้างกระแสที่เอื้อต่อการป้องกันและแก้ไขปัญหายาเสพติด', images: ['https://placehold.co/800x1131/eeeeee/999999?text=STRATEGY+1'] },
+      'strat2': { title: 'การเสริมสร้างภูมิคุ้มกันทางจิตใจให้เยาวชนและสมาชิก', images: ['https://placehold.co/800x1131/eeeeee/999999?text=STRATEGY+2'] },
+      'strat3': { title: 'การสร้างและพัฒนาเครือข่ายเพื่อป้องกันและแก้ไข ปัญหายาเสพติด', images: ['https://placehold.co/800x1131/eeeeee/999999?text=STRATEGY+3'] }
+    };
 
     // ==========================================
     // Fetch Data จาก Google Sheets
@@ -387,33 +441,17 @@
           allRoomUsage = result.data.roomUsage || [];
           allLogins = result.data.logins || [];
           
-          // ล้างข้อมูลคณะกรรมการแล้วจัดกลุ่มใหม่
-          committeeData = {
-            advisory: { president: [], vice: [], members: [] },
-            honorary: { president: [], vice: [], members: [] },
-            operations: { president: [], vice: [], members: [] }
-          };
-
+          committeeData = { advisory: { president: [], vice: [], members: [] }, honorary: { president: [], vice: [], members: [] }, operations: { president: [], vice: [], members: [] } };
           const rawCom = result.data.committee || [];
-          rawCom.forEach(p => {
-            if (committeeData[p.section] && committeeData[p.section][p.level]) {
-              committeeData[p.section][p.level].push(p);
-            }
-          });
+          rawCom.forEach(p => { if (committeeData[p.section] && committeeData[p.section][p.level]) committeeData[p.section][p.level].push(p); });
 
-          renderSliders();
-          renderGrids();
-          renderCommitteeFull();
+          renderSliders(); renderGrids(); renderCommitteeFull();
           if(isAdminLoggedIn) renderAdminItems();
         }
-      } catch (error) {
-        console.log('API ยังไม่พร้อมหรือใส่ลิงก์ผิด ใช้ข้อมูลจำลองไปก่อนนะ');
-        // Mock data fallback... (ละไว้เพื่อความสะอาดของโค้ด แต่ UI ยังกดเล่นได้)
-      }
+      } catch (error) { console.log('API ยังไม่พร้อมหรือใส่ลิงก์ผิด', error); }
     }
     
-    // โหลดข้อมูลตอนเปิดหน้าเว็บ
-    window.onload = () => { fetchSystemData(); lucide.createIcons(); };
+    window.onload = () => { fetchSystemData(); showOpDocTab('komakarn'); lucide.createIcons(); };
 
     // ==========================================
     // ฟังก์ชันจัดการ UI ทั่วไป
@@ -430,7 +468,6 @@
     
     function scrollSlider(id, amount) { document.getElementById(id).scrollBy({ left: amount, behavior: 'smooth' }); }
     function showLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); document.getElementById('login-modal').classList.add('flex'); }
-    function showRegisterModal() { document.getElementById('register-modal').classList.remove('hidden'); document.getElementById('register-modal').classList.add('flex'); }
     function hideModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
     function closeModal(e, id) { if (e.target === document.getElementById(id)) hideModal(id); }
     
@@ -447,61 +484,64 @@
     async function handleLogin(e) {
       e.preventDefault();
       const id = document.getElementById('student-id').value.trim();
-      if (!id) return;
+      const errorMsg = document.getElementById('login-error');
       
-      // ล็อกอิน Admin (รหัส 12345)
-      if (id === '12345') {
-        isAdminLoggedIn = true;
+      if (!id) { errorMsg.textContent = "กรุณากรอกรหัสนักเรียน"; errorMsg.classList.remove('hidden'); return; }
+
+      if (id === 'admin123') {
+        isAdminLoggedIn = true; isStudentLoggedIn = false;
         document.getElementById('login-btn').classList.add('hidden');
         document.getElementById('admin-info').classList.remove('hidden');
-        hideModal('login-modal');
-        showToast('เข้าสู่ระบบ Admin');
-        showPage('admin');
-        document.getElementById('student-id').value = '';
-        return;
+        hideModal('login-modal'); showToast('เข้าสู่ระบบ Admin'); showPage('admin');
+        document.getElementById('student-id').value = ''; errorMsg.classList.add('hidden'); return;
       }
 
-      // ล็อกอินนักเรียนทั่วไป
-      document.getElementById('user-name').textContent = "นักเรียนรหัส " + id;
-      document.getElementById('user-class').textContent = "ผู้ใช้งานทั่วไป";
-      document.getElementById('login-btn').classList.add('hidden');
-      document.getElementById('user-info').classList.remove('hidden');
-      hideModal('login-modal');
-      showToast('เข้าสู่ระบบสำเร็จ');
-
-      // ยิงเก็บสถิติ
-      fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: 'recordLogin', studentId: id }) }).then(()=>fetchSystemData());
+      if (validStudents[id]) {
+        isStudentLoggedIn = true; isAdminLoggedIn = false;
+        loggedInStudentName = validStudents[id].name;
+        loggedInStudentClass = validStudents[id].class;
+        
+        document.getElementById('user-name').textContent = loggedInStudentName;
+        document.getElementById('user-class').textContent = loggedInStudentClass;
+        document.getElementById('login-btn').classList.add('hidden');
+        document.getElementById('user-info').classList.remove('hidden');
+        hideModal('login-modal'); showToast('เข้าสู่ระบบสำเร็จ'); errorMsg.classList.add('hidden');
+        
+        fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: 'recordLogin', studentId: id }) }).then(()=>fetchSystemData());
+      } else {
+        errorMsg.textContent = "รหัสนักเรียนไม่ถูกต้อง"; errorMsg.classList.remove('hidden');
+      }
     }
 
-    function handleAdminLogout() {
-      isAdminLoggedIn = false;
-      document.getElementById('login-btn').classList.remove('hidden');
-      document.getElementById('admin-info').classList.add('hidden');
-      showToast('ออกจากระบบแอดมิน');
-      showPage('home');
-    }
-    
     function handleLogout() {
+      isStudentLoggedIn = false; isAdminLoggedIn = false; loggedInStudentName = ""; loggedInStudentClass = "";
       document.getElementById('login-btn').classList.remove('hidden');
       document.getElementById('user-info').classList.add('hidden');
-      showToast('ออกจากระบบ');
+      document.getElementById('admin-info').classList.add('hidden');
+      showToast('ออกจากระบบ'); showPage('home');
+    }
+
+    function showRegisterModal() {
+      if (!isStudentLoggedIn) { showToast('กรุณาลงชื่อเข้าใช้ระบบก่อนขอใช้งานครับ'); showLoginModal(); return; }
+      document.getElementById('reg-name').value = loggedInStudentName;
+      document.getElementById('reg-class').value = loggedInStudentClass;
+      document.getElementById('register-modal').classList.remove('hidden'); document.getElementById('register-modal').classList.add('flex'); 
     }
 
     async function handleRegister(e) {
       e.preventDefault();
-      const name = document.getElementById('reg-name').value;
-      const cls = document.getElementById('reg-class').value;
-      const reason = document.getElementById('reg-reason').value;
-      const btn = e.target.querySelector('button[type="submit"]');
+      const rawReason = document.getElementById('reg-reason').value.trim();
+      const mood = document.querySelector('input[name="mood"]:checked')?.value || '';
+      const finalReason = `[รู้สึก: ${mood}] ${rawReason}`;
       
-      btn.innerText = 'กำลังส่งข้อมูล...';
+      const btn = e.target.querySelector('button[type="submit"]');
+      const originText = btn.innerText; btn.innerText = 'กำลังส่งข้อมูล...';
+      
       try {
-        await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: 'registerRoom', name, class: cls, reason }) });
-        document.getElementById('register-success').classList.remove('hidden');
-        setTimeout(() => { hideModal('register-modal'); document.getElementById('register-success').classList.add('hidden'); e.target.reset(); showToast('ลงทะเบียนห้องเรียบร้อย'); btn.innerText = 'ลงทะเบียน'; fetchSystemData(); }, 1500);
-      } catch(err) {
-        showToast('ส่งข้อมูลไม่สำเร็จ (ลองเช็ค API)'); btn.innerText = 'ลงทะเบียน';
-      }
+        await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: 'registerRoom', name: loggedInStudentName, class: loggedInStudentClass, reason: finalReason }) });
+        hideModal('register-modal'); e.target.reset(); showToast('ลงทะเบียนเข้าห้องเรียบร้อย'); fetchSystemData(); 
+      } catch(err) { showToast('ส่งข้อมูลไม่สำเร็จ'); }
+      btn.innerText = originText;
     }
 
     // ==========================================
@@ -509,104 +549,64 @@
     // ==========================================
     function createCard(item, type) {
       const img = item.image ? `<img src="${item.image}" class="w-full h-full object-cover">` : `<i data-lucide="${type==='activity'?'trophy':'newspaper'}" class="w-10 h-10 text-white/80"></i>`;
-      return `
-      <div class="min-w-[260px] max-w-[260px] bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer flex-shrink-0 shadow-sm" onclick='showDetail(${JSON.stringify(item)})'>
-        <div class="h-32 ${item.color || 'bg-primary'} flex items-center justify-center overflow-hidden">${img}</div>
-        <div class="p-4"><p class="text-xs text-gray-500 mb-1">${item.date || ''}</p><h4 class="text-sm font-semibold line-clamp-2">${item.title}</h4></div>
-      </div>`;
+      return `<div class="min-w-[260px] max-w-[260px] bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer flex-shrink-0 shadow-sm" onclick='showDetail(${JSON.stringify(item)})'><div class="h-32 ${item.color || 'bg-primary'} flex items-center justify-center overflow-hidden">${img}</div><div class="p-4"><p class="text-xs text-gray-500 mb-1">${item.date || ''}</p><h4 class="text-sm font-semibold line-clamp-2">${item.title}</h4></div></div>`;
     }
 
     function createPersonCard(person) {
       const img = person.image ? `<img src="${person.image}" class="w-full h-full object-cover">` : `<i data-lucide="user" class="w-8 h-8 text-primary"></i>`;
-      return `
-      <div class="min-w-[200px] max-w-[200px] bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 text-center card-hover flex-shrink-0 shadow-sm">
-        <div class="w-16 h-16 bg-primary/10 rounded-full mx-auto mb-3 flex items-center justify-center overflow-hidden border border-primary/20">${img}</div>
-        <p class="text-sm font-bold text-gray-800 dark:text-gray-200">${person.name}</p>
-        <p class="text-xs text-primary font-medium mt-1">${person.role}</p>
-        ${person.class ? `<p class="text-[10px] text-gray-500 mt-1">${person.class}</p>` : ''}
-      </div>`;
+      return `<div class="min-w-[200px] max-w-[200px] bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 text-center card-hover flex-shrink-0 shadow-sm"><div class="w-16 h-16 bg-primary/10 rounded-full mx-auto mb-3 flex items-center justify-center overflow-hidden border border-primary/20">${img}</div><p class="text-sm font-bold text-gray-800 dark:text-gray-200">${person.name}</p><p class="text-xs text-primary font-medium mt-1">${person.role}</p>${person.class ? `<p class="text-[10px] text-gray-500 mt-1">${person.class}</p>` : ''}</div>`;
     }
 
     function showDetail(item) {
       document.getElementById('detail-title').textContent = item.title;
       document.getElementById('detail-date').textContent = item.date;
       document.getElementById('detail-desc').textContent = item.desc;
-      document.getElementById('detail-image-container').innerHTML = item.image 
-        ? `<img src="${item.image}" class="w-full h-full object-cover">` 
-        : `<i data-lucide="image" class="w-12 h-12 text-gray-300"></i>`;
-      
-      document.getElementById('detail-modal').classList.remove('hidden');
-      document.getElementById('detail-modal').classList.add('flex');
-      lucide.createIcons();
+      document.getElementById('detail-image-container').innerHTML = item.image ? `<img src="${item.image}" class="w-full h-full object-cover">` : `<i data-lucide="image" class="w-12 h-12 text-gray-300"></i>`;
+      document.getElementById('detail-modal').classList.remove('hidden'); document.getElementById('detail-modal').classList.add('flex'); lucide.createIcons();
     }
 
     function renderSliders() {
       document.getElementById('activities-slider').innerHTML = allActivitiesData.map(a => createCard(a, 'activity')).join('');
       document.getElementById('news-slider').innerHTML = allNewsData.map(n => createCard(n, 'news')).join('');
-      
-      const op = committeeData.operations;
-      const opCom = [...op.president, ...op.vice, ...op.members];
+      const op = committeeData.operations; const opCom = [...op.president, ...op.vice, ...op.members];
       document.getElementById('committee-slider').innerHTML = opCom.length ? opCom.map(c => createPersonCard(c)).join('') : '<p class="text-sm text-gray-500 px-4">กำลังเตรียมข้อมูล...</p>';
       lucide.createIcons();
     }
 
     function renderGrids() {
-      document.getElementById('news-grid').innerHTML = allNewsData.map(n => `
-        <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer shadow-sm" onclick='showDetail(${JSON.stringify(n)})'>
-          <div class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center overflow-hidden">
-            ${n.image ? `<img src="${n.image}" class="w-full h-full object-cover">` : `<i data-lucide="newspaper" class="w-12 h-12 text-white/80"></i>`}
-          </div>
-          <div class="p-5"><p class="text-xs text-gray-500 mb-1">${n.date}</p><h4 class="font-bold text-lg leading-tight mb-2">${n.title}</h4><p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">${n.desc}</p></div>
-        </div>`).join('');
-        
-      document.getElementById('activities-grid').innerHTML = allActivitiesData.map(a => `
-        <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer shadow-sm" onclick='showDetail(${JSON.stringify(a)})'>
-          <div class="h-48 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center overflow-hidden">
-            ${a.image ? `<img src="${a.image}" class="w-full h-full object-cover">` : `<i data-lucide="trophy" class="w-12 h-12 text-white/80"></i>`}
-          </div>
-          <div class="p-5"><p class="text-xs text-gray-500 mb-1">${a.date}</p><h4 class="font-bold text-lg leading-tight mb-2">${a.title}</h4><p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">${a.desc}</p></div>
-        </div>`).join('');
+      document.getElementById('news-grid').innerHTML = allNewsData.map(n => `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer shadow-sm" onclick='showDetail(${JSON.stringify(n)})'><div class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center overflow-hidden">${n.image ? `<img src="${n.image}" class="w-full h-full object-cover">` : `<i data-lucide="newspaper" class="w-12 h-12 text-white/80"></i>`}</div><div class="p-5"><p class="text-xs text-gray-500 mb-1">${n.date}</p><h4 class="font-bold text-lg leading-tight mb-2">${n.title}</h4><p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">${n.desc}</p></div></div>`).join('');
+      document.getElementById('activities-grid').innerHTML = allActivitiesData.map(a => `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden card-hover cursor-pointer shadow-sm" onclick='showDetail(${JSON.stringify(a)})'><div class="h-48 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center overflow-hidden">${a.image ? `<img src="${a.image}" class="w-full h-full object-cover">` : `<i data-lucide="trophy" class="w-12 h-12 text-white/80"></i>`}</div><div class="p-5"><p class="text-xs text-gray-500 mb-1">${a.date}</p><h4 class="font-bold text-lg leading-tight mb-2">${a.title}</h4><p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">${a.desc}</p></div></div>`).join('');
       lucide.createIcons();
     }
 
     // ==========================================
-    // Committee Page Functions
+    // Operations & Committee Pages
     // ==========================================
+    function showOpDocTab(tabId) {
+      ['komakarn', 'kongtun', 'kitjakam', 'strat1', 'strat2', 'strat3'].forEach(t => { const btn = document.getElementById(`op-tab-${t}`); if(btn) btn.className = t === tabId ? 'px-5 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md' : 'px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all'; });
+      const data = opDocData[tabId];
+      const header = document.getElementById('op-doc-header');
+      if (data.title) { header.textContent = data.title; header.classList.remove('hidden'); } else { header.classList.add('hidden'); }
+      document.getElementById('op-doc-content').innerHTML = data.images.map(imgUrl => `<img src="${imgUrl}" class="w-full max-w-4xl shadow-xl rounded-lg border border-gray-200 dark:border-gray-700 object-contain">`).join('');
+    }
+
     function showCommitteeTab(tab) {
       currentCommitteeTab = tab;
-      ['advisory', 'honorary', 'operations'].forEach(t => {
-        const btn = document.getElementById(`tab-${t}`);
-        if(btn) btn.className = t === tab ? 'px-6 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md' : 'px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all';
-      });
+      ['advisory', 'honorary', 'operations'].forEach(t => { const btn = document.getElementById(`tab-${t}`); if(btn) btn.className = t === tab ? 'px-6 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md' : 'px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all'; });
       renderCommitteeFull();
     }
 
     function renderCommitteeFull() {
       function section(title, people) {
         if (!people || !people.length) return '';
-        return `<div class="mb-10 fade-in">
-          <h4 class="text-lg font-bold text-center mb-5 text-primary">${title}</h4>
-          <div class="flex flex-wrap justify-center gap-5">
-            ${people.map(p => {
-              const img = p.image ? `<img src="${p.image}" class="w-full h-full object-cover">` : `<i data-lucide="user" class="w-10 h-10 text-primary"></i>`;
-              return `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 text-center card-hover shadow-sm w-64">
-                <div class="w-24 h-24 bg-gray-50 dark:bg-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden border-2 border-primary/20">${img}</div>
-                <p class="font-bold text-gray-900 dark:text-gray-100">${p.name}</p>
-                <p class="text-sm text-primary font-medium mt-1">${p.role}</p>
-                ${p.class ? `<p class="text-xs text-gray-500 mt-1">${p.class}</p>` : ''}
-              </div>`;
-            }).join('')}
-          </div>
-        </div>`;
+        return `<div class="mb-10 fade-in"><h4 class="text-lg font-bold text-center mb-5 text-primary">${title}</h4><div class="flex flex-wrap justify-center gap-5">${people.map(p => {
+          const img = p.image ? `<img src="${p.image}" class="w-full h-full object-cover">` : `<i data-lucide="user" class="w-10 h-10 text-primary"></i>`;
+          return `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 text-center card-hover shadow-sm w-64"><div class="w-24 h-24 bg-gray-50 dark:bg-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden border-2 border-primary/20">${img}</div><p class="font-bold text-gray-900 dark:text-gray-100">${p.name}</p><p class="text-sm text-primary font-medium mt-1">${p.role}</p>${p.class ? `<p class="text-xs text-gray-500 mt-1">${p.class}</p>` : ''}</div>`;
+        }).join('')}</div></div>`;
       }
-      
       const data = committeeData[currentCommitteeTab];
       const container = document.getElementById('committee-content');
-      
-      if (!data.president.length && !data.vice.length && !data.members.length) {
-        container.innerHTML = '<div class="text-center py-16 text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700">ยังไม่มีรายชื่อในหมวดหมู่นี้</div>';
-        return;
-      }
+      if (!data.president.length && !data.vice.length && !data.members.length) { container.innerHTML = '<div class="text-center py-16 text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700">ยังไม่มีรายชื่อในหมวดหมู่นี้</div>'; return; }
       container.innerHTML = section('ประธาน / หัวหน้า', data.president) + section('รองประธาน และ ฝ่ายบริหาร', data.vice) + section('คณะกรรมการ / สมาชิก', data.members);
       lucide.createIcons();
     }
@@ -616,17 +616,10 @@
     // ==========================================
     function showAdminTab(tab) {
       currentAdminTab = tab;
-      ['dashboard', 'news', 'activities', 'committee'].forEach(t => {
-        const btn = document.getElementById(`admin-tab-${t}`);
-        if(btn) btn.className = t === tab ? 'px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium transition-all shadow-md' : 'px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-300 transition-all';
-      });
-
-      document.getElementById('admin-form-general').classList.add('hidden');
-      document.getElementById('admin-form-committee').classList.add('hidden');
-      
+      ['dashboard', 'news', 'activities', 'committee'].forEach(t => { const btn = document.getElementById(`admin-tab-${t}`); if(btn) btn.className = t === tab ? 'px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium transition-all shadow-md' : 'px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-300 transition-all'; });
+      document.getElementById('admin-form-general').classList.add('hidden'); document.getElementById('admin-form-committee').classList.add('hidden');
       if (tab === 'news' || tab === 'activities') document.getElementById('admin-form-general').classList.remove('hidden');
       if (tab === 'committee') document.getElementById('admin-form-committee').classList.remove('hidden');
-      
       renderAdminItems();
     }
 
@@ -635,171 +628,67 @@
       if (currentAdminTab === 'dashboard') { return renderDashboard(container); }
       
       let dataList = [];
-      if (currentAdminTab === 'news') dataList = allNewsData;
-      else if (currentAdminTab === 'activities') dataList = allActivitiesData;
-      else if (currentAdminTab === 'committee') {
-        // ดึงคนจากทุกหมวดมายำรวมกันเพื่อแสดงผลเป็นลิสต์
-        ['advisory', 'honorary', 'operations'].forEach(sec => {
-          ['president', 'vice', 'members'].forEach(lvl => {
-            committeeData[sec][lvl].forEach(p => dataList.push({...p, _sec: sec, _lvl: lvl}));
-          });
-        });
-      }
+      if (currentAdminTab === 'news') dataList = allNewsData; else if (currentAdminTab === 'activities') dataList = allActivitiesData;
+      else if (currentAdminTab === 'committee') { ['advisory', 'honorary', 'operations'].forEach(sec => { ['president', 'vice', 'members'].forEach(lvl => { committeeData[sec][lvl].forEach(p => dataList.push({...p, _sec: sec, _lvl: lvl})); }); }); }
 
-      if (!dataList.length) {
-         container.innerHTML = '<div class="text-center py-10 text-gray-400 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border-2 border-dashed border-gray-200">ไม่มีข้อมูล</div>';
-         return;
-      }
-
+      if (!dataList.length) { container.innerHTML = '<div class="text-center py-10 text-gray-400 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border-2 border-dashed border-gray-200">ไม่มีข้อมูล</div>'; return; }
       container.innerHTML = dataList.map(item => {
-        const isCom = currentAdminTab === 'committee';
-        const img = item.image ? `<img src="${item.image}" class="w-full h-full object-cover">` : `<i data-lucide="${isCom ? 'user' : (currentAdminTab==='news'?'newspaper':'trophy')}" class="w-6 h-6 text-gray-400"></i>`;
-        
-        return `
-        <div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 flex items-center justify-between card-hover mb-3 shadow-sm group">
-          <div class="flex items-center gap-4 w-full overflow-hidden">
-            <div class="w-14 h-14 bg-gray-50 dark:bg-gray-700 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden relative">${img}</div>
-            <div class="flex-1 min-w-0 pr-4">
-              <h4 class="font-bold text-base text-gray-900 dark:text-gray-100 truncate">${item.title || item.name}</h4>
-              <p class="text-xs text-gray-500 mt-1">${isCom ? item.role : item.date}</p>
-            </div>
-          </div>
-          <button onclick="deleteAdminItem('${item.id}', '${isCom ? 'Committee' : currentAdminTab}')" class="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100" title="ลบข้อมูล">
-            <i data-lucide="trash-2" class="w-5 h-5"></i>
-          </button>
-        </div>`;
-      }).join('');
-      lucide.createIcons();
+        const isCom = currentAdminTab === 'committee'; const img = item.image ? `<img src="${item.image}" class="w-full h-full object-cover">` : `<i data-lucide="${isCom ? 'user' : (currentAdminTab==='news'?'newspaper':'trophy')}" class="w-6 h-6 text-gray-400"></i>`;
+        return `<div class="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-4 flex items-center justify-between card-hover mb-3 shadow-sm group"><div class="flex items-center gap-4 w-full overflow-hidden"><div class="w-14 h-14 bg-gray-50 dark:bg-gray-700 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden relative">${img}</div><div class="flex-1 min-w-0 pr-4"><h4 class="font-bold text-base text-gray-900 dark:text-gray-100 truncate">${item.title || item.name}</h4><p class="text-xs text-gray-500 mt-1">${isCom ? item.role : item.date}</p></div></div><button onclick="deleteAdminItem('${item.id}', '${isCom ? 'Committee' : currentAdminTab}')" class="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all opacity-100 md:opacity-0 md:group-hover:opacity-100" title="ลบข้อมูล"><i data-lucide="trash-2" class="w-5 h-5"></i></button></div>`;
+      }).join(''); lucide.createIcons();
     }
 
     function renderDashboard(container) {
-      container.innerHTML = `
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 fade-in">
-          <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg">
-            <div class="flex items-center justify-between mb-2"><h3 class="font-bold text-lg">ล็อกอินเข้าระบบ</h3><div class="p-2 bg-white/20 rounded-xl"><i data-lucide="log-in" class="w-6 h-6"></i></div></div>
-            <p class="text-4xl font-black">${allLogins.length} <span class="text-base font-normal opacity-80">ครั้ง</span></p>
-          </div>
-          <div class="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl p-6 text-white shadow-lg">
-            <div class="flex items-center justify-between mb-2"><h3 class="font-bold text-lg">ขอเข้าใช้ศูนย์เพื่อนใจ</h3><div class="p-2 bg-white/20 rounded-xl"><i data-lucide="heart-handshake" class="w-6 h-6"></i></div></div>
-            <p class="text-4xl font-black">${allRoomUsage.length} <span class="text-base font-normal opacity-80">รายการ</span></p>
-          </div>
-        </div>
-        <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden fade-in">
-          <div class="p-5 border-b border-gray-100 dark:border-gray-700"><h3 class="font-bold text-lg">ประวัติขอเข้าใช้ห้องล่าสุด</h3></div>
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm text-left">
-              <thead class="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-gray-700/50"><tr><th class="px-6 py-4">วัน-เวลา</th><th class="px-6 py-4">ชื่อ-สกุล</th><th class="px-6 py-4">ชั้นเรียน</th><th class="px-6 py-4">เหตุผล</th></tr></thead>
-              <tbody>
-                ${allRoomUsage.length ? allRoomUsage.slice().reverse().slice(0, 10).map(u => `<tr class="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/20"><td class="px-6 py-4 text-gray-500">${u.date}</td><td class="px-6 py-4 font-medium">${u.name}</td><td class="px-6 py-4">${u.class}</td><td class="px-6 py-4 text-gray-500">${u.reason}</td></tr>`).join('') : `<tr><td colspan="4" class="px-6 py-8 text-center text-gray-400">ยังไม่มีข้อมูล</td></tr>`}
-              </tbody>
-            </table>
-          </div>
-        </div>`;
+      container.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 fade-in"><div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg"><div class="flex items-center justify-between mb-2"><h3 class="font-bold text-lg">ล็อกอินเข้าระบบ</h3><div class="p-2 bg-white/20 rounded-xl"><i data-lucide="log-in" class="w-6 h-6"></i></div></div><p class="text-4xl font-black">${allLogins.length} <span class="text-base font-normal opacity-80">ครั้ง</span></p></div><div class="bg-gradient-to-br from-red-500 to-red-600 rounded-2xl p-6 text-white shadow-lg"><div class="flex items-center justify-between mb-2"><h3 class="font-bold text-lg">ขอเข้าใช้ศูนย์เพื่อนใจ</h3><div class="p-2 bg-white/20 rounded-xl"><i data-lucide="heart-handshake" class="w-6 h-6"></i></div></div><p class="text-4xl font-black">${allRoomUsage.length} <span class="text-base font-normal opacity-80">รายการ</span></p></div></div><div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden fade-in"><div class="p-5 border-b border-gray-100 dark:border-gray-700"><h3 class="font-bold text-lg">ประวัติขอเข้าใช้ห้องล่าสุด</h3></div><div class="overflow-x-auto"><table class="w-full text-sm text-left"><thead class="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-gray-700/50"><tr><th class="px-6 py-4">วัน-เวลา</th><th class="px-6 py-4">ชื่อ-สกุล</th><th class="px-6 py-4">ชั้นเรียน</th><th class="px-6 py-4">เหตุผล</th></tr></thead><tbody>${allRoomUsage.length ? allRoomUsage.slice().reverse().slice(0, 10).map(u => `<tr class="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/20"><td class="px-6 py-4 text-gray-500">${u.date}</td><td class="px-6 py-4 font-medium">${u.name}</td><td class="px-6 py-4">${u.class}</td><td class="px-6 py-4 text-gray-500">${u.reason}</td></tr>`).join('') : `<tr><td colspan="4" class="px-6 py-8 text-center text-gray-400">ยังไม่มีข้อมูล</td></tr>`}</tbody></table></div></div>`;
       lucide.createIcons();
     }
 
-    // เพิ่มข้อมูล ข่าว/กิจกรรม
     async function handleAdminAddItem(e) {
       e.preventDefault();
-      const payload = {
-        action: currentAdminTab === 'news' ? 'addNews' : 'addActivity',
-        title: document.getElementById('admin-title').value,
-        date: document.getElementById('admin-date').value || new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' }),
-        desc: document.getElementById('admin-desc').value,
-        image: document.getElementById('admin-image').value
-      };
-      
-      const btn = e.target.querySelector('button[type="submit"]');
-      const originHtml = btn.innerHTML;
-      btn.innerHTML = 'กำลังบันทึก...';
-      
-      try {
-        await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify(payload) });
-        showToast('เพิ่มข้อมูลเรียบร้อย');
-        e.target.reset();
-        fetchSystemData();
-      } catch (err) { showToast('Error'); }
-      btn.innerHTML = originHtml;
+      let rawDate = document.getElementById('admin-date').value; let finalDate = '';
+      if (rawDate) { const d = new Date(rawDate); const thaiMonths = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม']; finalDate = `${d.getDate()} ${thaiMonths[d.getMonth()]} ${d.getFullYear() + 543}`; } 
+      else { finalDate = new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' }); }
+
+      const payload = { action: currentAdminTab === 'news' ? 'addNews' : 'addActivity', title: document.getElementById('admin-title').value, date: finalDate, desc: document.getElementById('admin-desc').value, image: document.getElementById('admin-image').value };
+      const btn = e.target.querySelector('button[type="submit"]'); const originHtml = btn.innerHTML; btn.innerHTML = 'กำลังบันทึก...';
+      try { await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify(payload) }); showToast('เพิ่มข้อมูลเรียบร้อย'); e.target.reset(); fetchSystemData(); } catch (err) { showToast('Error'); } btn.innerHTML = originHtml;
     }
 
-    // เพิ่มข้อมูล คณะกรรมการ
     async function handleAdminAddCommittee(e) {
       e.preventDefault();
-      const payload = {
-        action: 'addCommittee', // ใน GAS ต้องเขียนรับ action นี้นะ
-        name: document.getElementById('admin-com-name').value,
-        class: document.getElementById('admin-com-class').value,
-        role: document.getElementById('admin-com-role').value,
-        section: document.getElementById('admin-com-section').value,
-        level: document.getElementById('admin-com-level').value,
-        image: document.getElementById('admin-com-image').value
-      };
-      
-      const btn = e.target.querySelector('button[type="submit"]');
-      const originHtml = btn.innerHTML;
-      btn.innerHTML = 'กำลังบันทึก...';
-      
-      try {
-        await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify(payload) });
-        showToast('เพิ่มกรรมการเรียบร้อย');
-        e.target.reset();
-        fetchSystemData();
-      } catch (err) { showToast('Error'); }
-      btn.innerHTML = originHtml;
+      const payload = { action: 'addCommittee', name: document.getElementById('admin-com-name').value, class: document.getElementById('admin-com-class').value, role: document.getElementById('admin-com-role').value, section: document.getElementById('admin-com-section').value, level: document.getElementById('admin-com-level').value, image: document.getElementById('admin-com-image').value };
+      const btn = e.target.querySelector('button[type="submit"]'); const originHtml = btn.innerHTML; btn.innerHTML = 'กำลังบันทึก...';
+      try { await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify(payload) }); showToast('เพิ่มกรรมการเรียบร้อย'); e.target.reset(); fetchSystemData(); } catch (err) { showToast('Error'); } btn.innerHTML = originHtml;
     }
 
-    // ลบข้อมูลรวม
     async function deleteAdminItem(id, type) {
       if(!confirm('ลบข้อมูลนี้ทิ้งเลยไหม?')) return;
-      
       let action = type === 'news' ? 'deleteNews' : (type === 'activities' ? 'deleteActivity' : 'deleteCommittee');
-      
-      try {
-        await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: action, id: id }) });
-        showToast('ลบข้อมูลสำเร็จ');
-        fetchSystemData();
-      } catch (err) { showToast('ลบไม่สำเร็จ ลองใหม่นะ'); }
+      try { await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: action, id: id }) }); showToast('ลบข้อมูลสำเร็จ'); fetchSystemData(); } catch (err) { showToast('ลบไม่สำเร็จ ลองใหม่นะ'); }
     }
 
     // ==========================================
     // AI Chatbot Functions
     // ==========================================
-    function toggleChatbot() {
-      const p = document.getElementById('chatbot-panel');
-      p.classList.toggle('hidden');
-      if(!p.classList.contains('hidden')) p.style.display = 'flex'; else p.style.display = '';
-    }
-
+    function toggleChatbot() { const p = document.getElementById('chatbot-panel'); p.classList.toggle('hidden'); if(!p.classList.contains('hidden')) p.style.display = 'flex'; else p.style.display = ''; }
     function escapeHtml(str) { return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
     async function sendChat(e) {
-      e.preventDefault();
-      const input = document.getElementById('chat-input');
-      const msg = input.value.trim();
-      if (!msg) return;
-
+      e.preventDefault(); const input = document.getElementById('chat-input'); const msg = input.value.trim(); if (!msg) return;
       const c = document.getElementById('chat-messages');
-      
-      // User message
       c.innerHTML += `<div class="flex justify-end fade-in"><div class="bg-primary text-white rounded-2xl rounded-tr-sm px-4 py-2.5 text-sm max-w-[80%] shadow-sm">${escapeHtml(msg)}</div></div>`;
-      input.value = '';
-      c.scrollTop = c.scrollHeight;
+      input.value = ''; c.scrollTop = c.scrollHeight;
 
-      // Loading Indicator
       const typingId = 'typing-' + Date.now();
       c.innerHTML += `<div id="${typingId}" class="flex gap-2 fade-in"><div class="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1"><i data-lucide="bot" class="w-4 h-4 text-primary"></i></div><div class="bg-gray-100 rounded-2xl rounded-tl-sm px-4 py-3 text-sm max-w-[80%] flex items-center gap-1"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></span><span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span><span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></span></div></div>`;
-      c.scrollTop = c.scrollHeight;
-      lucide.createIcons();
+      c.scrollTop = c.scrollHeight; lucide.createIcons();
 
       try {
         const response = await fetch(GAS_API_URL, { method: 'POST', body: JSON.stringify({ action: 'chatAI', message: msg }) });
-        const result = await response.json();
-        document.getElementById(typingId)?.remove();
-        
+        const result = await response.json(); document.getElementById(typingId)?.remove();
         const aiReply = result.status === 'success' ? result.reply : 'ขออภัย ระบบขัดข้องนิดหน่อย ลองพิมพ์มาใหม่นะ';
         c.innerHTML += `<div class="flex gap-2 fade-in"><div class="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1"><i data-lucide="bot" class="w-4 h-4 text-primary"></i></div><div class="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-sm px-4 py-2.5 text-sm max-w-[80%] shadow-sm leading-relaxed whitespace-pre-wrap">${escapeHtml(aiReply)}</div></div>`;
-        c.scrollTop = c.scrollHeight;
-        lucide.createIcons();
+        c.scrollTop = c.scrollHeight; lucide.createIcons();
       } catch (err) {
         document.getElementById(typingId)?.remove();
         c.innerHTML += `<div class="flex gap-2 fade-in"><div class="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center"><i data-lucide="bot" class="w-4 h-4 text-red-500"></i></div><div class="bg-red-50 text-red-500 rounded-2xl rounded-tl-sm px-4 py-2 text-sm">การเชื่อมต่อเครือข่ายมีปัญหาฮะ</div></div>`;
