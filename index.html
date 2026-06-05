@@ -97,17 +97,15 @@
 
     <main id="pages-container">
       <div id="page-home" class="page-content">
-        <section class="relative overflow-hidden bg-gradient-to-br from-red-600 via-red-500 to-red-700 dark:from-red-800 dark:via-red-900 dark:to-gray-900">
-          <div class="absolute inset-0 opacity-10">
-            <div class="absolute top-10 left-10 w-40 h-40 border-2 border-white rounded-full"></div>
-            <div class="absolute bottom-10 right-20 w-60 h-60 border border-white rounded-full"></div>
-          </div>
-          <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 relative">
-            <div class="text-center text-white slide-up">
-              <h2 class="text-4xl md:text-6xl font-bold tracking-tight mb-3">TO BE NUMBER ONE</h2>
-              <p class="text-lg md:text-xl opacity-90 font-light">ชมรม TO BE NUMBER ONE โรงเรียนบางสะพานวิทยา</p>
-              <p class="mt-2 text-sm opacity-75">เป็นหนึ่งโดยไม่พึ่งยาเสพติด</p>
-            </div>
+        <section class="relative overflow-hidden bg-gray-900">
+          <div class="relative w-full aspect-[16/9] min-h-[220px] md:min-h-[360px] lg:min-h-[500px] max-h-[720px]">
+            <img
+              src="https://img1.pic.in.th/images/1000052309.png"
+              alt="TO BE NUMBER ONE โรงเรียนบางสะพานวิทยา"
+              class="absolute inset-0 w-full h-full object-cover object-center"
+              loading="eager"
+            >
+            <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-black/5 to-black/20 pointer-events-none"></div>
           </div>
         </section>
 
@@ -394,6 +392,7 @@
     let loggedInStudentClass = "";
     let currentAdminTab = 'dashboard';
     let currentCommitteeTab = 'advisory';
+    let chatHistory = [];
 
     function emptyCommitteeData() {
       return {
@@ -1196,6 +1195,15 @@
         <div class="bg-primary text-white rounded-2xl rounded-tr-sm px-4 py-2.5 text-sm max-w-[80%] shadow-sm">${escapeHtml(msg)}</div>
       </div>`;
 
+      chatHistory.push({
+        role: 'user',
+        content: msg
+      });
+
+      if (chatHistory.length > 20) {
+        chatHistory = chatHistory.slice(-20);
+      }
+
       input.value = '';
       c.scrollTop = c.scrollHeight;
 
@@ -1218,14 +1226,22 @@
       try {
         const result = await postData({
           action: 'chatAI',
-          message: msg
+          message: msg,
+          history: chatHistory.slice(-20)
         });
 
         document.getElementById(typingId)?.remove();
 
-        const aiReply = result.status === 'success'
-          ? (result.reply || 'ขออภัยค่ะ ระบบยังไม่มีคำตอบ')
-          : (result.message || 'ขออภัย ระบบขัดข้องนิดหน่อย ลองพิมพ์มาใหม่นะ');
+        const aiReply = result.reply || 'พี่รับฟังอยู่นะคะ เล่าเพิ่มเติมได้เลยค่ะ';
+
+        chatHistory.push({
+          role: 'assistant',
+          content: aiReply
+        });
+
+        if (chatHistory.length > 20) {
+          chatHistory = chatHistory.slice(-20);
+        }
 
         c.innerHTML += `<div class="flex gap-2 fade-in">
           <div class="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
@@ -1241,16 +1257,85 @@
         console.error(err);
         document.getElementById(typingId)?.remove();
 
+        const localReply = getLocalChatFallback(msg);
+
+        chatHistory.push({
+          role: 'assistant',
+          content: localReply
+        });
+
+        if (chatHistory.length > 20) {
+          chatHistory = chatHistory.slice(-20);
+        }
+
         c.innerHTML += `<div class="flex gap-2 fade-in">
           <div class="w-7 h-7 bg-primary/10 rounded-full flex items-center justify-center">
-            <i data-lucide="bot" class="w-4 h-4 text-red-500"></i>
+            <i data-lucide="bot" class="w-4 h-4 text-primary"></i>
           </div>
-          <div class="bg-red-50 dark:bg-red-900/30 text-red-500 rounded-2xl rounded-tl-sm px-4 py-2 text-sm">การเชื่อมต่อเครือข่ายมีปัญหาฮะ</div>
+          <div class="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-sm px-4 py-2.5 text-sm max-w-[80%] shadow-sm leading-relaxed whitespace-pre-wrap">${escapeHtml(localReply)}</div>
         </div>`;
 
         c.scrollTop = c.scrollHeight;
         lucide.createIcons();
       }
+    }
+
+    function getLocalChatFallback(message) {
+      const msg = String(message || '').toLowerCase();
+
+      if (
+        msg.includes('ติดต่อ') ||
+        msg.includes('facebook') ||
+        msg.includes('เฟส') ||
+        msg.includes('เพจ') ||
+        msg.includes('ไอจี') ||
+        msg.includes('ig') ||
+        msg.includes('instagram')
+      ) {
+        return 'ติดต่อชมรมได้ทาง Facebook: ทูบีนัมเบอร์วัน โรงเรียนบางสะพานวิทยา และ Instagram: Bspwit_is_number.1 ค่ะ';
+      }
+
+      if (
+        msg.includes('สมัคร') ||
+        msg.includes('ลงทะเบียน') ||
+        msg.includes('เข้าใช้') ||
+        msg.includes('ศูนย์เพื่อนใจ')
+      ) {
+        return 'สามารถลงทะเบียนเข้าใช้งานห้องศูนย์เพื่อนใจผ่านหน้าเว็บไซต์ได้เลยค่ะ โดยเข้าสู่ระบบด้วยเลขประจำตัวนักเรียนก่อน แล้วกดปุ่มลงทะเบียนหน้าแรกค่ะ';
+      }
+
+      if (
+        msg.includes('ทูบี') ||
+        msg.includes('to be') ||
+        msg.includes('ชมรม') ||
+        msg.includes('ยาเสพติด')
+      ) {
+        return 'ชมรม TO BE NUMBER ONE โรงเรียนบางสะพานวิทยา ส่งเสริมให้นักเรียนใช้เวลาว่างให้เกิดประโยชน์ กล้าแสดงออก มีพื้นที่สร้างสรรค์ และห่างไกลยาเสพติดค่ะ';
+      }
+
+      if (
+        msg.includes('เครียด') ||
+        msg.includes('เศร้า') ||
+        msg.includes('เหนื่อย') ||
+        msg.includes('ท้อ') ||
+        msg.includes('ไม่ไหว') ||
+        msg.includes('ร้องไห้') ||
+        msg.includes('กังวล')
+      ) {
+        return 'พี่รับฟังอยู่นะคะ ค่อย ๆ เล่าได้เลยว่าเกิดอะไรขึ้น ตอนนี้ลองหายใจลึก ๆ แล้วอยู่กับคนที่ไว้ใจ เช่น ครู เพื่อน หรือผู้ปกครองก่อนนะคะ';
+      }
+
+      if (
+        msg.includes('สวัสดี') ||
+        msg.includes('hello') ||
+        msg.includes('hi') ||
+        msg.includes('ดีค่ะ') ||
+        msg.includes('ดีครับ')
+      ) {
+        return 'สวัสดีค่ะ ยินดีต้อนรับสู่ AI ศูนย์เพื่อนใจ TO BE NUMBER ONE โรงเรียนบางสะพานวิทยา มีอะไรอยากถามหรืออยากเล่าได้เลยค่ะ';
+      }
+
+      return 'พี่รับฟังอยู่นะคะ ลองเล่าเพิ่มเติมได้เลยค่ะ หรือถ้าต้องการติดต่อชมรม ติดต่อได้ทาง Facebook: ทูบีนัมเบอร์วัน โรงเรียนบางสะพานวิทยา และ Instagram: Bspwit_is_number.1 ค่ะ';
     }
 
     // ==========================================
