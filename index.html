@@ -653,6 +653,62 @@
     }
 
     // ==========================================
+    // Sorting & Text Formatting
+    // ==========================================
+    function parseThaiDateToTime(dateText) {
+      if (!dateText) return 0;
+
+      const text = String(dateText).trim();
+      const thaiMonths = {
+        'มกราคม': 0, 'ม.ค.': 0, 'มค': 0,
+        'กุมภาพันธ์': 1, 'ก.พ.': 1, 'กพ': 1,
+        'มีนาคม': 2, 'มี.ค.': 2, 'มีค': 2,
+        'เมษายน': 3, 'เม.ย.': 3, 'เมย': 3,
+        'พฤษภาคม': 4, 'พ.ค.': 4, 'พค': 4,
+        'มิถุนายน': 5, 'มิ.ย.': 5, 'มิย': 5,
+        'กรกฎาคม': 6, 'ก.ค.': 6, 'กค': 6,
+        'สิงหาคม': 7, 'ส.ค.': 7, 'สค': 7,
+        'กันยายน': 8, 'ก.ย.': 8, 'กย': 8,
+        'ตุลาคม': 9, 'ต.ค.': 9, 'ตค': 9,
+        'พฤศจิกายน': 10, 'พ.ย.': 10, 'พย': 10,
+        'ธันวาคม': 11, 'ธ.ค.': 11, 'ธค': 11
+      };
+
+      const isoTime = Date.parse(text);
+      if (!Number.isNaN(isoTime)) return isoTime;
+
+      const parts = text.split(/\s+/);
+      const day = parseInt(parts[0], 10);
+      const month = thaiMonths[parts[1]];
+      let year = parseInt(parts[2], 10);
+
+      if (!Number.isNaN(day) && month !== undefined && !Number.isNaN(year)) {
+        if (year > 2400) year -= 543;
+        return new Date(year, month, day).getTime();
+      }
+
+      return 0;
+    }
+
+    function sortByLatestDate(list) {
+      return [...(list || [])].sort((a, b) => {
+        const dateDiff = parseThaiDateToTime(b.date) - parseThaiDateToTime(a.date);
+        if (dateDiff !== 0) return dateDiff;
+        return String(b.id || '').localeCompare(String(a.id || ''));
+      });
+    }
+
+    function formatDescription(text) {
+      let safe = escapeHtml(text || '');
+
+      safe = safe.replace(/(^|\s)(#[^\s]+)/g, '$1<strong class="font-bold text-primary">$2</strong>');
+      safe = safe.replace(/&quot;([^&]+?)&quot;/g, '<strong class="font-bold text-gray-900 dark:text-gray-100">&quot;$1&quot;</strong>');
+      safe = safe.replace(/"([^"]+?)"/g, '<strong class="font-bold text-gray-900 dark:text-gray-100">"$1"</strong>');
+
+      return safe;
+    }
+
+    // ==========================================
     // Render Cards
     // ==========================================
     function safeJson(obj) {
@@ -694,7 +750,7 @@
     function showDetail(item) {
       document.getElementById('detail-title').textContent = item.title || '';
       document.getElementById('detail-date').textContent = item.date || '';
-      document.getElementById('detail-desc').textContent = item.desc || '';
+      document.getElementById('detail-desc').innerHTML = formatDescription(item.desc || '');
       document.getElementById('detail-image-container').innerHTML = item.image
         ? `<img src="${item.image}" class="w-full h-auto max-h-[70vh] object-contain" onerror="this.parentElement.innerHTML='<i data-lucide=&quot;image&quot; class=&quot;w-12 h-12 text-gray-300&quot;></i>'; lucide.createIcons();">`
         : `<i data-lucide="image" class="w-12 h-12 text-gray-300"></i>`;
@@ -705,11 +761,14 @@
     }
 
     function renderSliders() {
+      const latestActivities = sortByLatestDate(allActivitiesData);
+      const latestNews = sortByLatestDate(allNewsData);
+
       document.getElementById('activities-slider').innerHTML =
-        allActivitiesData.length ? allActivitiesData.map(a => createCard(a, 'activity')).join('') : '<p class="text-sm text-gray-500 px-4">ยังไม่มีข้อมูลกิจกรรม</p>';
+        latestActivities.length ? latestActivities.map(a => createCard(a, 'activity')).join('') : '<p class="text-sm text-gray-500 px-4">ยังไม่มีข้อมูลกิจกรรม</p>';
 
       document.getElementById('news-slider').innerHTML =
-        allNewsData.length ? allNewsData.map(n => createCard(n, 'news')).join('') : '<p class="text-sm text-gray-500 px-4">ยังไม่มีข่าวสาร</p>';
+        latestNews.length ? latestNews.map(n => createCard(n, 'news')).join('') : '<p class="text-sm text-gray-500 px-4">ยังไม่มีข่าวสาร</p>';
 
       const op = committeeData.operations;
       const opCom = [...op.president, ...op.vice, ...op.members];
@@ -721,11 +780,14 @@
     }
 
     function renderGrids() {
+      const latestNews = sortByLatestDate(allNewsData);
+      const latestActivities = sortByLatestDate(allActivitiesData);
+
       document.getElementById('news-grid').innerHTML =
-        allNewsData.length ? allNewsData.map(n => gridCard(n, 'news')).join('') : emptyBox('ยังไม่มีข่าวสาร');
+        latestNews.length ? latestNews.map(n => gridCard(n, 'news')).join('') : emptyBox('ยังไม่มีข่าวสาร');
 
       document.getElementById('activities-grid').innerHTML =
-        allActivitiesData.length ? allActivitiesData.map(a => gridCard(a, 'activity')).join('') : emptyBox('ยังไม่มีกิจกรรม');
+        latestActivities.length ? latestActivities.map(a => gridCard(a, 'activity')).join('') : emptyBox('ยังไม่มีกิจกรรม');
 
       lucide.createIcons();
     }
@@ -742,7 +804,7 @@
         <div class="p-5">
           <p class="text-xs text-gray-500 mb-1">${item.date || ''}</p>
           <h4 class="font-bold text-lg leading-tight mb-2">${item.title || ''}</h4>
-          <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">${item.desc || ''}</p>
+          <p class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">${formatDescription(item.desc || '')}</p>
         </div>
       </div>`;
     }
