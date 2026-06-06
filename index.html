@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>To Be Number One - โรงเรียนบางสะพานวิทยา</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
@@ -179,12 +179,9 @@
         <div class="max-w-7xl mx-auto px-4 py-8">
           <h2 class="text-3xl font-bold mb-8 text-center text-primary">การดำเนินงานชมรม TO BE NUMBER ONE</h2>
           <div class="flex flex-wrap justify-center gap-3 mb-8">
-           <!-- <button onclick="showOpDocTab('komakarn')" id="op-tab-komakarn" class="px-5 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md">3ก กรรมการ</button>
-            <button onclick="showOpDocTab('kongtun')" id="op-tab-kongtun" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">3ก กองทุน</button>
-            <button onclick="showOpDocTab('kitjakam')" id="op-tab-kitjakam" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">3ก กิจกรรม</button> -->
-            <button onclick="showOpDocTab('strat1')" id="op-tab-strat1" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">ยุทธศาสตร์ที่ 1</button>
-            <button onclick="showOpDocTab('strat2')" id="op-tab-strat2" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">ยุทธศาสตร์ที่ 2</button>
-            <button onclick="showOpDocTab('strat3')" id="op-tab-strat3" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">ยุทธศาสตร์ที่ 3</button>
+            <button onclick="showOpDocTab('strat1')" id="op-tab-strat1" class="px-5 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md">ยุทธศาสตร์ที่ 1</button>
+            <button onclick="showOpDocTab('strat2')" id="op-tab-strat2" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">ยุทธศาสตร์ที่ 2</button>
+            <button onclick="showOpDocTab('strat3')" id="op-tab-strat3" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">ยุทธศาสตร์ที่ 3</button>
           </div>
           <div id="op-doc-header" class="text-center text-lg md:text-xl font-bold text-gray-700 dark:text-gray-300 mb-8 fade-in hidden"></div>
           <div id="op-doc-content" class="flex flex-col items-center gap-8 fade-in min-h-[400px]"></div>
@@ -403,11 +400,40 @@
     }
 
     const opDocData = {
-      
-      strat1: { title: 'การรณรงค์ปลุกจิตสำนึกและสร้างกระแสที่เอื้อต่อการป้องกันและแก้ไขปัญหายาเสพติด', images: ['https://img2.pic.in.th/1000052344.png'] },
-      strat2: { title: 'การเสริมสร้างภูมิคุ้มกันทางจิตใจให้เยาวชนและสมาชิก', images: ['https://img1.pic.in.th/images/1000052345.png'] },
-      strat3: { title: 'การสร้างและพัฒนาเครือข่ายเพื่อป้องกันและแก้ไขปัญหายาเสพติด', images: ['https://img2.pic.in.th/1000052346.png'] }
+      strat1: {
+        title: 'การรณรงค์ปลุกจิตสำนึกและสร้างกระแสที่เอื้อต่อการป้องกันและแก้ไขปัญหายาเสพติด',
+        images: [
+          {
+            src: 'https://img2.pic.in.th/pic/1000052344.png',
+            fallback: 'https://img2.pic.in.th/1000052344.png'
+          }
+        ]
+      },
+      strat2: {
+        title: 'การเสริมสร้างภูมิคุ้มกันทางจิตใจให้เยาวชนและสมาชิก',
+        images: [
+          {
+            src: 'https://img1.pic.in.th/images/1000052345.png',
+            fallback: 'https://img1.pic.in.th/1000052345.png'
+          }
+        ]
+      },
+      strat3: {
+        title: 'การสร้างและพัฒนาเครือข่ายเพื่อป้องกันและแก้ไขปัญหายาเสพติด',
+        images: [
+          {
+            src: 'https://img2.pic.in.th/pic/1000052346.png',
+            fallback: 'https://img2.pic.in.th/1000052346.png'
+          }
+        ]
+      }
     };
+
+    function refreshIcons() {
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        refreshIcons();
+      }
+    }
 
     // ==========================================
     // Loader / Toast
@@ -430,7 +456,7 @@
       const t = document.getElementById('toast');
       t.classList.remove('hidden');
       setTimeout(() => t.classList.add('hidden'), 3000);
-      lucide.createIcons();
+      refreshIcons();
     }
 
     // ==========================================
@@ -613,7 +639,7 @@
       document.getElementById('reg-class').value = loggedInStudentClass;
       document.getElementById('register-modal').classList.remove('hidden');
       document.getElementById('register-modal').classList.add('flex');
-      lucide.createIcons();
+      refreshIcons();
     }
 
     async function handleRegister(e) {
@@ -749,12 +775,12 @@
       document.getElementById('detail-date').textContent = item.date || '';
       document.getElementById('detail-desc').innerHTML = formatDescription(item.desc || '');
       document.getElementById('detail-image-container').innerHTML = item.image
-        ? `<img src="${item.image}" class="w-full h-auto max-h-[70vh] object-contain" onerror="this.parentElement.innerHTML='<i data-lucide=&quot;image&quot; class=&quot;w-12 h-12 text-gray-300&quot;></i>'; lucide.createIcons();">`
+        ? `<img src="${item.image}" class="w-full h-auto max-h-[70vh] object-contain" onerror="this.parentElement.innerHTML='<i data-lucide=&quot;image&quot; class=&quot;w-12 h-12 text-gray-300&quot;></i>'; refreshIcons();">`
         : `<i data-lucide="image" class="w-12 h-12 text-gray-300"></i>`;
 
       document.getElementById('detail-modal').classList.remove('hidden');
       document.getElementById('detail-modal').classList.add('flex');
-      lucide.createIcons();
+      refreshIcons();
     }
 
     function renderSliders() {
@@ -773,7 +799,7 @@
       document.getElementById('committee-slider').innerHTML =
         opCom.length ? opCom.map(c => createPersonCard(c)).join('') : '<p class="text-sm text-gray-500 px-4">กำลังเตรียมข้อมูล...</p>';
 
-      lucide.createIcons();
+      refreshIcons();
     }
 
     function renderGrids() {
@@ -786,7 +812,7 @@
       document.getElementById('activities-grid').innerHTML =
         latestActivities.length ? latestActivities.map(a => gridCard(a, 'activity')).join('') : emptyBox('ยังไม่มีกิจกรรม');
 
-      lucide.createIcons();
+      refreshIcons();
     }
 
     function gridCard(item, type) {
@@ -813,8 +839,20 @@
     // ==========================================
     // Operations / Committee
     // ==========================================
+    function handleOperationImageError(img) {
+      const fallback = img.getAttribute('data-fallback');
+
+      if (fallback && img.src !== fallback) {
+        img.src = fallback;
+        img.setAttribute('data-fallback', '');
+        return;
+      }
+
+      img.outerHTML = '<div class="w-full max-w-4xl p-8 text-center text-red-500 bg-red-50 dark:bg-red-900/20 rounded-xl border border-red-200 dark:border-red-800">โหลดรูปภาพไม่สำเร็จ กรุณาตรวจสอบลิงก์รูปภาพ</div>';
+    }
+
     function showOpDocTab(tabId) {
-      ['komakarn', 'kongtun', 'kitjakam', 'strat1', 'strat2', 'strat3'].forEach(t => {
+      ['strat1', 'strat2', 'strat3'].forEach(t => {
         const btn = document.getElementById(`op-tab-${t}`);
         if (!btn) return;
         btn.className = t === tabId
@@ -823,6 +861,8 @@
       });
 
       const data = opDocData[tabId];
+      if (!data) return;
+
       const header = document.getElementById('op-doc-header');
 
       if (data.title) {
@@ -833,7 +873,11 @@
       }
 
       document.getElementById('op-doc-content').innerHTML =
-        data.images.map(imgUrl => `<img src="${imgUrl}" class="w-full max-w-4xl shadow-xl rounded-lg border border-gray-200 dark:border-gray-700 object-contain">`).join('');
+        data.images.map(imgData => {
+          const imgUrl = typeof imgData === 'string' ? imgData : imgData.src;
+          const fallbackUrl = typeof imgData === 'string' ? '' : (imgData.fallback || '');
+          return `<img src="${imgUrl}" data-fallback="${fallbackUrl}" class="w-full max-w-4xl shadow-xl rounded-lg border border-gray-200 dark:border-gray-700 object-contain" onerror="handleOperationImageError(this)">`;
+        }).join('');
     }
 
     function showCommitteeTab(tab) {
@@ -871,7 +915,7 @@
         </div>
       `;
 
-      lucide.createIcons();
+      refreshIcons();
     }
 
     function committeeGroup(people) {
@@ -963,7 +1007,7 @@
         </div>`;
       }).join('');
 
-      lucide.createIcons();
+      refreshIcons();
     }
 
     function renderDashboard(container) {
@@ -1010,7 +1054,7 @@
         </div>
       </div>`;
 
-      lucide.createIcons();
+      refreshIcons();
     }
 
     function previewAdminImage(inputId, previewId) {
@@ -1219,7 +1263,7 @@
       </div>`;
 
       c.scrollTop = c.scrollHeight;
-      lucide.createIcons();
+      refreshIcons();
 
       try {
         const result = await postData({
@@ -1249,7 +1293,7 @@
         </div>`;
 
         c.scrollTop = c.scrollHeight;
-        lucide.createIcons();
+        refreshIcons();
 
       } catch (err) {
         console.error(err);
@@ -1274,7 +1318,7 @@
         </div>`;
 
         c.scrollTop = c.scrollHeight;
-        lucide.createIcons();
+        refreshIcons();
       }
     }
 
@@ -1344,8 +1388,8 @@
         document.documentElement.classList.add('dark');
       }
 
-      showOpDocTab('komakarn');
-      lucide.createIcons();
+      showOpDocTab('strat1');
+      refreshIcons();
       await fetchSystemData();
     };
   </script>
