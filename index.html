@@ -179,9 +179,9 @@
         <div class="max-w-7xl mx-auto px-4 py-8">
           <h2 class="text-3xl font-bold mb-8 text-center text-primary">การดำเนินงานชมรม TO BE NUMBER ONE</h2>
           <div class="flex flex-wrap justify-center gap-3 mb-8">
-            <button onclick="showOpDocTab('komakarn')" id="op-tab-komakarn" class="px-5 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md">3ก กรรมการ</button>
+           <!-- <button onclick="showOpDocTab('komakarn')" id="op-tab-komakarn" class="px-5 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md">3ก กรรมการ</button>
             <button onclick="showOpDocTab('kongtun')" id="op-tab-kongtun" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">3ก กองทุน</button>
-            <button onclick="showOpDocTab('kitjakam')" id="op-tab-kitjakam" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">3ก กิจกรรม</button>
+            <button onclick="showOpDocTab('kitjakam')" id="op-tab-kitjakam" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">3ก กิจกรรม</button> -->
             <button onclick="showOpDocTab('strat1')" id="op-tab-strat1" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">ยุทธศาสตร์ที่ 1</button>
             <button onclick="showOpDocTab('strat2')" id="op-tab-strat2" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">ยุทธศาสตร์ที่ 2</button>
             <button onclick="showOpDocTab('strat3')" id="op-tab-strat3" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">ยุทธศาสตร์ที่ 3</button>
@@ -403,12 +403,10 @@
     }
 
     const opDocData = {
-      komakarn: { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=กรรมการ+1', 'https://placehold.co/800x1131/eeeeee/999999?text=กรรมการ+2', 'https://placehold.co/800x1131/eeeeee/999999?text=กรรมการ+3', 'https://placehold.co/800x1131/eeeeee/999999?text=กรรมการ+4'] },
-      kongtun: { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=กองทุน+1', 'https://placehold.co/800x1131/eeeeee/999999?text=กองทุน+2', 'https://placehold.co/800x1131/eeeeee/999999?text=กองทุน+3', 'https://placehold.co/800x1131/eeeeee/999999?text=กองทุน+4'] },
-      kitjakam: { title: '', images: ['https://placehold.co/800x1131/eeeeee/999999?text=กิจกรรม+1', 'https://placehold.co/800x1131/eeeeee/999999?text=กิจกรรม+2', 'https://placehold.co/800x1131/eeeeee/999999?text=กิจกรรม+3', 'https://placehold.co/800x1131/eeeeee/999999?text=กิจกรรม+4'] },
-      strat1: { title: 'การรณรงค์ปลุกจิตสำนึกและสร้างกระแสที่เอื้อต่อการป้องกันและแก้ไขปัญหายาเสพติด', images: ['https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป1)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป2)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป3)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป4)'] },
-      strat2: { title: 'การเสริมสร้างภูมิคุ้มกันทางจิตใจให้เยาวชนและสมาชิก', images: ['https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป1)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป2)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป3)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป4)'] },
-      strat3: { title: 'การสร้างและพัฒนาเครือข่ายเพื่อป้องกันและแก้ไขปัญหายาเสพติด', images: ['https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป1)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป2)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป3)', 'https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป4)'] }
+      
+      strat1: { title: 'การรณรงค์ปลุกจิตสำนึกและสร้างกระแสที่เอื้อต่อการป้องกันและแก้ไขปัญหายาเสพติด', images: ['https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+1+(รูป1)'] },
+      strat2: { title: 'การเสริมสร้างภูมิคุ้มกันทางจิตใจให้เยาวชนและสมาชิก', images: ['https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+2+(รูป1)'] },
+      strat3: { title: 'การสร้างและพัฒนาเครือข่ายเพื่อป้องกันและแก้ไขปัญหายาเสพติด', images: ['https://placehold.co/800x1131/eeeeee/999999?text=ยุทธศาสตร์ที่+3+(รูป1)'] }
     };
 
     // ==========================================
