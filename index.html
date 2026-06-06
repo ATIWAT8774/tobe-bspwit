@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>To Be Number One - โรงเรียนบางสะพานวิทยา</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js" onerror="this.onerror=null;this.src='https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js';"></script>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
@@ -431,8 +431,21 @@
 
     function refreshIcons() {
       if (window.lucide && typeof window.lucide.createIcons === 'function') {
-        window.refreshIcons();
+        window.lucide.createIcons();
       }
+    }
+
+    function initLucideIcons() {
+      refreshIcons();
+      let tries = 0;
+      const timer = setInterval(() => {
+        tries++;
+        refreshIcons();
+        const converted = document.querySelector('svg.lucide');
+        if (converted || tries >= 30) {
+          clearInterval(timer);
+        }
+      }, 100);
     }
 
     // ==========================================
