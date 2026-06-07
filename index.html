@@ -102,7 +102,7 @@
             <img
               src="https://img1.pic.in.th/images/1000052309.png"
               alt="TO BE NUMBER ONE โรงเรียนบางสะพานวิทยา"
-              class="absolute inset-0 w-full h-full object-cover object-center"
+              class="absolute inset-0 w-full h-full object-contain object-center"
               loading="eager"
             >
             <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-black/5 to-black/20 pointer-events-none"></div>
@@ -179,7 +179,8 @@
         <div class="max-w-7xl mx-auto px-4 py-8">
           <h2 class="text-3xl font-bold mb-8 text-center text-primary">การดำเนินงานชมรม TO BE NUMBER ONE</h2>
           <div class="flex flex-wrap justify-center gap-3 mb-8">
-            <button onclick="showOpDocTab('strat1')" id="op-tab-strat1" class="px-5 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md">ยุทธศาสตร์ที่ 1</button>
+            <button onclick="showOpDocTab('kongtun')" id="op-tab-kongtun" class="px-5 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md">กองทุน</button>
+            <button onclick="showOpDocTab('strat1')" id="op-tab-strat1" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">ยุทธศาสตร์ที่ 1</button>
             <button onclick="showOpDocTab('strat2')" id="op-tab-strat2" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">ยุทธศาสตร์ที่ 2</button>
             <button onclick="showOpDocTab('strat3')" id="op-tab-strat3" class="px-5 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">ยุทธศาสตร์ที่ 3</button>
           </div>
@@ -192,8 +193,8 @@
         <div class="max-w-7xl mx-auto px-4 py-8">
           <h2 class="text-3xl font-bold mb-8 text-center">ผังคณะกรรมการชมรม</h2>
           <div class="flex flex-wrap justify-center gap-3 mb-10">
-            <button onclick="showCommitteeTab('advisory')" id="tab-advisory" class="px-6 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md">คณะกรรมการอำนวยการ</button>
-            <button onclick="showCommitteeTab('honorary')" id="tab-honorary" class="px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">คณะกรรมการกิตติมศักดิ์</button>
+            <button onclick="showCommitteeTab('honorary')" id="tab-honorary" class="px-6 py-2.5 bg-primary text-white rounded-full text-sm font-medium transition-all shadow-md">คณะกรรมการกิตติมศักดิ์</button>
+            <button onclick="showCommitteeTab('advisory')" id="tab-advisory" class="px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">คณะกรรมการอำนวยการ</button>
             <button onclick="showCommitteeTab('operations')" id="tab-operations" class="px-6 py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full text-sm font-medium">คณะกรรมการดำเนินงาน</button>
           </div>
           <div id="committee-content" class="space-y-10 min-h-[300px]"></div>
@@ -388,7 +389,7 @@
     let loggedInStudentName = "";
     let loggedInStudentClass = "";
     let currentAdminTab = 'dashboard';
-    let currentCommitteeTab = 'advisory';
+    let currentCommitteeTab = 'honorary';
     let chatHistory = [];
 
     function emptyCommitteeData() {
@@ -400,52 +401,68 @@
     }
 
     const opDocData = {
-      strat1: {
-        title: 'การรณรงค์ปลุกจิตสำนึกและสร้างกระแสที่เอื้อต่อการป้องกันและแก้ไขปัญหายาเสพติด',
+      kongtun: {
+        title: 'ก กองทุน',
         images: [
-          {
-            src: 'https://img2.pic.in.th/pic/1000052344.png',
-            fallback: 'https://img2.pic.in.th/1000052344.png'
-          }
+          'https://img2.pic.in.th/100005219425c64a4f1b6a7026.png'
+        ]
+      },
+      strat1: {
+        title: 'การรณรงค์ปลุกจิตสำนึกและสร้างกระแสนิยมที่เอื้อต่อการป้องกันและแก้ไขปัญหายาเสพติด',
+        images: [
+          'https://img2.pic.in.th/100005219425c64a4f1b6a7026.png',
+          'https://img2.pic.in.th/1000052199.png',
+          'https://img2.pic.in.th/1000052201.png',
+          'https://img1.pic.in.th/images/1000052200.png',
+          'https://img2.pic.in.th/1000052209.png',
+          'https://img2.pic.in.th/1000052215.png',
+          'https://img2.pic.in.th/1000052214.png',
+          'https://img1.pic.in.th/images/1000052217.png',
+          'https://img2.pic.in.th/1000052216.png'
         ]
       },
       strat2: {
-        title: 'การเสริมสร้างภูมิคุ้มกันทางจิตใจให้เยาวชนและสมาชิก',
+        title: 'การเสริมสร้างภูมิคุ้มกันทางจิตใจให้แก่เยาวชน',
         images: [
-          {
-            src: 'https://img1.pic.in.th/images/1000052345.png',
-            fallback: 'https://img1.pic.in.th/1000052345.png'
-          }
+          'https://img1.pic.in.th/images/1000052193.png',
+          'https://img2.pic.in.th/1000052197.png',
+          'https://img2.pic.in.th/10000522075e417a8f5e097f75.png',
+          'https://img1.pic.in.th/images/1000052211.png',
+          'https://img1.pic.in.th/images/1000052210.png'
         ]
       },
       strat3: {
-        title: 'การสร้างและพัฒนาเครือข่ายเพื่อป้องกันและแก้ไขปัญหายาเสพติด',
+        title: 'การสร้างและพัฒนาเครือข่ายเพื่อการป้องกันและแก้ไขปัญหายาเสพติด',
         images: [
-          {
-            src: 'https://img2.pic.in.th/pic/1000052346.png',
-            fallback: 'https://img2.pic.in.th/1000052346.png'
-          }
+          'https://img1.pic.in.th/images/1000052196.png',
+          'https://img1.pic.in.th/images/1000052195.png',
+          'https://img1.pic.in.th/images/1000052198.png',
+          'https://img2.pic.in.th/1000052204.png',
+          'https://img1.pic.in.th/images/1000052203.png',
+          'https://img1.pic.in.th/images/1000052206cbc91f2f20ffcb08.png',
+          'https://img2.pic.in.th/1000052205c5d17cc3734985c0.png',
+          'https://img1.pic.in.th/images/1000052208c502e1c01c2328b1.png',
+          'https://img2.pic.in.th/1000052212.png',
+          'https://img1.pic.in.th/images/1000052213.png'
         ]
       }
     };
 
     function refreshIcons() {
       if (window.lucide && typeof window.lucide.createIcons === 'function') {
-        window.lucide.createIcons();
+        window.refreshIcons();
       }
     }
 
     function initLucideIcons() {
-      refreshIcons();
-      let tries = 0;
+      let attempts = 0;
       const timer = setInterval(() => {
-        tries++;
+        attempts++;
         refreshIcons();
-        const converted = document.querySelector('svg.lucide');
-        if (converted || tries >= 30) {
+        if ((window.lucide && typeof window.lucide.createIcons === 'function') || attempts >= 20) {
           clearInterval(timer);
         }
-      }, 100);
+      }, 150);
     }
 
     // ==========================================
@@ -865,7 +882,7 @@
     }
 
     function showOpDocTab(tabId) {
-      ['strat1', 'strat2', 'strat3'].forEach(t => {
+      ['kongtun', 'strat1', 'strat2', 'strat3'].forEach(t => {
         const btn = document.getElementById(`op-tab-${t}`);
         if (!btn) return;
         btn.className = t === tabId
@@ -886,11 +903,7 @@
       }
 
       document.getElementById('op-doc-content').innerHTML =
-        data.images.map(imgData => {
-          const imgUrl = typeof imgData === 'string' ? imgData : imgData.src;
-          const fallbackUrl = typeof imgData === 'string' ? '' : (imgData.fallback || '');
-          return `<img src="${imgUrl}" data-fallback="${fallbackUrl}" class="w-full max-w-4xl shadow-xl rounded-lg border border-gray-200 dark:border-gray-700 object-contain" onerror="handleOperationImageError(this)">`;
-        }).join('');
+        data.images.map(imgUrl => `<img src="${imgUrl}" class="w-full max-w-4xl shadow-xl rounded-lg border border-gray-200 dark:border-gray-700 object-contain" loading="lazy" onerror="this.outerHTML='<div class=&quot;w-full max-w-4xl p-8 text-center text-red-500 bg-red-50 dark:bg-red-900/20 rounded-xl border border-red-200 dark:border-red-800&quot;>โหลดรูปภาพไม่สำเร็จ กรุณาตรวจสอบลิงก์รูปภาพ</div>'">`).join('');
     }
 
     function showCommitteeTab(tab) {
@@ -1401,7 +1414,7 @@
         document.documentElement.classList.add('dark');
       }
 
-      showOpDocTab('strat1');
+      showOpDocTab('kongtun');
       initLucideIcons();
       await fetchSystemData();
     };
