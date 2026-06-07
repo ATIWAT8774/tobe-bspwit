@@ -807,14 +807,16 @@
     }
 
     function formatDescription(text) {
-      let safe = escapeHtml(text || '');
+  const safe = escapeHtml(text || '');
 
-      safe = safe.replace(/(^|\s)(#[^\s]+)/g, '$1<strong class="font-bold text-primary">$2</strong>');
-      safe = safe.replace(/&quot;([^&]+?)&quot;/g, '<strong class="font-bold text-gray-900 dark:text-gray-100">&quot;$1&quot;</strong>');
-      safe = safe.replace(/"([^"]+?)"/g, '<strong class="font-bold text-gray-900 dark:text-gray-100">"$1"</strong>');
-
-      return safe;
-    }
+  return safe
+    .replace(/#[^\s#<]+/g, function(match) {
+      return '<strong class="font-bold text-primary">' + match + '</strong>';
+    })
+    .replace(/&quot;([^&]+?)&quot;/g, function(match) {
+      return '<strong class="font-bold text-gray-900 dark:text-gray-100">' + match + '</strong>';
+    });
+}
 
     // ==========================================
     // Render Cards
