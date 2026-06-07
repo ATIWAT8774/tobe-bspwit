@@ -37,6 +37,14 @@
     .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #DC2626; transition: width 0.3s; }
     .nav-link:hover::after { width: 100%; }
     .dark .card-hover:hover { box-shadow: 0 12px 40px rgba(220,38,38,0.3); }
+    .icon-fallback {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-style: normal;
+      line-height: 1;
+      font-weight: 700;
+    }
   </style>
 </head>
 
@@ -97,15 +105,14 @@
 
     <main id="pages-container">
       <div id="page-home" class="page-content">
-        <section class="relative overflow-hidden bg-gray-900">
-          <div class="relative w-full aspect-[16/9] min-h-[220px] md:min-h-[360px] lg:min-h-[500px] max-h-[720px]">
+        <section class="bg-white dark:bg-gray-900">
+          <div class="w-full max-w-7xl mx-auto">
             <img
               src="https://img1.pic.in.th/images/1000052309.png"
               alt="TO BE NUMBER ONE โรงเรียนบางสะพานวิทยา"
-              class="absolute inset-0 w-full h-full object-contain object-center"
+              class="block w-full h-auto"
               loading="eager"
             >
-            <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-black/5 to-black/20 pointer-events-none"></div>
           </div>
         </section>
 
@@ -450,8 +457,19 @@
 
     function refreshIcons() {
       if (window.lucide && typeof window.lucide.createIcons === 'function') {
-        window.refreshIcons();
+        try {
+          window.lucide.createIcons();
+        } catch (error) {
+          console.warn('Lucide failed:', error);
+        }
       }
+
+      setTimeout(() => {
+        const remainingIcons = document.querySelectorAll('i[data-lucide]');
+        if (remainingIcons.length) {
+          renderFallbackIcons();
+        }
+      }, 300);
     }
 
     function initLucideIcons() {
@@ -459,10 +477,47 @@
       const timer = setInterval(() => {
         attempts++;
         refreshIcons();
-        if ((window.lucide && typeof window.lucide.createIcons === 'function') || attempts >= 20) {
+
+        const remainingIcons = document.querySelectorAll('i[data-lucide]');
+        if (remainingIcons.length === 0 || attempts >= 12) {
           clearInterval(timer);
+          if (remainingIcons.length) renderFallbackIcons();
         }
       }, 150);
+    }
+
+    function renderFallbackIcons() {
+      const iconMap = {
+        'sun': '☀',
+        'moon': '☾',
+        'menu': '☰',
+        'heart-handshake': '♥',
+        'arrow-right': '›',
+        'chevron-left': '‹',
+        'chevron-right': '›',
+        'message-circle': '●',
+        'bot': 'AI',
+        'x': '×',
+        'send': '➤',
+        'check-circle': '✓',
+        'log-in': '↪',
+        'user': '👤',
+        'newspaper': '▤',
+        'trophy': '★',
+        'image': '▧',
+        'coffee': '☕',
+        'cloud-rain': '☔',
+        'zap': '⚡',
+        'trash-2': '🗑'
+      };
+
+      document.querySelectorAll('i[data-lucide]').forEach(icon => {
+        const name = icon.getAttribute('data-lucide');
+        const span = document.createElement('span');
+        span.className = (icon.getAttribute('class') || '') + ' icon-fallback';
+        span.textContent = iconMap[name] || '•';
+        icon.replaceWith(span);
+      });
     }
 
     // ==========================================
